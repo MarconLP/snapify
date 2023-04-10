@@ -14,10 +14,12 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
-model Example {
+model Video {
     id        String   @id @default(cuid())
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
+    title              String
+    video_url              String
 }
 
 // Necessary for Next auth
