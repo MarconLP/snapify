@@ -2,6 +2,7 @@ import { type NextPage } from "next";
 import Head from "next/head";
 
 import { api } from "~/utils/api";
+import Link from "next/link";
 
 const VideoList: NextPage = () => {
   const hello = api.example.hello.useQuery({ text: "from tRPC" });
@@ -15,8 +16,12 @@ const VideoList: NextPage = () => {
       </Head>
       <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c]">
         <div className="container flex flex-row items-center justify-center gap-12 px-4 py-16 text-white ">
-          {[1, 2, 3].map((id) => (
-            <VideoCard key={id} />
+          {[
+            { title: "are pings bad?", id: "4e98f4a" },
+            { title: "do you really need a backend?", id: "h4b98rt" },
+            { title: "how next works", id: "h7r9e" },
+          ].map(({ title, id }) => (
+            <VideoCard title={title} id={id} key={id} />
           ))}
         </div>
       </main>
@@ -24,20 +29,27 @@ const VideoList: NextPage = () => {
   );
 };
 
-const VideoCard = () => {
+interface VideoCardProps {
+  title: string;
+  id: string;
+}
+
+const VideoCard = ({ title, id }: VideoCardProps) => {
   return (
-    <div className="h-[220px] w-[250px] cursor-pointer overflow-hidden rounded-lg border border-[#3f3f46] text-sm font-normal">
-      <figure>
-        <img
-          src="https://daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg"
-          alt="Shoes"
-        />
-      </figure>
-      <div className="m-4 flex flex-col">
-        <span className="font-bold">Are pings bad?</span>
-        <span className="">12 days ago</span>
+    <Link href={`/share/${id}`}>
+      <div className="h-[220px] w-[250px] cursor-pointer overflow-hidden rounded-lg border border-[#3f3f46] text-sm font-normal">
+        <figure>
+          <img
+            src="https://daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg"
+            alt="Shoes"
+          />
+        </figure>
+        <div className="m-4 flex flex-col">
+          <span className="font-bold">{title}</span>
+          <span className="">12 days ago</span>
+        </div>
       </div>
-    </div>
+    </Link>
   );
 };
 
