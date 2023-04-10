@@ -26,9 +26,7 @@ const Home: NextPage = () => {
               href="/videos"
             >
               <h3 className="text-2xl font-bold">Go to Videos →</h3>
-              <div className="text-lg">
-                The entire videos collection
-              </div>
+              <div className="text-lg">The entire videos collection</div>
             </Link>
           </div>
           <div className="flex flex-col items-center gap-2">
@@ -50,7 +48,7 @@ const AuthShowcase: React.FC = () => {
 
   const { data: secretMessage } = api.example.getSecretMessage.useQuery(
     undefined, // no input
-    { enabled: sessionData?.user !== undefined },
+    { enabled: sessionData?.user !== undefined }
   );
 
   return (
