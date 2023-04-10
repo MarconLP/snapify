@@ -1,21 +1,16 @@
-import { GetServerSideProps, type NextPage } from "next";
+import {
+  type GetServerSidePropsContext,
+  type InferGetServerSidePropsType,
+} from "next";
 import Head from "next/head";
 
-import { api } from "~/utils/api";
-import { type AppProps } from "next/app";
 import { getProviders, signIn } from "next-auth/react";
 import { getServerSession } from "next-auth";
 import { authOptions } from "~/server/auth";
 
-interface Props {
-  providers: AppProps;
-}
-
-const SignIn: NextPage = ({ providers }: Props) => {
-  const hello = api.example.hello.useQuery({ text: "from tRPC" });
-
-  console.log(providers);
-
+const SignIn = ({
+  providers,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   return (
     <>
       <Head>
@@ -30,48 +25,22 @@ const SignIn: NextPage = ({ providers }: Props) => {
               Sign in with
             </span>
             <div className="mt-6 grid grid-cols-2 gap-3">
-              <button
-                onClick={() =>
-                  signIn("google", {
-                    callbackUrl: providers.google.callbackUrl,
-                  })
-                }
-                className="hover:bg-gray-750 relative inline-flex items-center justify-center rounded-md border border-gray-700 bg-gray-800 px-6 py-3 text-lg font-medium text-white shadow-sm hover:text-gray-100"
-                type="button"
-              >
-                <span className="flex flex-row">
-                  <svg
-                    aria-hidden="true"
-                    focusable="false"
-                    data-prefix="fab"
-                    data-icon="google"
-                    className="svg-inline--fa fa-google mr-2"
-                    role="img"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 488 512"
-                  >
-                    <path
-                      fill="currentColor"
-                      d="M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C258.5 52.6 94.3 116.6 94.3 256c0 86.5 69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H248v-85.3h236.1c2.3 12.7 3.9 24.9 3.9 41.4z"
-                    ></path>
-                  </svg>
-                  <span>Google</span>
-                </span>
-              </button>
-
-              <button
-                className="hover:bg-gray-750 relative inline-flex items-center justify-center rounded-md border border-gray-700 bg-gray-800 px-6 py-3 text-lg font-medium text-white shadow-sm hover:text-gray-100"
-                type="button"
-                onClick={() =>
-                  signIn("github", {
-                    callbackUrl: providers.github.callbackUrl,
-                  })
-                }
-              >
-                <span className="flex flex-row">
-                  <span>Github</span>
-                </span>
-              </button>
+              {Object.values(providers).map((provider) => (
+                <button
+                  key={provider.id}
+                  className="hover:bg-gray-750 relative inline-flex items-center justify-center rounded-md border border-gray-700 bg-gray-800 px-6 py-3 text-lg font-medium text-white shadow-sm hover:text-gray-100"
+                  type="button"
+                  onClick={() =>
+                    void signIn(provider.id, {
+                      callbackUrl: provider.callbackUrl,
+                    })
+                  }
+                >
+                  <span className="flex flex-row">
+                    <span>{provider.name}</span>
+                  </span>
+                </button>
+              ))}
             </div>
             <p className="prose prose-sm mx-auto mt-6 max-w-[18rem] text-xs text-gray-500">
               By signing in, you agree to our{" "}
@@ -87,7 +56,7 @@ const SignIn: NextPage = ({ providers }: Props) => {
 
 export default SignIn;
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+export async function getServerSideProps(context: GetServerSidePropsContext) {
   const session = await getServerSession(context.req, context.res, authOptions);
 
   // If the user is already logged in, redirect.
@@ -98,7 +67,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   }
 
   const providers = await getProviders();
+
   return {
-    props: { providers },
+    props: { providers: providers ?? [] },
   };
-};
+}
