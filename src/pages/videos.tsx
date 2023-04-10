@@ -14,15 +14,30 @@ const VideoList: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c]">
-        <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16 ">
-          <h1 className="text-5xl font-extrabold tracking-tight text-white sm:text-[5rem]">
-            <span className="text-[hsl(280,100%,70%)]">
-              video collection list
-            </span>
-          </h1>
+        <div className="container flex flex-row items-center justify-center gap-12 px-4 py-16 text-white ">
+          {[1, 2, 3].map((id) => (
+            <VideoCard key={id} />
+          ))}
         </div>
       </main>
     </>
+  );
+};
+
+const VideoCard = () => {
+  return (
+    <div className="h-[220px] w-[250px] cursor-pointer overflow-hidden rounded-lg border border-[#3f3f46] text-sm font-normal">
+      <figure>
+        <img
+          src="https://daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg"
+          alt="Shoes"
+        />
+      </figure>
+      <div className="m-4 flex flex-col">
+        <span className="font-bold">Are pings bad?</span>
+        <span className="">12 days ago</span>
+      </div>
+    </div>
   );
 };
 
