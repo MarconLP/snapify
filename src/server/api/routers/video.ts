@@ -10,8 +10,14 @@ export const videoRouter = createTRPCRouter({
   getAll: publicProcedure.query(({ ctx }) => {
     return ctx.prisma.video.findMany();
   }),
-
-  get: publicProcedure.query(({ ctx }) => {
-    return ctx.prisma.video.findFirst();
-  }),
+  get: publicProcedure
+    .input(z.object({ videoId: z.string() }))
+    .query(async ({ ctx, input }) => {
+      const video = await ctx.prisma.video.findUnique({
+        where: {
+          videoId: input.videoId,
+        },
+      });
+      return video;
+    }),
 });
