@@ -21,6 +21,8 @@ model Video {
   updatedAt DateTime @updatedAt
   title     String
   video_url String
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 // Necessary for Next auth
@@ -58,6 +60,7 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
+  videos        Video[]
 }
 
 model VerificationToken {

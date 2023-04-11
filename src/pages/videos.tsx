@@ -3,8 +3,25 @@ import Head from "next/head";
 
 import { api } from "~/utils/api";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
+import Image from "next/image";
 
 const VideoList: NextPage = () => {
+  const router = useRouter();
+  const { status } = useSession();
+  const { data: videos } = api.video.getAll.useQuery();
+  const getUploadUrl = api.video.getUploadUrl.useMutation();
+
+  if (status === "unauthenticated") {
+    void router.push("/sign-in");
+  }
+
+  const onUpload = () => {
+    const data = getUploadUrl.mutate({ key: "something random" });
+    console.log(data);
+  };
+
   return (
     <>
       <Head>
@@ -16,7 +33,10 @@ const VideoList: NextPage = () => {
         <div className="flex min-h-[80px] w-full items-center justify-between border-b border-solid border-b-[#E7E9EB] bg-white px-6">
           <span>Screenity</span>
           <div>
-            <span className="cursor-pointer rounded border border-[#0000001a] px-2 py-2 text-sm text-[#292d34] hover:bg-[#fafbfc]">
+            <span
+              onClick={onUpload}
+              className="cursor-pointer rounded border border-[#0000001a] px-2 py-2 text-sm text-[#292d34] hover:bg-[#fafbfc]"
+            >
               New video
             </span>
           </div>
@@ -135,10 +155,12 @@ const VideoCard = ({ title, id, timestamp }: VideoCardProps) => {
   return (
     <Link href={`/share/${id}`}>
       <div className="h-[240px] w-[250px] cursor-pointer overflow-hidden rounded-lg border border-[#6c668533] text-sm font-normal">
-        <figure>
-          <img
-            src="https://daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg"
-            alt="Shoes"
+        <figure className="relative">
+          <Image
+            src="https://f003.backblazeb2.com/file/test-bucket-dev/green+vs+blue+bbbles.jpg"
+            alt="video thumbnail"
+            fill={true}
+            className="!relative object-contain"
           />
         </figure>
         <div className="m-4 flex flex-col">

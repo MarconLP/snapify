@@ -18,5 +18,15 @@ const config = {
     locales: ["en"],
     defaultLocale: "en",
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: '*.backblazeb2.com',
+        port: '',
+        pathname: '/**',
+      },
+    ],
+  },
 };
 export default config;
