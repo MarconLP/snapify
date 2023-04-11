@@ -4,6 +4,7 @@ import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 import { PutObjectCommand } from "@aws-sdk/client-s3";
 import { env } from "~/env.mjs";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
+import { TRPCError } from "@trpc/server";
 
 export const videoRouter = createTRPCRouter({
   getAll: protectedProcedure.query(async ({ ctx }) => {
@@ -23,6 +24,11 @@ export const videoRouter = createTRPCRouter({
           id: input.videoId,
         },
       });
+
+      if (video?.userId !== ctx.session.user.id) {
+        throw new TRPCError({ code: "UNAUTHORIZED" });
+      }
+
       return video;
     }),
   getUploadUrl: protectedProcedure
