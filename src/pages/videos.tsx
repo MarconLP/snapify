@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import Image from "next/image";
+import VideoUploadModal from "~/components/VideoUploadModal";
 
 const VideoList: NextPage = () => {
   const router = useRouter();
@@ -33,12 +34,7 @@ const VideoList: NextPage = () => {
         <div className="flex min-h-[80px] w-full items-center justify-between border-b border-solid border-b-[#E7E9EB] bg-white px-6">
           <span>Screenity</span>
           <div>
-            <span
-              onClick={onUpload}
-              className="cursor-pointer rounded border border-[#0000001a] px-2 py-2 text-sm text-[#292d34] hover:bg-[#fafbfc]"
-            >
-              New video
-            </span>
+            <VideoUploadModal />
           </div>
         </div>
         <div className="flex w-full grow items-start justify-center overflow-auto bg-[#fbfbfb] pt-14">
