@@ -8,9 +8,14 @@ import Link from "next/link";
 
 const VideoList: NextPage = () => {
   const router = useRouter();
-  const { videoId } = router.query;
+  const { videoId } = router.query as { videoId: string };
 
-  const video = api.video.get.useQuery({ videoId });
+  const video = api.video.get.useQuery(
+    { videoId },
+    {
+      enabled: router.isReady,
+    }
+  );
   console.log(video);
 
   return (

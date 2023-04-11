@@ -15,7 +15,7 @@ export const videoRouter = createTRPCRouter({
     .query(async ({ ctx, input }) => {
       const video = await ctx.prisma.video.findUnique({
         where: {
-          videoId: input.videoId,
+          id: input.videoId,
         },
       });
       return video;
