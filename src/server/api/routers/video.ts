@@ -6,9 +6,14 @@ import { env } from "~/env.mjs";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 
 export const videoRouter = createTRPCRouter({
-  getAll: protectedProcedure.query(({ ctx }) => {
-    console.log(ctx.session);
-    return ctx.prisma.video.findMany();
+  getAll: protectedProcedure.query(async ({ ctx }) => {
+    const videos = await ctx.prisma.video.findMany({
+      where: {
+        userId: ctx.session.user.id,
+      },
+    });
+
+    return videos;
   }),
   get: protectedProcedure
     .input(z.object({ videoId: z.string() }))

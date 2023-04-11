@@ -11,17 +11,11 @@ import VideoUploadModal from "~/components/VideoUploadModal";
 const VideoList: NextPage = () => {
   const router = useRouter();
   const { status } = useSession();
-  const { data: videos } = api.video.getAll.useQuery();
-  const getUploadUrl = api.video.getUploadUrl.useMutation();
+  const { data: videos, isLoading } = api.video.getAll.useQuery();
 
   if (status === "unauthenticated") {
     void router.push("/sign-in");
   }
-
-  const onUpload = () => {
-    const data = getUploadUrl.mutate({ key: "something random" });
-    console.log(data);
-  };
 
   return (
     <>
@@ -39,41 +33,47 @@ const VideoList: NextPage = () => {
         </div>
         <div className="flex w-full grow items-start justify-center overflow-auto bg-[#fbfbfb] pt-14">
           <div className="flex-start jusitfy-start container flex max-w-[1200px] flex-row flex-wrap items-center gap-14 px-4 pb-16">
-            {[
-              {
-                title: "Are pings bad?",
-                id: "4e98f4a",
-                timestamp: 1681211128621,
-              },
-              {
-                title:
-                  "do you really need a backend? because there is a much better alternative to it.",
-                id: "h4b98rt",
-                timestamp: 1681011128621,
-              },
-              {
-                title: "how next works",
-                id: "1h7r9e",
-                timestamp: 1681211120621,
-              },
-              {
-                title: "how next works",
-                id: "h27r9e",
-                timestamp: 1681210128621,
-              },
-              {
-                title: "how next works",
-                id: "h73r9e",
-                timestamp: 1681211118621,
-              },
-              {
-                title: "how next works",
-                id: "h7r49e",
-                timestamp: 1695211128621,
-              },
-            ].map(({ title, id, timestamp }) => (
-              <VideoCard title={title} id={id} timestamp={timestamp} key={id} />
-            ))}
+            {videos && !isLoading ? (
+              videos.map(({ title, id, createdAt }) => (
+                <VideoCard
+                  title={title}
+                  id={id}
+                  createdAt={createdAt}
+                  key={id}
+                />
+              ))
+            ) : (
+              <>
+                <div className="h-[240px] w-[250px] animate-pulse overflow-hidden rounded-lg border border-[#6c668533] text-sm font-normal">
+                  <figure className="relative aspect-video w-full bg-slate-200"></figure>
+                  <div className="m-4 flex flex-col">
+                    <span className="h-4 rounded bg-slate-200"></span>
+                    <span className="mt-2 h-4 rounded bg-slate-200"></span>
+                  </div>
+                </div>
+                <div className="h-[240px] w-[250px] animate-pulse overflow-hidden rounded-lg border border-[#6c668533] text-sm font-normal">
+                  <figure className="relative aspect-video w-full bg-slate-200"></figure>
+                  <div className="m-4 flex flex-col">
+                    <span className="h-4 rounded bg-slate-200"></span>
+                    <span className="mt-2 h-4 rounded bg-slate-200"></span>
+                  </div>
+                </div>
+                <div className="h-[240px] w-[250px] animate-pulse overflow-hidden rounded-lg border border-[#6c668533] text-sm font-normal">
+                  <figure className="relative aspect-video w-full bg-slate-200"></figure>
+                  <div className="m-4 flex flex-col">
+                    <span className="h-4 rounded bg-slate-200"></span>
+                    <span className="mt-2 h-4 rounded bg-slate-200"></span>
+                  </div>
+                </div>
+                <div className="h-[240px] w-[250px] animate-pulse overflow-hidden rounded-lg border border-[#6c668533] text-sm font-normal">
+                  <figure className="relative aspect-video w-full bg-slate-200"></figure>
+                  <div className="m-4 flex flex-col">
+                    <span className="h-4 rounded bg-slate-200"></span>
+                    <span className="mt-2 h-4 rounded bg-slate-200"></span>
+                  </div>
+                </div>
+              </>
+            )}
           </div>
         </div>
       </main>
@@ -84,11 +84,11 @@ const VideoList: NextPage = () => {
 interface VideoCardProps {
   title: string;
   id: string;
-  timestamp: number;
+  createdAt: Date;
 }
 
-const VideoCard = ({ title, id, timestamp }: VideoCardProps) => {
-  const getTime = (timestamp: number): string => {
+const VideoCard = ({ title, id, createdAt }: VideoCardProps) => {
+  const getTime = (timestamp: Date): string => {
     const delta = Math.round(
       (+new Date() - new Date(timestamp).getTime()) / 1000
     );
@@ -161,7 +161,7 @@ const VideoCard = ({ title, id, timestamp }: VideoCardProps) => {
         </figure>
         <div className="m-4 flex flex-col">
           <span className="line-clamp-2 font-bold text-[0f0f0f]">{title}</span>
-          <span className="text-[#606060]">{getTime(timestamp)}</span>
+          <span className="mt-2 text-[#606060]">{getTime(createdAt)}</span>
         </div>
       </div>
     </Link>
