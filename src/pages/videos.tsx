@@ -18,7 +18,11 @@ const VideoList: NextPage = () => {
         <div className="container flex flex-row items-center justify-center gap-12 px-4 py-16 text-white ">
           {[
             { title: "are pings bad?", id: "4e98f4a" },
-            { title: "do you really need a backend?", id: "h4b98rt" },
+            {
+              title:
+                "do you really need a backend? because there is a much better alternative to it.",
+              id: "h4b98rt",
+            },
             { title: "how next works", id: "h7r9e" },
           ].map(({ title, id }) => (
             <VideoCard title={title} id={id} key={id} />
@@ -37,7 +41,7 @@ interface VideoCardProps {
 const VideoCard = ({ title, id }: VideoCardProps) => {
   return (
     <Link href={`/share/${id}`}>
-      <div className="h-[220px] w-[250px] cursor-pointer overflow-hidden rounded-lg border border-[#3f3f46] text-sm font-normal">
+      <div className="h-[240px] w-[250px] cursor-pointer overflow-hidden rounded-lg border border-[#3f3f46] text-sm font-normal">
         <figure>
           <img
             src="https://daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg"
@@ -45,7 +49,7 @@ const VideoCard = ({ title, id }: VideoCardProps) => {
           />
         </figure>
         <div className="m-4 flex flex-col">
-          <span className="font-bold">{title}</span>
+          <span className="line-clamp-2 font-bold">{title}</span>
           <span className="">12 days ago</span>
         </div>
       </div>
