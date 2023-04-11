@@ -2,6 +2,7 @@ import { type NextPage } from "next";
 import Head from "next/head";
 
 import { api } from "~/utils/api";
+import ReactPlayer from "react-player";
 
 const VideoList: NextPage = () => {
   const hello = api.example.hello.useQuery({ text: "from tRPC" });
@@ -14,10 +15,19 @@ const VideoList: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c]">
-        <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16 ">
-          <h1 className="text-5xl font-extrabold tracking-tight text-white sm:text-[5rem]">
-            single video page
-          </h1>
+        <div className="flex min-h-[80px] w-full items-center justify-between border-b border-solid border-b-[#E7E9EB] bg-white px-6">
+          <span>Screenity</span>
+          <span className="cursor-pointer rounded border border-[#0000001a] px-2 py-2 text-sm text-[#292d34] hover:bg-[#fafbfc]">
+            Share
+          </span>
+        </div>
+        <div className="flex h-full w-full grow flex-col items-center justify-center gap-12 bg-[#fbfbfb] bg-red-400 px-4 py-16">
+          <ReactPlayer
+            controls={true}
+            width="80%"
+            height="100%"
+            url="https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/360/Big_Buck_Bunny_360_10s_1MB.mp4"
+          />
         </div>
       </main>
     </>
