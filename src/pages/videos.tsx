@@ -5,8 +5,6 @@ import { api } from "~/utils/api";
 import Link from "next/link";
 
 const VideoList: NextPage = () => {
-  const hello = api.example.hello.useQuery({ text: "from tRPC" });
-
   return (
     <>
       <Head>
@@ -23,45 +21,42 @@ const VideoList: NextPage = () => {
             </span>
           </div>
         </div>
-        <div className="flex w-full items-center justify-center overflow-auto bg-[#fbfbfb]">
+        <div className="flex w-full grow items-start justify-center overflow-auto bg-[#fbfbfb] pt-14">
           <div className="flex-start jusitfy-start container flex max-w-[1200px] flex-row flex-wrap items-center gap-14 px-4 pb-16">
             {[
-              { title: "are pings bad?", id: "4e98f4a" },
+              {
+                title: "Are pings bad?",
+                id: "4e98f4a",
+                timestamp: 1681211128621,
+              },
               {
                 title:
                   "do you really need a backend? because there is a much better alternative to it.",
                 id: "h4b98rt",
+                timestamp: 1681011128621,
               },
-              { title: "how next works", id: "1h7r9e" },
-              { title: "how next works", id: "h27r9e" },
-              { title: "how next works", id: "h73r9e" },
-              { title: "how next works", id: "h7r49e" },
-              { title: "how next works", id: "h7r95e" },
-              { title: "how next works", id: "h7r9e6" },
-              { title: "how next works", id: "eh7r9e" },
-              { title: "how next works", id: "hf7r9e" },
-              { title: "how next works", id: "h7fr9e" },
-              { title: "how next works", id: "h7rrs9e" },
-              { title: "how next works", id: "h7rg9e" },
-              { title: "how next works", id: "h7rr9e" },
-              { title: "how next works", id: "h7rh9e" },
-              { title: "how next works", id: "h7sar9e" },
-              { title: "how next works", id: "h7er9e" },
-              { title: "how next works", id: "h7wrr9e" },
-              { title: "how next works", id: "h7r9qe" },
-              { title: "how next works", id: "h7r9rqewe" },
-              { title: "how next works", id: "h7r9ern" },
-              { title: "how next works", id: "h7r9vyxe" },
-              { title: "how next works", id: "h7r9asfe" },
-              { title: "how next works", id: "h7rea9e" },
-              { title: "how next works", id: "h7r9aefe" },
-              { title: "how next works", id: "h7rht9e" },
-              { title: "how next works", id: "h7r9e48" },
-              { title: "how next works", id: "h7r9e848" },
-              { title: "how next works", id: "h7r9468e" },
-              { title: "how next works", id: "h7r93181e" },
-            ].map(({ title, id }) => (
-              <VideoCard title={title} id={id} key={id} />
+              {
+                title: "how next works",
+                id: "1h7r9e",
+                timestamp: 1681211120621,
+              },
+              {
+                title: "how next works",
+                id: "h27r9e",
+                timestamp: 1681210128621,
+              },
+              {
+                title: "how next works",
+                id: "h73r9e",
+                timestamp: 1681211118621,
+              },
+              {
+                title: "how next works",
+                id: "h7r49e",
+                timestamp: 1695211128621,
+              },
+            ].map(({ title, id, timestamp }) => (
+              <VideoCard title={title} id={id} timestamp={timestamp} key={id} />
             ))}
           </div>
         </div>
@@ -73,9 +68,70 @@ const VideoList: NextPage = () => {
 interface VideoCardProps {
   title: string;
   id: string;
+  timestamp: number;
 }
 
-const VideoCard = ({ title, id }: VideoCardProps) => {
+const VideoCard = ({ title, id, timestamp }: VideoCardProps) => {
+  const getTime = (timestamp: number): string => {
+    const delta = Math.round(
+      (+new Date() - new Date(timestamp).getTime()) / 1000
+    );
+
+    const minute = 60,
+      hour = minute * 60,
+      day = hour * 24;
+
+    let timeString = "";
+
+    if (delta < 60) {
+      timeString = "Just now";
+    } else if (delta < 2 * minute) {
+      timeString = "1 min";
+    } else if (delta < hour) {
+      timeString = Math.floor(delta / minute).toString() + " mins";
+    } else if (Math.floor(delta / hour) === 1) {
+      timeString = "1 hour ago";
+    } else if (delta < day) {
+      timeString = Math.floor(delta / hour).toString() + " hours ago";
+    } else if (delta < day * 2) {
+      timeString = "yesterday";
+    } else if (delta < day * 7) {
+      timeString = Math.floor(delta / day).toString() + " days ago";
+    } else {
+      const date = new Date(timestamp);
+      const months = [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec",
+      ];
+
+      timeString =
+        `${
+          months[date.getMonth()] || ""
+        }} ${date.getDate()} ${date.getFullYear()} ` +
+        `at ${
+          date.getHours().toString().length === 1
+            ? "0" + date.getHours().toString()
+            : date.getHours()
+        }:${
+          date.getMinutes().toString().length === 1
+            ? "0" + date.getMinutes().toString()
+            : date.getMinutes()
+        }`;
+    }
+
+    return timeString;
+  };
+
   return (
     <Link href={`/share/${id}`}>
       <div className="h-[240px] w-[250px] cursor-pointer overflow-hidden rounded-lg border border-[#6c668533] text-sm font-normal">
@@ -87,7 +143,7 @@ const VideoCard = ({ title, id }: VideoCardProps) => {
         </figure>
         <div className="m-4 flex flex-col">
           <span className="line-clamp-2 font-bold text-[0f0f0f]">{title}</span>
-          <span className="text-[#606060]">12 days ago</span>
+          <span className="text-[#606060]">{getTime(timestamp)}</span>
         </div>
       </div>
     </Link>
