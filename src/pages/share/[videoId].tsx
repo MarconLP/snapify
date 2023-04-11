@@ -10,7 +10,7 @@ const VideoList: NextPage = () => {
   const router = useRouter();
   const { videoId } = router.query as { videoId: string };
 
-  const video = api.video.get.useQuery(
+  const { data: video, isFetching } = api.video.get.useQuery(
     { videoId },
     {
       enabled: router.isReady,
@@ -18,6 +18,9 @@ const VideoList: NextPage = () => {
   );
   console.log(video);
 
+  if (isFetching) {
+    return <span>loading...</span>;
+  }
   return (
     <>
       <Head>
