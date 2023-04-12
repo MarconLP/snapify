@@ -146,13 +146,12 @@ const VideoCard = ({ title, id, createdAt }: VideoCardProps) => {
   return (
     <Link href={`/share/${id}`}>
       <div className="h-[240px] w-[250px] cursor-pointer overflow-hidden rounded-lg border border-[#6c668533] text-sm font-normal">
-        <figure className="relative">
+        <figure>
           <Image
             src="https://i3.ytimg.com/vi/BuaKzm7Kq9Q/maxresdefault.jpg"
             alt="video thumbnail"
             width={248}
             height={139.5}
-            className="!relative object-contain"
           />
         </figure>
         <div className="m-4 flex flex-col">
