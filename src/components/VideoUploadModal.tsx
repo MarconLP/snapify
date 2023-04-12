@@ -1,8 +1,18 @@
-import { Fragment, useState } from "react";
+import { ChangeEvent, Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
+import { api } from "~/utils/api";
+import axios from "axios";
 
 export default function VideoUploadModal() {
   const [isOpen, setIsOpen] = useState(false);
+  const [file, setFile] = useState<File>();
+  const getSignedUrl = api.video.getUploadUrl.useMutation();
+
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>): void => {
+    if (e.target.files) {
+      setFile(e.target.files[0]);
+    }
+  };
 
   function closeModal() {
     setIsOpen(false);
@@ -11,6 +21,20 @@ export default function VideoUploadModal() {
   function openModal() {
     setIsOpen(true);
   }
+
+  const handleSubmit = async (): Promise<void> => {
+    if (!file) return;
+    const presignedUrl = await getSignedUrl.mutateAsync({ key: file.name });
+    await axios
+      .put(presignedUrl, file.slice(), {
+        headers: { "Content-Type": file.type },
+      })
+      .then((response) => {
+        console.log(response);
+        console.log("Successfully uploaded ", file.name);
+      })
+      .catch((err) => console.error(err));
+  };
 
   return (
     <>
@@ -46,28 +70,46 @@ export default function VideoUploadModal() {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-lg bg-white p-6 text-left align-middle shadow-xl transition-all">
-                  <Dialog.Title
-                    as="h3"
-                    className="text-lg font-medium leading-6 text-gray-900"
-                  >
-                    Install the extension
-                  </Dialog.Title>
-                  <div className="mt-2">
-                    <p className="text-sm text-gray-500">
-                      You have to install the screenity extension from the
-                      Chrome Store. At the end of the recording you will be able
-                      to upload the video.
-                    </p>
-                  </div>
-
-                  <div className="mt-4">
+                <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-lg bg-gray-800 p-6 text-left align-middle shadow-xl transition-all">
+                  <div className="flex flex-col items-center gap-2">
+                    <label className="flex h-32 w-full min-w-[300px] cursor-pointer appearance-none justify-center rounded-md border-2 border-dashed border-gray-300 px-4 transition hover:border-gray-400 focus:outline-none">
+                      <span className="flex items-center space-x-2 text-white">
+                        {file ? (
+                          <span className="font-medium">{file.name}</span>
+                        ) : (
+                          <>
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              className="h-6 w-6"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke="currentColor"
+                              strokeWidth="2"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+                              />
+                            </svg>
+                            <span className="font-medium">
+                              {"Drop files to Attach, or browse"}
+                            </span>
+                          </>
+                        )}
+                      </span>
+                      <input
+                        onChange={handleFileChange}
+                        type="file"
+                        name="file_upload"
+                        className="hidden"
+                      />
+                    </label>
                     <button
-                      type="button"
-                      className="inline-flex justify-center rounded border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                      onClick={closeModal}
+                      className="mt-4 rounded-full bg-white/10 px-10 py-3 font-semibold text-white no-underline transition hover:bg-white/20"
+                      onClick={() => void handleSubmit()}
                     >
-                      Got it, thanks!
+                      Submit
                     </button>
                   </div>
                 </Dialog.Panel>

@@ -37,9 +37,19 @@ export const videoRouter = createTRPCRouter({
       const { key } = input;
       const { s3 } = ctx;
 
+      const video = await ctx.prisma.video.create({
+        data: {
+          userId: ctx.session.user.id,
+          title: key,
+          video_url: "bla",
+        },
+      });
+
+      console.log(video.id);
+
       const putObjectCommand = new PutObjectCommand({
         Bucket: env.AWS_BUCKET_NAME,
-        Key: key,
+        Key: ctx.session.user.id + "/" + video.id,
       });
 
       const signedUrl = await getSignedUrl(s3, putObjectCommand);
