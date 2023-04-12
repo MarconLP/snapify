@@ -10,7 +10,7 @@ const VideoList: NextPage = () => {
   const router = useRouter();
   const { videoId } = router.query as { videoId: string };
 
-  const { data: video, isError } = api.video.get.useQuery(
+  const { data: video } = api.video.get.useQuery(
     { videoId },
     {
       enabled: router.isReady,
@@ -18,8 +18,17 @@ const VideoList: NextPage = () => {
     }
   );
 
-  if (isError) {
-    return <span>this video is not publicly available</span>;
+  if (!video?.success) {
+    return (
+      <div className="flex h-screen w-screen flex-col items-center justify-center">
+        <span className="max-w-[80%] text-center text-2xl font-medium">
+          This recording is currently unavailable
+        </span>
+        <span className="mt-3 max-w-[80%] text-center text-sm">
+          To create your own public recordings, create an account for free!
+        </span>
+      </div>
+    );
   }
 
   return (

@@ -27,7 +27,9 @@ export const videoRouter = createTRPCRouter({
       });
 
       if (video?.userId !== ctx.session.user.id) {
-        throw new TRPCError({ code: "UNAUTHORIZED" });
+        return {
+          success: false,
+        };
       }
 
       const getObjectCommand = new GetObjectCommand({
