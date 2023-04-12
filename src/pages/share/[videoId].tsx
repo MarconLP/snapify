@@ -5,6 +5,7 @@ import { api } from "~/utils/api";
 import ReactPlayer from "react-player";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import Image from "next/image";
 
 const VideoList: NextPage = () => {
   const router = useRouter();
@@ -52,11 +53,8 @@ const VideoList: NextPage = () => {
             </span>
           </div>
         </div>
-        <div className="flex h-full w-full grow flex-col items-center justify-start gap-12 overflow-auto bg-[#fbfbfb]">
+        <div className="flex h-full w-full grow flex-col items-center justify-start overflow-auto bg-[#fbfbfb]">
           <div className="flex aspect-video max-h-[1160px] w-full justify-center bg-black">
-            {/*{true ? (*/}
-            {/*  <div className="aspect-video w-[80%] animate-pulse bg-slate-200 bg-white"></div>*/}
-            {/*) : null}*/}
             {video?.video?.video_url && (
               <ReactPlayer
                 width="100%"
@@ -65,6 +63,39 @@ const VideoList: NextPage = () => {
                 url={video.video?.video_url}
               />
             )}
+          </div>
+          <div className="mb-10 mt-4 w-full max-w-[1800px] pl-[24px]">
+            <div>
+              {video?.video?.title ? (
+                <span className="text-[18px] text-lg font-medium">
+                  {video?.video?.title}
+                </span>
+              ) : (
+                <div className="h-6 w-[300px] animate-pulse rounded bg-slate-200"></div>
+              )}
+            </div>
+            <div className="mt-2 flex flex-row items-center">
+              {!isLoading ? (
+                <>
+                  <div className="h-10 w-10 overflow-hidden rounded-full">
+                    <Image
+                      width={40}
+                      height={40}
+                      src={video?.video?.user?.image ?? ""}
+                      alt="profile photo"
+                    />
+                  </div>
+                  <span className="ml-3 font-medium">
+                    {video?.video?.user?.name}
+                  </span>
+                </>
+              ) : (
+                <>
+                  <div className="h-10 w-10 animate-pulse overflow-hidden rounded-full bg-red-400 bg-slate-200"></div>
+                  <div className="ml-3 h-4 w-[100px] animate-pulse rounded bg-slate-200 font-medium"></div>
+                </>
+              )}
+            </div>
           </div>
         </div>
       </main>

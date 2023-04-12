@@ -24,6 +24,9 @@ export const videoRouter = createTRPCRouter({
         where: {
           id: input.videoId,
         },
+        include: {
+          user: true,
+        },
       });
 
       if (video?.userId !== ctx.session.user.id) {
