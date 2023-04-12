@@ -6,6 +6,7 @@ import ReactPlayer from "react-player";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import Image from "next/image";
+import { getTime } from "~/utils/getTime";
 
 const VideoList: NextPage = () => {
   const router = useRouter();
@@ -67,11 +68,19 @@ const VideoList: NextPage = () => {
           <div className="mb-10 mt-4 w-full max-w-[1800px] pl-[24px]">
             <div>
               {video?.video?.title ? (
-                <span className="text-[18px] text-lg font-medium">
-                  {video?.video?.title}
-                </span>
+                <div className="mb-4 flex flex-col">
+                  <span className="text-[18px] text-lg font-medium">
+                    {video?.video?.title}
+                  </span>
+                  <span className="text-[18px] text-sm text-gray-800">
+                    {getTime(video?.video?.createdAt)}
+                  </span>
+                </div>
               ) : (
-                <div className="h-6 w-[300px] animate-pulse rounded bg-slate-200"></div>
+                <div className="mb-4 flex flex-col">
+                  <div className="h-5 w-[300px] animate-pulse rounded bg-slate-200"></div>
+                  <div className="mt-2 h-4 w-[50px] animate-pulse rounded bg-slate-200"></div>
+                </div>
               )}
             </div>
             <div className="mt-2 flex flex-row items-center">

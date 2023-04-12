@@ -7,6 +7,7 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import VideoUploadModal from "~/components/VideoUploadModal";
+import { getTime } from "~/utils/getTime";
 
 const VideoList: NextPage = () => {
   const router = useRouter();
@@ -83,66 +84,6 @@ const VideoCardSkeleton = () => {
 };
 
 const VideoCard = ({ title, id, createdAt }: VideoCardProps) => {
-  const getTime = (timestamp: Date): string => {
-    const delta = Math.round(
-      (+new Date() - new Date(timestamp).getTime()) / 1000
-    );
-
-    const minute = 60,
-      hour = minute * 60,
-      day = hour * 24;
-
-    let timeString = "";
-
-    if (delta < 60) {
-      timeString = "Just now";
-    } else if (delta < 2 * minute) {
-      timeString = "1 min";
-    } else if (delta < hour) {
-      timeString = Math.floor(delta / minute).toString() + " mins";
-    } else if (Math.floor(delta / hour) === 1) {
-      timeString = "1 hour ago";
-    } else if (delta < day) {
-      timeString = Math.floor(delta / hour).toString() + " hours ago";
-    } else if (delta < day * 2) {
-      timeString = "yesterday";
-    } else if (delta < day * 7) {
-      timeString = Math.floor(delta / day).toString() + " days ago";
-    } else {
-      const date = new Date(timestamp);
-      const months = [
-        "Jan",
-        "Feb",
-        "Mar",
-        "Apr",
-        "May",
-        "Jun",
-        "Jul",
-        "Aug",
-        "Sep",
-        "Oct",
-        "Nov",
-        "Dec",
-      ];
-
-      timeString =
-        `${
-          months[date.getMonth()] || ""
-        }} ${date.getDate()} ${date.getFullYear()} ` +
-        `at ${
-          date.getHours().toString().length === 1
-            ? "0" + date.getHours().toString()
-            : date.getHours()
-        }:${
-          date.getMinutes().toString().length === 1
-            ? "0" + date.getMinutes().toString()
-            : date.getMinutes()
-        }`;
-    }
-
-    return timeString;
-  };
-
   return (
     <Link href={`/share/${id}`}>
       <div className="h-[240px] w-[250px] cursor-pointer overflow-hidden rounded-lg border border-[#6c668533] text-sm font-normal">
