@@ -45,34 +45,10 @@ const VideoList: NextPage = () => {
 
             {isLoading ? (
               <>
-                <div className="h-[240px] w-[250px] animate-pulse overflow-hidden rounded-lg border border-[#6c668533] text-sm font-normal">
-                  <figure className="relative aspect-video w-full bg-slate-200"></figure>
-                  <div className="m-4 flex flex-col">
-                    <span className="h-4 rounded bg-slate-200"></span>
-                    <span className="mt-2 h-4 rounded bg-slate-200"></span>
-                  </div>
-                </div>
-                <div className="h-[240px] w-[250px] animate-pulse overflow-hidden rounded-lg border border-[#6c668533] text-sm font-normal">
-                  <figure className="relative aspect-video w-full bg-slate-200"></figure>
-                  <div className="m-4 flex flex-col">
-                    <span className="h-4 rounded bg-slate-200"></span>
-                    <span className="mt-2 h-4 rounded bg-slate-200"></span>
-                  </div>
-                </div>
-                <div className="h-[240px] w-[250px] animate-pulse overflow-hidden rounded-lg border border-[#6c668533] text-sm font-normal">
-                  <figure className="relative aspect-video w-full bg-slate-200"></figure>
-                  <div className="m-4 flex flex-col">
-                    <span className="h-4 rounded bg-slate-200"></span>
-                    <span className="mt-2 h-4 rounded bg-slate-200"></span>
-                  </div>
-                </div>
-                <div className="h-[240px] w-[250px] animate-pulse overflow-hidden rounded-lg border border-[#6c668533] text-sm font-normal">
-                  <figure className="relative aspect-video w-full bg-slate-200"></figure>
-                  <div className="m-4 flex flex-col">
-                    <span className="h-4 rounded bg-slate-200"></span>
-                    <span className="mt-2 h-4 rounded bg-slate-200"></span>
-                  </div>
-                </div>
+                <VideoCardSkeleton />
+                <VideoCardSkeleton />
+                <VideoCardSkeleton />
+                <VideoCardSkeleton />
               </>
             ) : null}
 
@@ -93,6 +69,18 @@ interface VideoCardProps {
   id: string;
   createdAt: Date;
 }
+
+const VideoCardSkeleton = () => {
+  return (
+    <div className="h-[240px] w-[250px] animate-pulse overflow-hidden rounded-lg border border-[#6c668533] text-sm font-normal">
+      <figure className="relative aspect-video w-full bg-slate-200"></figure>
+      <div className="m-4 flex flex-col">
+        <span className="h-4 rounded bg-slate-200"></span>
+        <span className="mt-4 h-4 rounded bg-slate-200"></span>
+      </div>
+    </div>
+  );
+};
 
 const VideoCard = ({ title, id, createdAt }: VideoCardProps) => {
   const getTime = (timestamp: Date): string => {
@@ -162,7 +150,8 @@ const VideoCard = ({ title, id, createdAt }: VideoCardProps) => {
           <Image
             src="https://i3.ytimg.com/vi/BuaKzm7Kq9Q/maxresdefault.jpg"
             alt="video thumbnail"
-            fill={true}
+            width={248}
+            height={139.5}
             className="!relative object-contain"
           />
         </figure>
