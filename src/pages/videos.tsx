@@ -33,7 +33,7 @@ const VideoList: NextPage = () => {
         </div>
         <div className="flex w-full grow items-start justify-center overflow-auto bg-[#fbfbfb] pt-14">
           <div className="flex-start jusitfy-start container flex max-w-[1200px] flex-row flex-wrap items-center gap-14 px-4 pb-16">
-            {videos && !isLoading ? (
+            {videos &&
               videos.map(({ title, id, createdAt }) => (
                 <VideoCard
                   title={title}
@@ -41,8 +41,9 @@ const VideoList: NextPage = () => {
                   createdAt={createdAt}
                   key={id}
                 />
-              ))
-            ) : (
+              ))}
+
+            {isLoading ? (
               <>
                 <div className="h-[240px] w-[250px] animate-pulse overflow-hidden rounded-lg border border-[#6c668533] text-sm font-normal">
                   <figure className="relative aspect-video w-full bg-slate-200"></figure>
@@ -73,7 +74,13 @@ const VideoList: NextPage = () => {
                   </div>
                 </div>
               </>
-            )}
+            ) : null}
+
+            {videos && videos?.length <= 0 ? (
+              <div>
+                <span>You do not have any recordings.</span>
+              </div>
+            ) : null}
           </div>
         </div>
       </main>
