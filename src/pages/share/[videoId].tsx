@@ -10,7 +10,7 @@ const VideoList: NextPage = () => {
   const router = useRouter();
   const { videoId } = router.query as { videoId: string };
 
-  const { data: video } = api.video.get.useQuery(
+  const { data: video, isLoading } = api.video.get.useQuery(
     { videoId },
     {
       enabled: router.isReady,
@@ -18,7 +18,7 @@ const VideoList: NextPage = () => {
     }
   );
 
-  if (!video?.success) {
+  if (!isLoading && !video?.success) {
     return (
       <div className="flex h-screen w-screen flex-col items-center justify-center">
         <span className="max-w-[80%] text-center text-2xl font-medium">
@@ -40,7 +40,7 @@ const VideoList: NextPage = () => {
       </Head>
       <main className="flex h-screen w-screen flex-col items-center justify-center">
         <div className="flex min-h-[80px] w-full items-center justify-between border-b border-solid border-b-[#E7E9EB] bg-white px-6">
-          <span>Screenity | {video?.video?.title ?? ""}</span>
+          <span>Screenity</span>
           <div>
             <Link href="/videos">
               <span className="mr-4 cursor-pointer rounded border border-[#0000001a] px-2 py-2 text-sm text-[#292d34] hover:bg-[#fafbfc]">
@@ -52,15 +52,20 @@ const VideoList: NextPage = () => {
             </span>
           </div>
         </div>
-        <div className="flex h-full w-full grow flex-col items-center justify-center gap-12 overflow-auto bg-[#fbfbfb] px-4 py-16">
-          {video?.video?.video_url && (
-            <ReactPlayer
-              width="80%"
-              height="auto"
-              controls={true}
-              url={video.video?.video_url}
-            />
-          )}
+        <div className="flex h-full w-full grow flex-col items-center justify-start gap-12 overflow-auto bg-[#fbfbfb]">
+          <div className="flex aspect-video max-h-[1160px] w-full justify-center bg-black">
+            {/*{true ? (*/}
+            {/*  <div className="aspect-video w-[80%] animate-pulse bg-slate-200 bg-white"></div>*/}
+            {/*) : null}*/}
+            {video?.video?.video_url && (
+              <ReactPlayer
+                width="100%"
+                height="100%"
+                controls={true}
+                url={video.video?.video_url}
+              />
+            )}
+          </div>
         </div>
       </main>
     </>
