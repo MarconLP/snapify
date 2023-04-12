@@ -160,7 +160,7 @@ const VideoCard = ({ title, id, createdAt }: VideoCardProps) => {
       <div className="h-[240px] w-[250px] cursor-pointer overflow-hidden rounded-lg border border-[#6c668533] text-sm font-normal">
         <figure className="relative">
           <Image
-            src="https://f003.backblazeb2.com/file/test-bucket-dev/green+vs+blue+bbbles.jpg"
+            src="https://i3.ytimg.com/vi/BuaKzm7Kq9Q/maxresdefault.jpg"
             alt="video thumbnail"
             fill={true}
             className="!relative object-contain"
