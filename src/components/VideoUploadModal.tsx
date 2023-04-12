@@ -6,9 +6,11 @@ import { useRouter } from "next/router";
 
 export default function VideoUploadModal() {
   const router = useRouter();
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [submitting, setSubmitting] = useState<boolean>(false);
   const [file, setFile] = useState<File>();
   const getSignedUrl = api.video.getUploadUrl.useMutation();
+  const apiUtils = api.useContext();
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>): void => {
     if (e.target.files) {
@@ -26,6 +28,7 @@ export default function VideoUploadModal() {
 
   const handleSubmit = async (): Promise<void> => {
     if (!file) return;
+    setSubmitting(true);
     const { signedUrl, id } = await getSignedUrl.mutateAsync({
       key: file.name,
     });
@@ -34,9 +37,13 @@ export default function VideoUploadModal() {
         headers: { "Content-Type": file.type },
       })
       .then(() => {
-        router.push("share/" + id);
+        void router.push("share/" + id);
       })
-      .catch((err) => console.error(err));
+      .catch((err) => {
+        console.error(err);
+      });
+    setSubmitting(false);
+    void apiUtils.video.getAll.invalidate();
   };
 
   return (
@@ -110,10 +117,38 @@ export default function VideoUploadModal() {
                       />
                     </label>
                     <button
-                      className="mt-4 rounded-full bg-white/10 px-10 py-3 font-semibold text-white no-underline transition hover:bg-white/20"
+                      type="button"
+                      className="mt-4 inline-flex cursor-not-allowed items-center rounded-md bg-indigo-500 px-4 py-2 text-sm font-semibold leading-6 text-white shadow transition duration-150 ease-in-out hover:bg-indigo-400"
+                      disabled={submitting}
                       onClick={() => void handleSubmit()}
                     >
-                      Submit
+                      {submitting ? (
+                        <>
+                          <svg
+                            className="-ml-1 mr-3 h-5 w-5 animate-spin text-white"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                          >
+                            <circle
+                              className="opacity-25"
+                              cx="12"
+                              cy="12"
+                              r="10"
+                              stroke="currentColor"
+                              strokeWidth="4"
+                            ></circle>
+                            <path
+                              className="opacity-75"
+                              fill="currentColor"
+                              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                            ></path>
+                          </svg>
+                          Uploading...
+                        </>
+                      ) : (
+                        <>Upload</>
+                      )}
                     </button>
                   </div>
                 </Dialog.Panel>

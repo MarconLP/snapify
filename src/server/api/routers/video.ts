@@ -41,7 +41,10 @@ export const videoRouter = createTRPCRouter({
 
       video.video_url = signedUrl;
 
-      return video;
+      return {
+        success: true,
+        video,
+      };
     }),
   getUploadUrl: protectedProcedure
     .input(z.object({ key: z.string() }))
