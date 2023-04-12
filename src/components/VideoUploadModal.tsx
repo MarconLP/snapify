@@ -99,6 +99,7 @@ export default function VideoUploadModal() {
                         )}
                       </span>
                       <input
+                        accept="video/mp4,video/webm"
                         onChange={handleFileChange}
                         type="file"
                         name="file_upload"
