@@ -4,7 +4,6 @@ import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 import { GetObjectCommand, PutObjectCommand } from "@aws-sdk/client-s3";
 import { env } from "~/env.mjs";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
-import { TRPCError } from "@trpc/server";
 
 export const videoRouter = createTRPCRouter({
   getAll: protectedProcedure.query(async ({ ctx }) => {
