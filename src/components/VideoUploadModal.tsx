@@ -2,8 +2,10 @@ import { type ChangeEvent, Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { api } from "~/utils/api";
 import axios from "axios";
+import { useRouter } from "next/router";
 
 export default function VideoUploadModal() {
+  const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const [file, setFile] = useState<File>();
   const getSignedUrl = api.video.getUploadUrl.useMutation();
@@ -24,14 +26,15 @@ export default function VideoUploadModal() {
 
   const handleSubmit = async (): Promise<void> => {
     if (!file) return;
-    const presignedUrl = await getSignedUrl.mutateAsync({ key: file.name });
+    const { signedUrl, id } = await getSignedUrl.mutateAsync({
+      key: file.name,
+    });
     await axios
-      .put(presignedUrl, file.slice(), {
+      .put(signedUrl, file.slice(), {
         headers: { "Content-Type": file.type },
       })
-      .then((response) => {
-        console.log(response);
-        console.log("Successfully uploaded ", file.name);
+      .then(() => {
+        router.push("share/" + id);
       })
       .catch((err) => console.error(err));
   };

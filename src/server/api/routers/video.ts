@@ -64,6 +64,10 @@ export const videoRouter = createTRPCRouter({
 
       const signedUrl = await getSignedUrl(s3, putObjectCommand);
 
-      return signedUrl;
+      return {
+        success: true,
+        id: video.id,
+        signedUrl,
+      };
     }),
 });
