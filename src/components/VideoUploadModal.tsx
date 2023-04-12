@@ -1,4 +1,4 @@
-import { ChangeEvent, Fragment, useState } from "react";
+import { type ChangeEvent, Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { api } from "~/utils/api";
 import axios from "axios";
