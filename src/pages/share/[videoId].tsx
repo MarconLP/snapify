@@ -41,7 +41,7 @@ const VideoList: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="flex h-screen w-screen flex-col items-center justify-center">
-        <div className="flex min-h-[80px] w-full items-center justify-between border-b border-solid border-b-[#E7E9EB] bg-white px-6">
+        <div className="flex min-h-[62px] w-full items-center justify-between border-b border-solid border-b-[#E7E9EB] bg-white px-6">
           <span>Screenity</span>
           <div>
             <Link href="/videos">
