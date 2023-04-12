@@ -14,6 +14,7 @@ const VideoList: NextPage = () => {
     { videoId },
     {
       enabled: router.isReady,
+      refetchOnWindowFocus: false,
     }
   );
 
