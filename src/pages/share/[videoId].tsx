@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import Image from "next/image";
 import { getTime } from "~/utils/getTime";
+import { ShareModal } from "~/components/ShareModal";
 
 const VideoList: NextPage = () => {
   const router = useRouter();
@@ -49,13 +50,11 @@ const VideoList: NextPage = () => {
                 Personal Library
               </span>
             </Link>
-            <span className="cursor-pointer rounded border border-[#0000001a] px-2 py-2 text-sm text-[#292d34] hover:bg-[#fafbfc]">
-              Share
-            </span>
+            <ShareModal />
           </div>
         </div>
         <div className="flex h-full w-full grow flex-col items-center justify-start overflow-auto bg-[#fbfbfb]">
-          <div className="flex aspect-video max-h-[627px] 2xl:max-h-[1160px] w-full justify-center bg-black">
+          <div className="flex aspect-video max-h-[627px] w-full justify-center bg-black 2xl:max-h-[1160px]">
             {video?.video?.video_url && (
               <ReactPlayer
                 width="100%"
