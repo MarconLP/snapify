@@ -55,7 +55,7 @@ const VideoList: NextPage = () => {
           </div>
         </div>
         <div className="flex h-full w-full grow flex-col items-center justify-start overflow-auto bg-[#fbfbfb]">
-          <div className="flex aspect-video max-h-[1160px] w-full justify-center bg-black">
+          <div className="flex aspect-video max-h-[627px] 2xl:max-h-[1160px] w-full justify-center bg-black">
             {video?.video?.video_url && (
               <ReactPlayer
                 width="100%"
