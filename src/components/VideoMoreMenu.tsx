@@ -21,6 +21,20 @@ export default function VideoMoreMenu({ video }: Props) {
     {
       name: "Download",
       icon: <DownloadIcon />,
+      props: {
+        onClick: () => {
+          void fetch(video.video_url).then((response) => {
+            void response.blob().then((blob) => {
+              const url = window.URL.createObjectURL(blob);
+              const a = document.createElement("a");
+              a.href = url;
+              a.download = video.title;
+              a.click();
+            });
+            //window.location.href = response.url;
+          });
+        },
+      },
     },
     {
       name: "Delete",
