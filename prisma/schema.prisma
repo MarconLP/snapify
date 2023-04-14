@@ -20,7 +20,6 @@ model Video {
   createdAt                 DateTime  @default(now())
   updatedAt                 DateTime  @updatedAt
   title                     String
-  video_url                 String
   userId                    String
   sharing                   Boolean   @default(false)
   delete_after_link_expires Boolean   @default(false)
