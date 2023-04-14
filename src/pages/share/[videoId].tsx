@@ -68,7 +68,7 @@ const VideoList: NextPage = () => {
                 width="100%"
                 height="100%"
                 controls={true}
-                url={video?.video_url}
+                url={video.video_url}
               />
             )}
           </div>

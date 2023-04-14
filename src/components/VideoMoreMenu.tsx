@@ -1,6 +1,6 @@
 import { type RouterOutputs } from "~/utils/api";
-import { Menu, Popover, Transition } from "@headlessui/react";
-import { Fragment, useState } from "react";
+import { Menu, Transition } from "@headlessui/react";
+import { Fragment } from "react";
 import {
   DotsHorizontalIcon,
   DownloadIcon,
@@ -13,8 +13,6 @@ interface Props {
 }
 
 export default function VideoMoreMenu({ video }: Props) {
-  const [open, setOpen] = useState(null);
-
   const items = [
     {
       name: "Rename",
@@ -27,7 +25,6 @@ export default function VideoMoreMenu({ video }: Props) {
     {
       name: "Delete",
       icon: <TrashIcon />,
-      props: { onClick: () => console.log("test") },
     },
   ];
 

@@ -47,9 +47,7 @@ export const videoRouter = createTRPCRouter({
 
       const signedUrl = await getSignedUrl(s3, getObjectCommand);
 
-      video.video_url = signedUrl;
-
-      return video;
+      return { ...video, video_url: signedUrl };
     }),
   getUploadUrl: protectedProcedure
     .input(z.object({ key: z.string() }))
@@ -61,7 +59,6 @@ export const videoRouter = createTRPCRouter({
         data: {
           userId: ctx.session.user.id,
           title: key,
-          video_url: "bla",
         },
       });
 
