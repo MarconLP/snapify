@@ -7,6 +7,7 @@ import {
   Pencil1Icon,
   TrashIcon,
 } from "@radix-ui/react-icons";
+import { useRouter } from "next/router";
 
 interface Props {
   video: RouterOutputs["video"]["get"];
@@ -16,6 +17,7 @@ export default function VideoMoreMenu({ video }: Props) {
   const [title, setTitle] = useState(video.title);
   const [renameMenuOpen, setRenameMenuOpen] = useState<boolean>(false);
   const utils = api.useContext();
+  const router = useRouter();
 
   const items = [
     {
@@ -48,8 +50,34 @@ export default function VideoMoreMenu({ video }: Props) {
     {
       name: "Delete",
       icon: <TrashIcon />,
+      props: {
+        onClick: () => {
+          deleteVideoMutation.mutate({ videoId: video.id });
+        },
+      },
     },
   ];
+
+  const deleteVideoMutation = api.video.deleteVideo.useMutation({
+    onMutate: async ({ videoId }) => {
+      await utils.video.get.cancel();
+      const previousValue = utils.video.get.getData({ videoId });
+      if (previousValue) {
+        utils.video.get.setData({ videoId }, { ...previousValue, title });
+      }
+      return { previousValue };
+    },
+    onError: (err, { videoId }, context) => {
+      if (context?.previousValue) {
+        utils.video.get.setData({ videoId }, context.previousValue);
+      }
+      console.error(err.message);
+    },
+    onSettled: () => {
+      void utils.video.getAll.invalidate();
+      void router.push("/videos");
+    },
+  });
 
   const renameVideoMutation = api.video.renameVideo.useMutation({
     onMutate: async ({ videoId, title }) => {

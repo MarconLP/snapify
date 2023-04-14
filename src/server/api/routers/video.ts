@@ -5,7 +5,11 @@ import {
   protectedProcedure,
   publicProcedure,
 } from "~/server/api/trpc";
-import { GetObjectCommand, PutObjectCommand } from "@aws-sdk/client-s3";
+import {
+  DeleteObjectCommand,
+  GetObjectCommand,
+  PutObjectCommand,
+} from "@aws-sdk/client-s3";
 import { env } from "~/env.mjs";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { TRPCError } from "@trpc/server";
@@ -173,6 +177,37 @@ export const videoRouter = createTRPCRouter({
       return {
         success: true,
         updateVideo,
+      };
+    }),
+  deleteVideo: protectedProcedure
+    .input(
+      z.object({
+        videoId: z.string(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const deleteVideo = await ctx.prisma.video.deleteMany({
+        where: {
+          id: input.videoId,
+          userId: ctx.session.user.id,
+        },
+      });
+
+      if (deleteVideo.count === 0) {
+        throw new TRPCError({ code: "FORBIDDEN" });
+      }
+
+      const deleteObjectCommand = new DeleteObjectCommand({
+        Bucket: env.AWS_BUCKET_NAME,
+        Key: ctx.session.user.id + "/" + input.videoId,
+      });
+
+      const deleteObject = await ctx.s3.send(deleteObjectCommand);
+
+      return {
+        success: true,
+        deleteVideo,
+        deleteObject,
       };
     }),
 });
