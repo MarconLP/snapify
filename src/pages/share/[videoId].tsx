@@ -9,6 +9,7 @@ import Image from "next/image";
 import { getTime } from "~/utils/getTime";
 import { ShareModal } from "~/components/ShareModal";
 import { useSession } from "next-auth/react";
+import VideoMoreMenu from "~/components/VideoMoreMenu";
 
 const VideoList: NextPage = () => {
   const router = useRouter();
@@ -46,7 +47,10 @@ const VideoList: NextPage = () => {
       <main className="flex h-screen w-screen flex-col items-center justify-center">
         <div className="flex min-h-[62px] w-full items-center justify-between border-b border-solid border-b-[#E7E9EB] bg-white px-6">
           <span>Screenity</span>
-          <div>
+          <div className="flex items-center justify-center">
+            {video && video.userId === session?.user.id ? (
+              <VideoMoreMenu video={video} />
+            ) : null}
             <Link href="/videos">
               <span className="cursor-pointer rounded border border-[#0000001a] px-2 py-2 text-sm text-[#292d34] hover:bg-[#fafbfc]">
                 Personal Library
