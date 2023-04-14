@@ -33,7 +33,7 @@ const VideoList: NextPage = () => {
           </div>
         </div>
         <div className="flex w-full grow items-start justify-center overflow-auto bg-[#fbfbfb] pt-14">
-          <div className="flex-start jusitfy-start container flex max-w-[1200px] flex-row flex-wrap items-center gap-14 px-4 pb-16">
+          <div className="flex-start grid w-full max-w-[1300px] grid-cols-[repeat(auto-fill,250px)] flex-row flex-wrap items-center justify-center gap-14 px-4 pb-16">
             {videos &&
               videos.map(({ title, id, createdAt }) => (
                 <VideoCard
