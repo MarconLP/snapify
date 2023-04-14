@@ -37,6 +37,7 @@ export default function ExpireDateSelectMenu({
         console.error(err.message);
       },
     });
+
   const handleChange = (value: string) => {
     let timestamp: null | Date = new Date();
     switch (value) {

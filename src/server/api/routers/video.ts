@@ -148,4 +148,31 @@ export const videoRouter = createTRPCRouter({
         updateVideo,
       };
     }),
+  renameVideo: protectedProcedure
+    .input(
+      z.object({
+        videoId: z.string(),
+        title: z.string(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const updateVideo = await ctx.prisma.video.updateMany({
+        where: {
+          id: input.videoId,
+          userId: ctx.session.user.id,
+        },
+        data: {
+          title: input.title,
+        },
+      });
+
+      if (updateVideo.count === 0) {
+        throw new TRPCError({ code: "FORBIDDEN" });
+      }
+
+      return {
+        success: true,
+        updateVideo,
+      };
+    }),
 });
