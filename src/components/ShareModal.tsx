@@ -2,6 +2,7 @@ import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useState } from "react";
 import { ModernSwitch } from "~/components/ModernSwitch";
 import { api, type RouterOutputs } from "~/utils/api";
+import ExpireDateSelectMenu from "~/components/ExpireDateSelectMenu";
 
 interface Props {
   video: RouterOutputs["video"]["get"];
@@ -97,7 +98,7 @@ export function ShareModal({ video }: Props) {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded bg-white p-6 text-left align-middle text-[#292D34] shadow-xl transition-all">
+                <Dialog.Panel className="w-full max-w-md transform rounded bg-white p-6 text-left align-middle text-[#292D34] shadow-xl transition-all">
                   <div className="flex flex-col items-start">
                     <span className="text-lg font-medium">
                       Share this recording
@@ -127,9 +128,9 @@ export function ShareModal({ video }: Props) {
                         <div className="w-full border border-solid border-[#e9ebf0] bg-[#fafbfc] px-[15px] py-3 text-xs">
                           <div className="flex h-6 items-center justify-between">
                             <span>Expire link</span>
-                            <button className="h-6 rounded border border-solid border-[#d5d9df] bg-white px-[7px] font-medium">
-                              Never expire
-                            </button>
+                            <ExpireDateSelectMenu
+                              shareExpiryAt={video.shareExpiryAt}
+                            />
                           </div>
                           <div className="mt-3 flex h-6 items-center justify-between">
                             <span>Delete video after link expires</span>
