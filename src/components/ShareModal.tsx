@@ -36,7 +36,7 @@ export function ShareModal({ video }: Props) {
     <>
       <span
         onClick={() => setOpen(true)}
-        className="cursor-pointer rounded border border-[#0000001a] px-2 py-2 text-sm text-[#292d34] hover:bg-[#fafbfc]"
+        className="ml-4 cursor-pointer rounded border border-[#0000001a] px-2 py-2 text-sm text-[#292d34] hover:bg-[#fafbfc]"
       >
         Share
       </span>

@@ -48,7 +48,7 @@ const VideoList: NextPage = () => {
           <span>Screenity</span>
           <div>
             <Link href="/videos">
-              <span className="mr-4 cursor-pointer rounded border border-[#0000001a] px-2 py-2 text-sm text-[#292d34] hover:bg-[#fafbfc]">
+              <span className="cursor-pointer rounded border border-[#0000001a] px-2 py-2 text-sm text-[#292d34] hover:bg-[#fafbfc]">
                 Personal Library
               </span>
             </Link>
