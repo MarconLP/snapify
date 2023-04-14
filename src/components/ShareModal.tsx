@@ -20,6 +20,12 @@ export function ShareModal({ video }: Props) {
       }
       return { previousValue };
     },
+    onError: async (err, { videoId }, context) => {
+      if (context?.previousValue) {
+        utils.video.get.setData({ videoId }, context.previousValue);
+      }
+      console.error(err.message);
+    },
   });
 
   const [linkCopied, setLinkCopied] = useState<boolean>(false);

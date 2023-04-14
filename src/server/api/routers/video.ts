@@ -91,6 +91,10 @@ export const videoRouter = createTRPCRouter({
         },
       });
 
+      if (updateVideo.count === 0) {
+        throw new TRPCError({ code: "FORBIDDEN" });
+      }
+
       return {
         success: true,
         updateVideo,
