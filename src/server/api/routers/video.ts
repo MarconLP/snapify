@@ -1,6 +1,10 @@
 import { z } from "zod";
 
-import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
+import {
+  createTRPCRouter,
+  protectedProcedure,
+  publicProcedure,
+} from "~/server/api/trpc";
 import { GetObjectCommand, PutObjectCommand } from "@aws-sdk/client-s3";
 import { env } from "~/env.mjs";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
@@ -16,7 +20,7 @@ export const videoRouter = createTRPCRouter({
 
     return videos;
   }),
-  get: protectedProcedure
+  get: publicProcedure
     .input(z.object({ videoId: z.string() }))
     .query(async ({ ctx, input }) => {
       const { s3 } = ctx;
@@ -28,14 +32,17 @@ export const videoRouter = createTRPCRouter({
           user: true,
         },
       });
+      if (!video) {
+        throw new TRPCError({ code: "NOT_FOUND" });
+      }
 
-      if (video?.userId !== ctx.session.user.id) {
+      if (video.userId !== ctx?.session?.user.id && !video.sharing) {
         throw new TRPCError({ code: "FORBIDDEN" });
       }
 
       const getObjectCommand = new GetObjectCommand({
         Bucket: env.AWS_BUCKET_NAME,
-        Key: ctx.session.user.id + "/" + video.id,
+        Key: video.userId + "/" + video.id,
       });
 
       const signedUrl = await getSignedUrl(s3, getObjectCommand);
@@ -58,8 +65,6 @@ export const videoRouter = createTRPCRouter({
         },
       });
 
-      console.log(video.id);
-
       const putObjectCommand = new PutObjectCommand({
         Bucket: env.AWS_BUCKET_NAME,
         Key: ctx.session.user.id + "/" + video.id,
@@ -76,9 +81,10 @@ export const videoRouter = createTRPCRouter({
   setSharing: protectedProcedure
     .input(z.object({ videoId: z.string(), sharing: z.boolean() }))
     .mutation(async ({ ctx, input }) => {
-      const updateVideo = await ctx.prisma.video.update({
+      const updateVideo = await ctx.prisma.video.updateMany({
         where: {
           id: input.videoId,
+          userId: ctx.session.user.id,
         },
         data: {
           sharing: input.sharing,
