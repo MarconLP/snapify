@@ -20,13 +20,34 @@ export function ShareModal({ video }: Props) {
       }
       return { previousValue };
     },
-    onError: async (err, { videoId }, context) => {
+    onError: (err, { videoId }, context) => {
       if (context?.previousValue) {
         utils.video.get.setData({ videoId }, context.previousValue);
       }
       console.error(err.message);
     },
   });
+
+  const setDeleteAfterLinkExpiresMutation =
+    api.video.setDeleteAfterLinkExpires.useMutation({
+      onMutate: async ({ videoId, delete_after_link_expires }) => {
+        await utils.video.get.cancel();
+        const previousValue = utils.video.get.getData({ videoId });
+        if (previousValue) {
+          utils.video.get.setData(
+            { videoId },
+            { ...previousValue, delete_after_link_expires }
+          );
+        }
+        return { previousValue };
+      },
+      onError: (err, { videoId }, context) => {
+        if (context?.previousValue) {
+          utils.video.get.setData({ videoId }, context.previousValue);
+        }
+        console.error(err.message);
+      },
+    });
 
   const [linkCopied, setLinkCopied] = useState<boolean>(false);
 
@@ -104,24 +125,32 @@ export function ShareModal({ video }: Props) {
                           {linkCopied ? "Copied!" : "Copy public link"}
                         </button>
                         <div className="w-full border border-solid border-[#e9ebf0] bg-[#fafbfc] px-[15px] py-3 text-xs">
-                          {/*<div className="flex h-6 items-center justify-between">*/}
-                          {/*  <span>Expire link</span>*/}
-
-                          {/*  <button className="h-6 rounded border border-solid border-[#d5d9df] bg-white px-[7px] font-medium">*/}
-                          {/*    Never expire*/}
-                          {/*  </button>*/}
-                          {/*</div>*/}
-                          {/*<div className="mt-3 flex h-6 items-center justify-between">*/}
-                          {/*  <span>Delete video when expired</span>*/}
-                          {/*  <ModernSwitch enabled={s} toggle={ss} />*/}
-                          {/*</div>*/}
+                          <div className="flex h-6 items-center justify-between">
+                            <span>Expire link</span>
+                            <button className="h-6 rounded border border-solid border-[#d5d9df] bg-white px-[7px] font-medium">
+                              Never expire
+                            </button>
+                          </div>
                           <div className="mt-3 flex h-6 items-center justify-between">
-                            <span>Share link with search engines</span>
+                            <span>Delete video after link expires</span>
                             <ModernSwitch
-                              enabled={video.linkShareSeo}
-                              toggle={() => console.log("test")}
+                              enabled={video.delete_after_link_expires}
+                              toggle={() =>
+                                setDeleteAfterLinkExpiresMutation.mutate({
+                                  videoId: video.id,
+                                  delete_after_link_expires:
+                                    !video.delete_after_link_expires,
+                                })
+                              }
                             />
                           </div>
+                          {/*<div className="mt-3 flex h-6 items-center justify-between">*/}
+                          {/*  <span>Share link with search engines</span>*/}
+                          {/*  <ModernSwitch*/}
+                          {/*    enabled={video.linkShareSeo}*/}
+                          {/*    toggle={() => console.log("test")}*/}
+                          {/*  />*/}
+                          {/*</div>*/}
                           {/*<div className="mt-3 flex h-6 items-center justify-between">*/}
                           {/*  <span>Embed code</span>*/}
                           {/*  <button className="h-6 rounded border border-solid border-[#d5d9df] bg-white px-[7px] font-medium">*/}
