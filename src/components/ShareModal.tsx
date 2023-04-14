@@ -129,7 +129,8 @@ export function ShareModal({ video }: Props) {
                           <div className="flex h-6 items-center justify-between">
                             <span>Expire link</span>
                             <ExpireDateSelectMenu
-                              shareExpiryAt={video.shareExpiryAt}
+                              videoId={video.id}
+                              shareLinkExpiresAt={video.shareLinkExpiresAt}
                             />
                           </div>
                           <div className="mt-3 flex h-6 items-center justify-between">

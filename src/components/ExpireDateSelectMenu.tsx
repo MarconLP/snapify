@@ -1,14 +1,51 @@
 import { Listbox, Transition } from "@headlessui/react";
-import { Fragment, useState } from "react";
+import { Fragment } from "react";
 import { getTime } from "~/utils/getTime";
+import { api } from "~/utils/api";
 
 interface Props {
-  shareExpiryAt: Date | null;
+  shareLinkExpiresAt: Date | null;
+  videoId: string;
 }
 
-export default function ExpireDateSelectMenu({ shareExpiryAt }: Props) {
-  const handleChange = (value) => {
+export default function ExpireDateSelectMenu({
+  shareLinkExpiresAt,
+  videoId,
+}: Props) {
+  const utils = api.useContext();
+
+  const setShareLinkExpiresAtMutation =
+    api.video.setShareLinkExpiresAt.useMutation({
+      onMutate: async ({ videoId, shareLinkExpiresAt }) => {
+        await utils.video.get.cancel();
+        const previousValue = utils.video.get.getData({ videoId });
+        if (previousValue) {
+          utils.video.get.setData(
+            { videoId },
+            { ...previousValue, shareLinkExpiresAt }
+          );
+        }
+        return { previousValue };
+      },
+      onError: (err, { videoId }, context) => {
+        if (context?.previousValue) {
+          utils.video.get.setData({ videoId }, context.previousValue);
+        }
+        console.error(err.message);
+      },
+    });
+  const handleChange = (value: string) => {
     console.log("selecting value", value);
+
+    const now = new Date();
+    now.setHours(now.getHours() + 1);
+
+    console.log(now);
+
+    setShareLinkExpiresAtMutation.mutate({
+      videoId,
+      shareLinkExpiresAt: now,
+    });
   };
 
   const availableExpireDates = [
@@ -21,12 +58,12 @@ export default function ExpireDateSelectMenu({ shareExpiryAt }: Props) {
 
   return (
     <div>
-      <Listbox value={shareExpiryAt} onChange={handleChange}>
+      <Listbox value={shareLinkExpiresAt} onChange={handleChange}>
         <div>
           <Listbox.Button className="h-6 rounded border border-solid border-[#d5d9df] bg-white px-[7px] font-medium">
             <span className="block truncate">
-              {typeof shareExpiryAt === null
-                ? getTime(shareExpiryAt)
+              {shareLinkExpiresAt
+                ? getTime(shareLinkExpiresAt)
                 : "Never expire"}
             </span>
           </Listbox.Button>

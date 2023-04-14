@@ -24,7 +24,7 @@ model Video {
   userId                    String
   sharing                   Boolean   @default(false)
   delete_after_link_expires Boolean   @default(false)
-  shareExpiryAt             DateTime?
+  shareLinkExpiresAt        DateTime?
   linkShareSeo              Boolean   @default(false)
   user                      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 
