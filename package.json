@@ -22,6 +22,7 @@
     "@trpc/react-query": "^10.18.0",
     "@trpc/server": "^10.18.0",
     "axios": "^1.3.5",
+    "dayjs": "^1.11.7",
     "next": "^13.2.4",
     "next-auth": "^4.21.0",
     "react": "18.2.0",

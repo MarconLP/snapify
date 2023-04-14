@@ -1,7 +1,10 @@
 import { Listbox, Transition } from "@headlessui/react";
 import { Fragment } from "react";
-import { getTime } from "~/utils/getTime";
 import { api } from "~/utils/api";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+
+dayjs.extend(relativeTime);
 
 interface Props {
   shareLinkExpiresAt: Date | null;
@@ -35,16 +38,28 @@ export default function ExpireDateSelectMenu({
       },
     });
   const handleChange = (value: string) => {
-    console.log("selecting value", value);
-
-    const now = new Date();
-    now.setHours(now.getHours() + 1);
-
-    console.log(now);
+    let timestamp: null | Date = new Date();
+    switch (value) {
+      case "Never expire":
+        timestamp = null;
+        break;
+      case "In 1 hour":
+        timestamp.setHours(timestamp.getHours() + 1);
+        break;
+      case "In 24 hours":
+        timestamp.setDate(timestamp.getDate() + 1);
+        break;
+      case "In 7 days":
+        timestamp.setDate(timestamp.getDate() + 7);
+        break;
+      case "In 30 days":
+        timestamp.setDate(timestamp.getDate() + 30);
+        break;
+    }
 
     setShareLinkExpiresAtMutation.mutate({
       videoId,
-      shareLinkExpiresAt: now,
+      shareLinkExpiresAt: timestamp,
     });
   };
 
@@ -58,12 +73,12 @@ export default function ExpireDateSelectMenu({
 
   return (
     <div>
-      <Listbox value={shareLinkExpiresAt} onChange={handleChange}>
+      <Listbox value={"dummy text"} onChange={handleChange}>
         <div>
           <Listbox.Button className="h-6 rounded border border-solid border-[#d5d9df] bg-white px-[7px] font-medium">
             <span className="block truncate">
               {shareLinkExpiresAt
-                ? getTime(shareLinkExpiresAt)
+                ? "In " + dayjs(shareLinkExpiresAt).fromNow(true)
                 : "Never expire"}
             </span>
           </Listbox.Button>
@@ -76,7 +91,7 @@ export default function ExpireDateSelectMenu({
             leaveFrom="transform opacity-100 scale-100"
             leaveTo="transform opacity-0 scale-95"
           >
-            <Listbox.Options className="absolute z-10 mt-1 max-h-60 max-h-[300px] w-[220px] w-full overflow-auto rounded-md bg-white py-1 py-2 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+            <Listbox.Options className="absolute z-10 mt-1 max-h-60 max-h-[300px] w-[220px] overflow-auto rounded-md bg-white py-1 py-2 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
               {availableExpireDates.map((person, personIdx) => (
                 <Listbox.Option
                   key={personIdx}

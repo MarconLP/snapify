@@ -125,7 +125,12 @@ export const videoRouter = createTRPCRouter({
       };
     }),
   setShareLinkExpiresAt: protectedProcedure
-    .input(z.object({ videoId: z.string(), shareLinkExpiresAt: z.date() }))
+    .input(
+      z.object({
+        videoId: z.string(),
+        shareLinkExpiresAt: z.nullable(z.date()),
+      })
+    )
     .mutation(async ({ ctx, input }) => {
       const updateVideo = await ctx.prisma.video.updateMany({
         where: {
