@@ -34,6 +34,12 @@ const config = {
       },
       {
         protocol: 'https',
+        hostname: '*.imgur.com',
+        port: '',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
         hostname: '*.githubusercontent.com',
         port: '',
         pathname: '/**',

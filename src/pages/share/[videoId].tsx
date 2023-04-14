@@ -21,7 +21,7 @@ const VideoList: NextPage = () => {
     }
   );
 
-  if (!isLoading && !video?.success) {
+  if (!isLoading && !video) {
     return (
       <div className="flex h-screen w-screen flex-col items-center justify-center">
         <span className="max-w-[80%] text-center text-2xl font-medium">
@@ -50,29 +50,29 @@ const VideoList: NextPage = () => {
                 Personal Library
               </span>
             </Link>
-            <ShareModal />
+            {video ? <ShareModal video={video} /> : null}
           </div>
         </div>
         <div className="flex h-full w-full grow flex-col items-center justify-start overflow-auto bg-[#fbfbfb]">
           <div className="flex aspect-video max-h-[627px] w-full justify-center bg-black 2xl:max-h-[1160px]">
-            {video?.video?.video_url && (
+            {video?.video_url && (
               <ReactPlayer
                 width="100%"
                 height="100%"
                 controls={true}
-                url={video.video?.video_url}
+                url={video?.video_url}
               />
             )}
           </div>
           <div className="mb-10 mt-4 w-full max-w-[1800px] pl-[24px]">
             <div>
-              {video?.video?.title ? (
+              {video?.title ? (
                 <div className="mb-4 flex flex-col">
                   <span className="text-[18px] text-lg font-medium">
-                    {video?.video?.title}
+                    {video.title}
                   </span>
                   <span className="text-[18px] text-sm text-gray-800">
-                    {getTime(video?.video?.createdAt)}
+                    {getTime(video.createdAt)}
                   </span>
                 </div>
               ) : (
@@ -89,13 +89,14 @@ const VideoList: NextPage = () => {
                     <Image
                       width={40}
                       height={40}
-                      src={video?.video?.user?.image ?? ""}
+                      src={
+                        video.user.image ??
+                        "https://i.stack.imgur.com/dr5qp.jpg"
+                      }
                       alt="profile photo"
                     />
                   </div>
-                  <span className="ml-3 font-medium">
-                    {video?.video?.user?.name}
-                  </span>
+                  <span className="ml-3 font-medium">{video.user.name}</span>
                 </>
               ) : (
                 <>

@@ -4,6 +4,7 @@ import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 import { GetObjectCommand, PutObjectCommand } from "@aws-sdk/client-s3";
 import { env } from "~/env.mjs";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
+import { TRPCError } from "@trpc/server";
 
 export const videoRouter = createTRPCRouter({
   getAll: protectedProcedure.query(async ({ ctx }) => {
@@ -29,9 +30,7 @@ export const videoRouter = createTRPCRouter({
       });
 
       if (video?.userId !== ctx.session.user.id) {
-        return {
-          success: false,
-        };
+        throw new TRPCError({ code: "FORBIDDEN" });
       }
 
       const getObjectCommand = new GetObjectCommand({
@@ -43,10 +42,7 @@ export const videoRouter = createTRPCRouter({
 
       video.video_url = signedUrl;
 
-      return {
-        success: true,
-        video,
-      };
+      return video;
     }),
   getUploadUrl: protectedProcedure
     .input(z.object({ key: z.string() }))
@@ -75,6 +71,23 @@ export const videoRouter = createTRPCRouter({
         success: true,
         id: video.id,
         signedUrl,
+      };
+    }),
+  setSharing: protectedProcedure
+    .input(z.object({ videoId: z.string(), sharing: z.boolean() }))
+    .mutation(async ({ ctx, input }) => {
+      const updateVideo = await ctx.prisma.video.update({
+        where: {
+          id: input.videoId,
+        },
+        data: {
+          sharing: input.sharing,
+        },
+      });
+
+      return {
+        success: true,
+        updateVideo,
       };
     }),
 });

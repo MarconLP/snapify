@@ -1,15 +1,36 @@
-import { Dialog, Switch, Transition } from "@headlessui/react";
+import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useState } from "react";
 import { ModernSwitch } from "~/components/ModernSwitch";
+import { api, type RouterOutputs } from "~/utils/api";
 
-export function ShareModal() {
+interface Props {
+  video: RouterOutputs["video"]["get"];
+}
+
+export function ShareModal({ video }: Props) {
+  const utils = api.useContext();
   const [open, setOpen] = useState<boolean>(false);
 
-  const [sharing, setSharing] = useState<boolean>(false);
-  const [es, sses] = useState<boolean>(false);
-  const [as, ssgs] = useState<boolean>(false);
+  const setSharingMutation = api.video.setSharing.useMutation({
+    onMutate: async ({ videoId, sharing }) => {
+      await utils.video.get.cancel();
+      const previousValue = utils.video.get.getData({ videoId });
+      if (previousValue) {
+        utils.video.get.setData({ videoId }, { ...previousValue, sharing });
+      }
+      return { previousValue };
+    },
+  });
 
-  const [s, ss] = useState<boolean>(false);
+  const [linkCopied, setLinkCopied] = useState<boolean>(false);
+
+  const handleCopy = () => {
+    void navigator.clipboard.writeText(window.location.href);
+    setLinkCopied(true);
+    setTimeout(() => {
+      setLinkCopied(false);
+    }, 5000);
+  };
 
   return (
     <>
@@ -58,34 +79,52 @@ export function ShareModal() {
                       <span className="text-sm font-medium">
                         Share link with anyone
                       </span>
-                      <ModernSwitch enabled={s} toggle={ss} />
+                      <ModernSwitch
+                        enabled={video.sharing}
+                        toggle={() =>
+                          setSharingMutation.mutate({
+                            videoId: video.id,
+                            sharing: !video.sharing,
+                          })
+                        }
+                      />
                     </div>
-                    <button className="my-2 h-8 w-full rounded-md bg-[#4169e1] text-sm font-medium text-white hover:bg-[#224fd7]">
-                      Copy public link
-                    </button>
-                    <div className="w-full border border-solid border-[#e9ebf0] bg-[#fafbfc] px-[15px] py-3 text-xs">
-                      <div className="flex h-6 items-center justify-between">
-                        <span>Expire link</span>
+                    {video.sharing ? (
+                      <>
+                        <button
+                          onClick={handleCopy}
+                          className="my-2 h-8 w-full rounded-md bg-[#4169e1] text-sm font-medium text-white hover:bg-[#224fd7]"
+                        >
+                          {linkCopied ? "Copied!" : "Copy public link"}
+                        </button>
+                        <div className="w-full border border-solid border-[#e9ebf0] bg-[#fafbfc] px-[15px] py-3 text-xs">
+                          {/*<div className="flex h-6 items-center justify-between">*/}
+                          {/*  <span>Expire link</span>*/}
 
-                        <button className="h-6 rounded border border-solid border-[#d5d9df] bg-white px-[7px]">
-                          Never expire
-                        </button>
-                      </div>
-                      <div className="mt-3 flex h-6 items-center justify-between">
-                        <span>Delete video when expired</span>
-                        <ModernSwitch enabled={s} toggle={ss} />
-                      </div>
-                      <div className="mt-3 flex h-6 items-center justify-between">
-                        <span>Share link with search engines</span>
-                        <ModernSwitch enabled={s} toggle={ss} />
-                      </div>
-                      <div className="mt-3 flex h-6 items-center justify-between">
-                        <span>Embed code</span>
-                        <button className="h-6 rounded border border-solid border-[#d5d9df] bg-white px-[7px]">
-                          Copy code
-                        </button>
-                      </div>
-                    </div>
+                          {/*  <button className="h-6 rounded border border-solid border-[#d5d9df] bg-white px-[7px] font-medium">*/}
+                          {/*    Never expire*/}
+                          {/*  </button>*/}
+                          {/*</div>*/}
+                          {/*<div className="mt-3 flex h-6 items-center justify-between">*/}
+                          {/*  <span>Delete video when expired</span>*/}
+                          {/*  <ModernSwitch enabled={s} toggle={ss} />*/}
+                          {/*</div>*/}
+                          <div className="mt-3 flex h-6 items-center justify-between">
+                            <span>Share link with search engines</span>
+                            <ModernSwitch
+                              enabled={video.linkShareSeo}
+                              toggle={() => console.log("test")}
+                            />
+                          </div>
+                          {/*<div className="mt-3 flex h-6 items-center justify-between">*/}
+                          {/*  <span>Embed code</span>*/}
+                          {/*  <button className="h-6 rounded border border-solid border-[#d5d9df] bg-white px-[7px] font-medium">*/}
+                          {/*    Copy code*/}
+                          {/*  </button>*/}
+                          {/*</div>*/}
+                        </div>
+                      </>
+                    ) : null}
                   </div>
                 </Dialog.Panel>
               </Transition.Child>

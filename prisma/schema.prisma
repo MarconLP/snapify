@@ -16,13 +16,19 @@ datasource db {
 }
 
 model Video {
-  id        String   @id @default(cuid())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  title     String
-  video_url String
-  userId    String
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id                String    @id @default(cuid())
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+  title             String
+  video_url         String
+  userId            String
+  sharing           Boolean   @default(false)
+  deleteAfterExpiry Boolean   @default(false)
+  shareExpiryAt     DateTime?
+  linkShareSeo      Boolean   @default(false)
+  user              User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
 }
 
 // Necessary for Next auth
