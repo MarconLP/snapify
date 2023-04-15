@@ -3,8 +3,9 @@ import { prisma } from "~/server/db";
 import { DeleteObjectCommand } from "@aws-sdk/client-s3";
 import { env } from "~/env.mjs";
 import { s3 } from "~/server/aws/s3";
+import { verifySignature } from "@upstash/qstash/nextjs";
 
-export default async function handler(
+export default verifySignature(async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
@@ -52,7 +53,5 @@ export default async function handler(
     },
   });
 
-  res
-    .status(200)
-    .json({ name: "John Doe", expiredVideos, updatedVideos, deletedVideos });
-}
+  res.status(200).json({ expiredVideos, updatedVideos, deletedVideos });
+});
