@@ -38,7 +38,7 @@ test("should be able to share video", async ({ page }) => {
   await expect(page).toHaveURL(/http:\/\/localhost:3000\/share\/[A-Za-z0-9]+/);
 
   await page.getByText("Share").click();
-  await page.locator('button[role="switch"]').click();
+  await page.locator('div.mt-6 > button[role="switch"]').click();
 
   await page.waitForTimeout(5000);
 });
