@@ -101,7 +101,7 @@ export default function VideoMoreMenu({ video }: Props) {
       {/* More options menu */}
       <Menu as="div" className="relative mr-4 inline-block text-left">
         <div>
-          <Menu.Button className="inline-flex h-full w-full justify-center rounded-full px-4 py-2 text-sm font-medium text-black text-white hover:bg-[#fafbfc] focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
+          <Menu.Button className="inline-flex h-full w-full justify-center rounded-full px-4 py-2 text-sm font-medium text-[#292D34] hover:bg-[#fafbfc] focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
             <DotsHorizontalIcon />
           </Menu.Button>
         </div>
