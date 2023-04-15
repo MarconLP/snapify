@@ -7,7 +7,12 @@
     "dev": "next dev",
     "postinstall": "prisma generate",
     "lint": "next lint",
+    "test:e2e": "npm run db-seed && playwright test",
+    "db-seed": "NODE_ENV=development prisma db seed",
     "start": "next start"
+  },
+  "prisma": {
+    "seed": "tsx prisma/seed.ts"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.310.0",
@@ -35,6 +40,7 @@
     "zod": "^3.21.4"
   },
   "devDependencies": {
+    "@playwright/test": "^1.32.3",
     "@types/eslint": "^8.21.3",
     "@types/node": "^18.15.5",
     "@types/prettier": "^2.7.2",
@@ -50,6 +56,7 @@
     "prettier-plugin-tailwindcss": "^0.2.6",
     "prisma": "^4.11.0",
     "tailwindcss": "^3.3.0",
+    "tsx": "^3.12.6",
     "typescript": "^5.0.2"
   },
   "ct3aMetadata": {
