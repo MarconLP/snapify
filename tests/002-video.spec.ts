@@ -31,3 +31,14 @@ test("should be able to rename video", async ({ page }) => {
     await page.locator("div > span.text-lg.font-medium").textContent()
   ).toBe(randomTitle);
 });
+
+test("should be able to share video", async ({ page }) => {
+  await page.goto("http://localhost:3000/videos");
+  await page.locator("div.grid > a:nth-child(1)").click();
+  await expect(page).toHaveURL(/http:\/\/localhost:3000\/share\/[A-Za-z0-9]+/);
+
+  await page.getByText("Share").click();
+  await page.locator('button[role="switch"]').click();
+
+  await page.waitForTimeout(5000);
+});

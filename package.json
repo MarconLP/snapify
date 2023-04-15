@@ -7,7 +7,7 @@
     "dev": "next dev",
     "postinstall": "prisma generate",
     "lint": "next lint",
-    "test:e2e": "npm run db-seed && playwright test",
+    "test:e2e": "npm run db-seed && playwright test --workers 1 --headed",
     "db-seed": "NODE_ENV=development prisma db seed",
     "start": "next start"
   },

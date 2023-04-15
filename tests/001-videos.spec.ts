@@ -1,7 +1,5 @@
 import { test, expect } from "@playwright/test";
 
-test.describe.configure({ mode: "serial" });
-
 test("should be able to view videos", async ({ page }) => {
   await page.goto("http://localhost:3000/");
   await page
@@ -22,7 +20,7 @@ test("can upload video", async ({ page }) => {
   await page.getByText("New video").click();
   await page
     .getByText("Drop files to Attach, or browse")
-    .setInputFiles("tests/.auth/example_video.webm");
+    .setInputFiles("tests/assets/example_video.webm");
   await page.getByRole("button", { name: "Upload" }).click();
   await expect(page).toHaveURL(/http:\/\/localhost:3000\/share\/[A-Za-z0-9]+/, {
     timeout: 30000,
@@ -30,7 +28,5 @@ test("can upload video", async ({ page }) => {
 
   await page.click('[href="/videos"]');
   await page.getByText("example_video.webm").click();
-  await expect(page).toHaveURL(/http:\/\/localhost:3000\/share\/[A-Za-z0-9]+/, {
-    timeout: 30000,
-  });
+  await expect(page).toHaveURL(/http:\/\/localhost:3000\/share\/[A-Za-z0-9]+/);
 });
