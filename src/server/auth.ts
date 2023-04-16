@@ -20,15 +20,15 @@ declare module "next-auth" {
   interface Session extends DefaultSession {
     user: {
       id: string;
+      stripeSubscriptionStatus: string;
       // ...other properties
       // role: UserRole;
     } & DefaultSession["user"];
   }
 
-  // interface User {
-  //   // ...other properties
-  //   // role: UserRole;
-  // }
+  interface User {
+    stripeSubscriptionStatus: string;
+  }
 }
 
 /**
@@ -42,6 +42,7 @@ export const authOptions: NextAuthOptions = {
       ...session,
       user: {
         ...session.user,
+        stripeSubscriptionStatus: user.stripeSubscriptionStatus,
         id: user.id,
       },
     }),

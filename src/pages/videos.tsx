@@ -8,10 +8,12 @@ import { useRouter } from "next/router";
 import Image from "next/image";
 import VideoUploadModal from "~/components/VideoUploadModal";
 import { getTime } from "~/utils/getTime";
+import Checkout from "~/components/Checkout";
+import ProfileMenu from "~/components/ProfileMenu";
 
 const VideoList: NextPage = () => {
   const router = useRouter();
-  const { status } = useSession();
+  const { status, data: session } = useSession();
   const { data: videos, isLoading } = api.video.getAll.useQuery();
 
   if (status === "unauthenticated") {
@@ -28,37 +30,46 @@ const VideoList: NextPage = () => {
       <main className="flex h-screen min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c]">
         <div className="flex min-h-[62px] w-full items-center justify-between border-b border-solid border-b-[#E7E9EB] bg-white px-6">
           <span>Screenity</span>
-          <div>
+          <div className="flex flex-row items-center justify-center">
             <VideoUploadModal />
+            {status === "authenticated" && (
+              <div className="ml-3 flex items-center justify-center">
+                <ProfileMenu />
+              </div>
+            )}
           </div>
         </div>
         <div className="flex w-full grow items-start justify-center overflow-auto bg-[#fbfbfb] pt-14">
-          <div className="flex-start grid w-full max-w-[1300px] grid-cols-[repeat(auto-fill,250px)] flex-row flex-wrap items-center justify-center gap-14 px-4 pb-16">
-            {videos &&
-              videos.map(({ title, id, createdAt }) => (
-                <VideoCard
-                  title={title}
-                  id={id}
-                  createdAt={createdAt}
-                  key={id}
-                />
-              ))}
+          {session?.user.stripeSubscriptionStatus === null ? (
+            <Checkout />
+          ) : (
+            <div className="flex-start grid w-full max-w-[1300px] grid-cols-[repeat(auto-fill,250px)] flex-row flex-wrap items-center justify-center gap-14 px-4 pb-16">
+              {videos &&
+                videos.map(({ title, id, createdAt }) => (
+                  <VideoCard
+                    title={title}
+                    id={id}
+                    createdAt={createdAt}
+                    key={id}
+                  />
+                ))}
 
-            {isLoading ? (
-              <>
-                <VideoCardSkeleton />
-                <VideoCardSkeleton />
-                <VideoCardSkeleton />
-                <VideoCardSkeleton />
-              </>
-            ) : null}
+              {isLoading ? (
+                <>
+                  <VideoCardSkeleton />
+                  <VideoCardSkeleton />
+                  <VideoCardSkeleton />
+                  <VideoCardSkeleton />
+                </>
+              ) : null}
 
-            {videos && videos?.length <= 0 ? (
-              <div>
-                <span>You do not have any recordings.</span>
-              </div>
-            ) : null}
-          </div>
+              {videos && videos?.length <= 0 ? (
+                <div>
+                  <span>You do not have any recordings.</span>
+                </div>
+              ) : null}
+            </div>
+          )}
         </div>
       </main>
     </>
