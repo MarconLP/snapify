@@ -10,10 +10,11 @@ import { getTime } from "~/utils/getTime";
 import { ShareModal } from "~/components/ShareModal";
 import { useSession } from "next-auth/react";
 import VideoMoreMenu from "~/components/VideoMoreMenu";
+import ProfileMenu from "~/components/ProfileMenu";
 
 const VideoList: NextPage = () => {
   const router = useRouter();
-  const { data: session } = useSession();
+  const { status, data: session } = useSession();
   const { videoId } = router.query as { videoId: string };
 
   const { data: video, isLoading } = api.video.get.useQuery(
@@ -59,6 +60,11 @@ const VideoList: NextPage = () => {
             {video && video.userId === session?.user.id ? (
               <ShareModal video={video} />
             ) : null}
+            {status === "authenticated" && (
+              <div className="ml-4 flex items-center justify-center">
+                <ProfileMenu />
+              </div>
+            )}
           </div>
         </div>
         <div className="flex h-full w-full grow flex-col items-center justify-start overflow-auto bg-[#fbfbfb]">

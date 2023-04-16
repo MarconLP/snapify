@@ -33,7 +33,7 @@ const VideoList: NextPage = () => {
           <div className="flex flex-row items-center justify-center">
             <VideoUploadModal />
             {status === "authenticated" && (
-              <div className="ml-3 flex items-center justify-center">
+              <div className="ml-4 flex items-center justify-center">
                 <ProfileMenu />
               </div>
             )}

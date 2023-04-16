@@ -1,6 +1,6 @@
 import { Menu, Transition } from "@headlessui/react";
 import { Fragment } from "react";
-import { signOut } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { api } from "~/utils/api";
 
@@ -8,6 +8,7 @@ export default function ProfileMenu() {
   const { mutateAsync: createBillingPortalSession } =
     api.stripe.createBillingPortalSession.useMutation();
   const { push } = useRouter();
+  const { data: session } = useSession();
 
   return (
     <Menu as="div" className="relative inline-block text-left">
@@ -15,7 +16,7 @@ export default function ProfileMenu() {
         <span className="sr-only">Open user menu</span>
         <img
           className="h-8 w-8 rounded-full"
-          src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+          src={session?.user?.image ?? "https://i.stack.imgur.com/dr5qp.jpg"}
           alt=""
         />
       </Menu.Button>
