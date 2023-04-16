@@ -80,10 +80,10 @@ export default function VideoUploadModal() {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-lg bg-gray-800 p-6 text-left align-middle shadow-xl transition-all">
+                <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-lg bg-white p-6 text-left align-middle shadow-xl transition-all">
                   <div className="flex flex-col items-center gap-2">
                     <label className="flex h-32 w-full min-w-[300px] cursor-pointer appearance-none justify-center rounded-md border-2 border-dashed border-gray-300 px-4 transition hover:border-gray-400 focus:outline-none">
-                      <span className="flex items-center space-x-2 text-white">
+                      <span className="flex items-center space-x-2 text-[#292D34]">
                         {file ? (
                           <span className="font-medium">{file.name}</span>
                         ) : (
@@ -118,7 +118,7 @@ export default function VideoUploadModal() {
                     </label>
                     <button
                       type="button"
-                      className="mt-4 inline-flex cursor-not-allowed items-center rounded-md bg-indigo-500 px-4 py-2 text-sm font-semibold leading-6 text-white shadow transition duration-150 ease-in-out hover:bg-indigo-400"
+                      className="mt-4 inline-flex items-center rounded-md bg-indigo-500 px-4 py-2 text-sm font-semibold leading-6 text-white shadow transition duration-150 ease-in-out hover:bg-indigo-400 disabled:cursor-not-allowed"
                       disabled={submitting}
                       onClick={() => void handleSubmit()}
                     >
