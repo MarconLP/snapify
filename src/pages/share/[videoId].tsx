@@ -32,7 +32,11 @@ const VideoList: NextPage = () => {
           This recording is currently unavailable
         </span>
         <span className="mt-3 max-w-[80%] text-center text-sm">
-          To create your own public recordings, create an account for free!
+          To create your own public recordings,{" "}
+          <Link href="/sign-in" className="pointer text-[#4169e1] underline">
+            create an account
+          </Link>{" "}
+          for free!
         </span>
       </div>
     );
