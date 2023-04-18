@@ -5,6 +5,7 @@ import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
 import { MicrophoneIcon, PauseIcon } from "@heroicons/react/24/outline";
 import { TrashIcon } from "@radix-ui/react-icons";
 import { StopIcon } from "@heroicons/react/24/solid";
+import StopTime from "~/components/StopTime";
 
 export default function Recorder() {
   const [steam, setStream] = useState<null | MediaStream>(null);
@@ -184,7 +185,7 @@ export default function Recorder() {
             className="flex cursor-pointer flex-row items-center justify-center rounded pr-2 text-lg hover:bg-gray-200"
           >
             <StopIcon className="h-8 w-8 text-[#ff623f]" aria-hidden="true" />
-            <span className="ml-1 text-sm">0:15</span>
+            <StopTime running={!pause} />
           </div>
           <div className="mx-2 h-6 w-px bg-[#E7E9EB]"></div>
           <div
