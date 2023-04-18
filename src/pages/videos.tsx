@@ -31,7 +31,11 @@ const VideoList: NextPage = () => {
         <div className="flex min-h-[62px] w-full items-center justify-between border-b border-solid border-b-[#E7E9EB] bg-white px-6">
           <span>Screenity</span>
           <div className="flex flex-row items-center justify-center">
-            <VideoUploadModal />
+            {["active", "past_due"].includes(
+              session?.user.stripeSubscriptionStatus ?? ""
+            ) ? (
+              <VideoUploadModal />
+            ) : null}
             {status === "authenticated" && (
               <div className="ml-4 flex items-center justify-center">
                 <ProfileMenu />
@@ -40,9 +44,9 @@ const VideoList: NextPage = () => {
           </div>
         </div>
         <div className="flex w-full grow items-start justify-center overflow-auto bg-[#fbfbfb] pt-14">
-          {session?.user.stripeSubscriptionStatus === null ? (
-            <Checkout />
-          ) : (
+          {["active", "past_due"].includes(
+            session?.user.stripeSubscriptionStatus ?? ""
+          ) ? (
             <div className="flex-start grid w-full max-w-[1300px] grid-cols-[repeat(auto-fill,250px)] flex-row flex-wrap items-center justify-center gap-14 px-4 pb-16">
               {videos &&
                 videos.map(({ title, id, createdAt }) => (
@@ -69,6 +73,8 @@ const VideoList: NextPage = () => {
                 </div>
               ) : null}
             </div>
+          ) : (
+            <Checkout />
           )}
         </div>
       </main>
