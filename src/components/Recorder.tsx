@@ -1,16 +1,7 @@
-import React, { useState, useRef, Fragment } from "react";
+import React, { useState, useRef, Fragment, useEffect } from "react";
 import RecordRTC, { invokeSaveAsDialog } from "recordrtc";
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
-
-const people = [
-  { name: "Wade Cooper" },
-  { name: "Arlene Mccoy" },
-  { name: "Devon Webb" },
-  { name: "Tom Cook" },
-  { name: "Tanya Fox" },
-  { name: "Hellen Schmidt" },
-];
 
 export default function Recorder() {
   const [steam, setStream] = useState<null | MediaStream>(null);
@@ -18,10 +9,13 @@ export default function Recorder() {
   const refVideo = useRef<null | HTMLVideoElement>(null);
   const recorderRef = useRef<null | RecordRTC>(null);
   const [pause, setPause] = useState<boolean>(false);
-  const [selected, setSelected] = useState<{ name: string }>(people[0]);
+  const [audioDevices, setAudioDevices] = useState<MediaDeviceInfo[]>([]);
+  const [selectedDevice, setSelectedDevice] = useState<MediaDeviceInfo | null>(
+    null
+  );
 
   const handleRecording = async () => {
-    const mediaStream = await navigator.mediaDevices.getDisplayMedia({
+    const screenStream = await navigator.mediaDevices.getDisplayMedia({
       video: {
         width: 1920,
         height: 1080,
@@ -33,6 +27,16 @@ export default function Recorder() {
         sampleRate: 44100,
       },
     });
+
+    const micStream = await navigator.mediaDevices.getUserMedia({
+      audio: { deviceId: selectedDevice?.deviceId },
+    });
+
+    const mediaStream = new MediaStream();
+    micStream.getAudioTracks().forEach((track) => mediaStream.addTrack(track));
+    screenStream
+      .getVideoTracks()
+      .forEach((track) => mediaStream.addTrack(track));
 
     setStream(mediaStream);
     recorderRef.current = new RecordRTC(mediaStream, { type: "video" });
@@ -60,6 +64,23 @@ export default function Recorder() {
       setPause(!pause);
     }
   };
+
+  useEffect(() => {
+    async function getAudioDevices() {
+      try {
+        const devices = await navigator.mediaDevices.enumerateDevices();
+        const audioDevices = devices.filter(
+          (device) => device.kind === "audioinput"
+        );
+        setAudioDevices(audioDevices);
+        if (audioDevices[0]) setSelectedDevice(audioDevices[0]);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    void getAudioDevices();
+  }, []);
 
   const handleSave = () => {
     if (blob) {
@@ -98,11 +119,13 @@ export default function Recorder() {
         >
           save
         </button>
-        <div className="fixed top-16 w-72">
-          <Listbox value={selected} onChange={setSelected}>
+        <div className="top-16 mb-52 w-72">
+          <Listbox value={selectedDevice} onChange={setSelectedDevice}>
             <div className="relative mt-1">
               <Listbox.Button className="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
-                <span className="block truncate">{selected.name}</span>
+                <span className="block truncate">
+                  {selectedDevice?.label ?? "No device selected"}
+                </span>
                 <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
                   <ChevronUpDownIcon
                     className="h-5 w-5 text-gray-400"
@@ -117,9 +140,9 @@ export default function Recorder() {
                 leaveTo="opacity-0"
               >
                 <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-                  {people.map((person, personIdx) => (
+                  {audioDevices.map((audioDevice, i) => (
                     <Listbox.Option
-                      key={personIdx}
+                      key={i}
                       className={({ active }) =>
                         `relative cursor-default select-none py-2 pl-10 pr-4 ${
                           active
@@ -127,7 +150,7 @@ export default function Recorder() {
                             : "text-gray-900"
                         }`
                       }
-                      value={person}
+                      value={audioDevice}
                     >
                       {({ selected }) => (
                         <>
@@ -136,7 +159,7 @@ export default function Recorder() {
                               selected ? "font-medium" : "font-normal"
                             }`}
                           >
-                            {person.name}
+                            {audioDevice.label}
                           </span>
                           {selected ? (
                             <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600">
