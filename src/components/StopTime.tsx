@@ -31,5 +31,9 @@ export default function StopTime({ running }: { running?: boolean }) {
     return () => clearInterval(interval);
   }, [running]);
 
-  return <span className="ml-1 text-sm">{calculateTimeDuration(secs)}</span>;
+  return (
+    <div className="ml-1 flex w-10 items-center justify-center">
+      <span className="text-sm">{calculateTimeDuration(secs)}</span>
+    </div>
+  );
 }
