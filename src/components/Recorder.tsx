@@ -2,6 +2,9 @@ import React, { useState, useRef, Fragment, useEffect } from "react";
 import RecordRTC, { invokeSaveAsDialog } from "recordrtc";
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
+import { MicrophoneIcon, PauseIcon } from "@heroicons/react/24/outline";
+import { TrashIcon } from "@radix-ui/react-icons";
+import { StopIcon } from "@heroicons/react/24/solid";
 
 export default function Recorder() {
   const [steam, setStream] = useState<null | MediaStream>(null);
@@ -13,6 +16,7 @@ export default function Recorder() {
   const [selectedDevice, setSelectedDevice] = useState<MediaDeviceInfo | null>(
     null
   );
+  const [step, setStep] = useState<"pre" | "in" | "post">("pre");
 
   const handleRecording = async () => {
     const screenStream = await navigator.mediaDevices.getDisplayMedia({
@@ -41,6 +45,8 @@ export default function Recorder() {
     setStream(mediaStream);
     recorderRef.current = new RecordRTC(mediaStream, { type: "video" });
     recorderRef.current.startRecording();
+
+    setStep("in");
   };
 
   const handleStop = () => {
@@ -50,6 +56,14 @@ export default function Recorder() {
         setBlob(recorderRef.current.getBlob());
         steam?.getTracks().map((track) => track.stop());
       }
+    });
+  };
+
+  const handleDelete = () => {
+    if (recorderRef.current === null) return;
+    setBlob(null);
+    recorderRef.current.stopRecording(() => {
+      steam?.getTracks().map((track) => track.stop());
     });
   };
 
@@ -89,40 +103,16 @@ export default function Recorder() {
   };
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <button
-          type="button"
-          className="mt-4 inline-flex items-center rounded-md bg-indigo-500 px-4 py-2 text-sm font-semibold leading-6 text-white shadow transition duration-150 ease-in-out hover:bg-indigo-400 disabled:cursor-not-allowed"
-          onClick={() => void handleRecording()}
-        >
-          start
-        </button>
-        <button
-          type="button"
-          className="mx-4 mt-4 inline-flex items-center rounded-md bg-indigo-500 px-4 py-2 text-sm font-semibold leading-6 text-white shadow transition duration-150 ease-in-out hover:bg-indigo-400 disabled:cursor-not-allowed"
-          onClick={handleStop}
-        >
-          stop
-        </button>
-        <button
-          type="button"
-          className="mx-4 mt-4 inline-flex items-center rounded-md bg-indigo-500 px-4 py-2 text-sm font-semibold leading-6 text-white shadow transition duration-150 ease-in-out hover:bg-indigo-400 disabled:cursor-not-allowed"
-          onClick={handlePause}
-        >
-          {pause ? "resume" : "pause"}
-        </button>
-        <button
-          type="button"
-          className="mt-4 inline-flex items-center rounded-md bg-indigo-500 px-4 py-2 text-sm font-semibold leading-6 text-white shadow transition duration-150 ease-in-out hover:bg-indigo-400 disabled:cursor-not-allowed"
-          onClick={handleSave}
-        >
-          save
-        </button>
-        <div className="top-16 mb-52 w-72">
+    <div>
+      {step === "pre" ? (
+        <div className="w-full">
           <Listbox value={selectedDevice} onChange={setSelectedDevice}>
             <div className="relative mt-1">
-              <Listbox.Button className="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
+              <Listbox.Button className="relative flex w-full cursor-default flex-row items-center justify-start rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 sm:text-sm">
+                <MicrophoneIcon
+                  className="mr-2 h-5 w-5 text-gray-400"
+                  aria-hidden="true"
+                />
                 <span className="block truncate">
                   {selectedDevice?.label ?? "No device selected"}
                 </span>
@@ -135,7 +125,10 @@ export default function Recorder() {
               </Listbox.Button>
               <Transition
                 as={Fragment}
-                leave="transition ease-in duration-100"
+                enter="ease-out duration-300"
+                enterFrom="opacity-0"
+                enterTo="opacity-100"
+                leave="ease-in duration-200"
                 leaveFrom="opacity-100"
                 leaveTo="opacity-0"
               >
@@ -144,10 +137,8 @@ export default function Recorder() {
                     <Listbox.Option
                       key={i}
                       className={({ active }) =>
-                        `relative cursor-default select-none py-2 pl-10 pr-4 ${
-                          active
-                            ? "bg-amber-100 text-amber-900"
-                            : "text-gray-900"
+                        `relative cursor-default select-none py-2 pl-10 pr-4 text-gray-900 ${
+                          active ? "bg-gray-200" : ""
                         }`
                       }
                       value={audioDevice}
@@ -177,17 +168,53 @@ export default function Recorder() {
               </Transition>
             </div>
           </Listbox>
+          <button
+            type="button"
+            className="mt-4 flex inline-flex w-full items-center items-center justify-center rounded-md bg-indigo-500 px-4 py-2 text-sm font-semibold leading-6 text-white shadow transition duration-150 ease-in-out hover:bg-indigo-400 disabled:cursor-not-allowed"
+            onClick={() => void handleRecording()}
+          >
+            <span>Start recording</span>
+          </button>
         </div>
-        {blob && (
-          <video
-            src={URL.createObjectURL(blob)}
-            controls
-            autoPlay
-            ref={refVideo}
-            style={{ width: "700px", margin: "1em" }}
-          />
-        )}
-      </header>
+      ) : null}
+      {step === "in" ? (
+        <div className="flex flex-row items-center justify-center">
+          <div
+            onClick={handleStop}
+            className="flex cursor-pointer flex-row items-center justify-center rounded pr-2 text-lg hover:bg-gray-200"
+          >
+            <StopIcon className="h-8 w-8 text-[#ff623f]" aria-hidden="true" />
+            <span className="ml-1 text-sm">0:15</span>
+          </div>
+          <div className="mx-2 h-6 w-px bg-[#E7E9EB]"></div>
+          <div
+            onClick={handlePause}
+            className="cursor-pointer rounded p-1 hover:bg-gray-200"
+          >
+            <PauseIcon className="h-6 w-6 text-gray-400" aria-hidden="true" />
+          </div>
+          <div
+            onClick={handleDelete}
+            className="ml-1 cursor-pointer rounded p-1 hover:bg-gray-200"
+          >
+            <TrashIcon className="h-6 w-6 text-gray-400" aria-hidden="true" />
+          </div>
+        </div>
+      ) : null}
+      {step === "post" ? (
+        <div>
+          <span>post recording</span>
+          {blob && (
+            <video
+              src={URL.createObjectURL(blob)}
+              controls
+              autoPlay
+              ref={refVideo}
+              style={{ width: "700px", margin: "1em" }}
+            />
+          )}
+        </div>
+      ) : null}
     </div>
   );
 }
