@@ -3,7 +3,7 @@ import RecordRTC, { invokeSaveAsDialog } from "recordrtc";
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
 import { MicrophoneIcon, PauseIcon } from "@heroicons/react/24/outline";
-import { TrashIcon } from "@radix-ui/react-icons";
+import { ResumeIcon, TrashIcon } from "@radix-ui/react-icons";
 import { StopIcon } from "@heroicons/react/24/solid";
 import StopTime from "~/components/StopTime";
 
@@ -192,7 +192,14 @@ export default function Recorder() {
             onClick={handlePause}
             className="cursor-pointer rounded p-1 hover:bg-gray-200"
           >
-            <PauseIcon className="h-6 w-6 text-gray-400" aria-hidden="true" />
+            {pause ? (
+              <ResumeIcon
+                className="h-6 w-6 text-gray-400"
+                aria-hidden="true"
+              />
+            ) : (
+              <PauseIcon className="h-6 w-6 text-gray-400" aria-hidden="true" />
+            )}
           </div>
           <div
             onClick={handleDelete}
