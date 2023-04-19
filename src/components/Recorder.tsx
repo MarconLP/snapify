@@ -58,6 +58,8 @@ export default function Recorder() {
         steam?.getTracks().map((track) => track.stop());
       }
     });
+
+    setStep("post");
   };
 
   const handleDelete = () => {
