@@ -6,6 +6,10 @@ import { MicrophoneIcon, PauseIcon } from "@heroicons/react/24/outline";
 import { ResumeIcon, TrashIcon } from "@radix-ui/react-icons";
 import { StopIcon } from "@heroicons/react/24/solid";
 import StopTime from "~/components/StopTime";
+import axios from "axios";
+import dayjs from "dayjs";
+import { useRouter } from "next/router";
+import { api } from "~/utils/api";
 
 export default function Recorder() {
   const [steam, setStream] = useState<null | MediaStream>(null);
@@ -18,6 +22,10 @@ export default function Recorder() {
     null
   );
   const [step, setStep] = useState<"pre" | "in" | "post">("pre");
+  const router = useRouter();
+  const [submitting, setSubmitting] = useState<boolean>(false);
+  const apiUtils = api.useContext();
+  const getSignedUrl = api.video.getUploadUrl.useMutation();
 
   const handleRecording = async () => {
     const screenStream = await navigator.mediaDevices.getDisplayMedia({
@@ -101,8 +109,31 @@ export default function Recorder() {
 
   const handleSave = () => {
     if (blob) {
-      invokeSaveAsDialog(blob);
+      const dateString =
+        "Recording - " + dayjs().format("D MMM YYYY") + ".webm";
+      invokeSaveAsDialog(blob, dateString);
     }
+  };
+
+  const handleUpload = async () => {
+    if (!blob) return;
+    const dateString = "Recording - " + dayjs().format("D MMM YYYY") + ".webm";
+    setSubmitting(true);
+    const { signedUrl, id } = await getSignedUrl.mutateAsync({
+      key: dateString,
+    });
+    await axios
+      .put(signedUrl, blob.slice(), {
+        headers: { "Content-Type": "video/webm" },
+      })
+      .then(() => {
+        void router.push("share/" + id);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+    setSubmitting(false);
+    void apiUtils.video.getAll.invalidate();
   };
 
   return (
@@ -213,7 +244,6 @@ export default function Recorder() {
       ) : null}
       {step === "post" ? (
         <div>
-          <span>post recording</span>
           {blob && (
             <video
               src={URL.createObjectURL(blob)}
@@ -223,6 +253,18 @@ export default function Recorder() {
               style={{ width: "700px", margin: "1em" }}
             />
           )}
+          <button
+            onClick={handleSave}
+            className="mt-2 rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+          >
+            Download
+          </button>
+          <button
+            onClick={() => void handleUpload()}
+            className="ml-2 mt-2 rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+          >
+            Upload
+          </button>
         </div>
       ) : null}
     </div>
