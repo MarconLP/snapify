@@ -1,8 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 
-export default function StopTime({ running }: { running?: boolean }) {
-  const [secs, setSecs] = useState<number>(0);
+interface Props {
+  running: boolean;
+  duration: number;
+  setDuration: React.Dispatch<React.SetStateAction<number>>;
+}
 
+export default function StopTime({ running, duration, setDuration }: Props) {
   const calculateTimeDuration = (secs: number): string => {
     const hr = Math.floor(secs / 3600).toString();
     let min = Math.floor((secs - parseInt(hr) * 3600) / 60).toString();
@@ -27,13 +31,13 @@ export default function StopTime({ running }: { running?: boolean }) {
 
   useEffect(() => {
     if (!running) return;
-    const interval = setInterval(() => setSecs((sec) => sec + 1), 1000);
+    const interval = setInterval(() => setDuration((sec) => sec + 1), 1000);
     return () => clearInterval(interval);
-  }, [running]);
+  }, [running, setDuration]);
 
   return (
     <div className="ml-1 flex w-10 items-center justify-center">
-      <span className="text-sm">{calculateTimeDuration(secs)}</span>
+      <span className="text-sm">{calculateTimeDuration(duration)}</span>
     </div>
   );
 }
