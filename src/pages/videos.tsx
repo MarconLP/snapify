@@ -29,7 +29,7 @@ const VideoList: NextPage = () => {
       </Head>
       <main className="flex h-screen min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c]">
         <div className="flex min-h-[62px] w-full items-center justify-between border-b border-solid border-b-[#E7E9EB] bg-white px-6">
-          <span>Screenity</span>
+          <span>Snapify</span>
           <div className="flex flex-row items-center justify-center">
             {["active", "past_due"].includes(
               session?.user.stripeSubscriptionStatus ?? ""

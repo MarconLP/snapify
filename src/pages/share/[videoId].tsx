@@ -51,7 +51,7 @@ const VideoList: NextPage = () => {
       </Head>
       <main className="flex h-screen w-screen flex-col items-center justify-center">
         <div className="flex min-h-[62px] w-full items-center justify-between border-b border-solid border-b-[#E7E9EB] bg-white px-6">
-          <span>Screenity</span>
+          <span>Snapify</span>
           <div className="flex items-center justify-center">
             {video && video.userId === session?.user.id ? (
               <VideoMoreMenu video={video} />
