@@ -9,7 +9,7 @@ import Image from "next/image";
 import { getTime } from "~/utils/getTime";
 import Checkout from "~/components/Checkout";
 import ProfileMenu from "~/components/ProfileMenu";
-import VideoRecordModal from "~/components/VideoRecordModal";
+import NewVideoMenu from "~/components/NewVideoMenu";
 
 const VideoList: NextPage = () => {
   const router = useRouter();
@@ -34,7 +34,7 @@ const VideoList: NextPage = () => {
             {["active", "past_due"].includes(
               session?.user.stripeSubscriptionStatus ?? ""
             ) ? (
-              <VideoRecordModal />
+              <NewVideoMenu />
             ) : null}
             {status === "authenticated" && (
               <div className="ml-4 flex items-center justify-center">
