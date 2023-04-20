@@ -12,7 +12,19 @@ import { useRouter } from "next/router";
 import { api } from "~/utils/api";
 import fixWebmDuration from "fix-webm-duration";
 
-export default function Recorder() {
+interface Props {
+  closeModal: () => void;
+  step: string;
+  setStep: (
+    value:
+      | ((prevState: "pre" | "in" | "post") => "pre" | "in" | "post")
+      | "pre"
+      | "in"
+      | "post"
+  ) => void;
+}
+
+export default function Recorder({ closeModal, step, setStep }: Props) {
   const [steam, setStream] = useState<null | MediaStream>(null);
   const [blob, setBlob] = useState<null | Blob>(null);
   const refVideo = useRef<null | HTMLVideoElement>(null);
@@ -22,7 +34,6 @@ export default function Recorder() {
   const [selectedDevice, setSelectedDevice] = useState<MediaDeviceInfo | null>(
     null
   );
-  const [step, setStep] = useState<"pre" | "in" | "post">("pre");
   const router = useRouter();
   const [submitting, setSubmitting] = useState<boolean>(false);
   const apiUtils = api.useContext();
@@ -84,6 +95,9 @@ export default function Recorder() {
     recorderRef.current.stopRecording(() => {
       steam?.getTracks().map((track) => track.stop());
     });
+
+    closeModal();
+    setStep("pre");
   };
 
   const handlePause = () => {
@@ -262,7 +276,7 @@ export default function Recorder() {
               controls
               autoPlay
               ref={refVideo}
-              style={{ width: "700px", margin: "1em" }}
+              className="mb-4 w-[75vw]"
             />
           )}
           <div className="flex items-center justify-center">
@@ -306,6 +320,13 @@ export default function Recorder() {
               ) : (
                 <>Upload</>
               )}
+            </button>
+            <button
+              type="button"
+              className="ml-auto inline-flex items-center rounded-md bg-indigo-500 px-4 py-2 text-sm font-semibold leading-6 text-white shadow transition duration-150 ease-in-out hover:bg-indigo-400 disabled:cursor-not-allowed"
+              onClick={() => void closeModal()}
+            >
+              Close
             </button>
           </div>
         </div>
