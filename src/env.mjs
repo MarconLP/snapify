@@ -30,7 +30,8 @@ const server = z.object({
   AWS_BUCKET_NAME: z.string(),
   STRIPE_SECRET_KEY: z.string(),
   STRIPE_WEBHOOK_SECRET: z.string(),
-  STRIPE_PRICE_ID: z.string()
+  STRIPE_MONTHLY_PRICE_ID: z.string(),
+  STRIPE_ANNUAL_PRICE_ID: z.string()
 });
 
 /**
@@ -66,7 +67,8 @@ const processEnv = {
   NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY,
   STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY,
   STRIPE_WEBHOOK_SECRET: process.env.STRIPE_WEBHOOK_SECRET,
-  STRIPE_PRICE_ID: process.env.STRIPE_PRICE_ID
+  STRIPE_MONTHLY_PRICE_ID: process.env.STRIPE_MONTHLY_PRICE_ID,
+  STRIPE_ANNUAL_PRICE_ID: process.env.STRIPE_ANNUAL_PRICE_ID
 };
 
 // Don't touch the part below

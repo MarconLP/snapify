@@ -14,10 +14,13 @@ import VideoUploadModal from "~/components/VideoUploadModal";
 import { useAtom } from "jotai";
 import uploadVideoModalOpen from "~/atoms/uploadVideoModalOpen";
 import recordVideoModalOpen from "~/atoms/recordVideoModalOpen";
+import Paywall from "~/components/Paywall";
+import paywallAtom from "~/atoms/paywallAtom";
 
 const VideoList: NextPage = () => {
   const [, setRecordOpen] = useAtom(uploadVideoModalOpen);
   const [, setUploadOpen] = useAtom(recordVideoModalOpen);
+  const [, setPaywallOpen] = useAtom(paywallAtom);
   const router = useRouter();
   const { status } = useSession();
   const { data: videos, isLoading } = api.video.getAll.useQuery();
@@ -39,6 +42,7 @@ const VideoList: NextPage = () => {
           <div className="flex flex-row items-center justify-center">
             <VideoRecordModal />
             <VideoUploadModal />
+            <Paywall />
 
             <NewVideoMenu />
             {status === "authenticated" && (
@@ -67,7 +71,7 @@ const VideoList: NextPage = () => {
                     Record a video
                   </button>
                   <button
-                    onClick={() => setRecordOpen(true)}
+                    onClick={() => setPaywallOpen(true)}
                     className="ml-4 inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                   >
                     Upload a video
