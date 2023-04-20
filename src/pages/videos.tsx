@@ -17,7 +17,7 @@ const VideoList: NextPage = () => {
   const { data: videos, isLoading } = api.video.getAll.useQuery();
 
   if (status === "unauthenticated") {
-    void router.push("/sign-in");
+    void router.replace("/sign-in");
   }
 
   return (
