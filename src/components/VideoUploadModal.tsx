@@ -65,7 +65,7 @@ export default function VideoUploadModal() {
               <Dialog.Panel className="w-fit transform rounded-lg bg-white p-6 text-left align-middle shadow-xl transition-all">
                 <div className="flex flex-col items-center gap-2">
                   <label className="flex h-32 w-full min-w-[300px] cursor-pointer appearance-none justify-center rounded-md border-2 border-dashed border-gray-300 px-4 transition hover:border-gray-400 focus:outline-none">
-                    <span className="flex items-center space-x-2 text-[#292D34]">
+                    <span className="mx-6 flex items-center space-x-2 text-[#292D34]">
                       {file ? (
                         <span className="font-medium">{file.name}</span>
                       ) : (
