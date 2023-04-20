@@ -2,13 +2,11 @@ import { Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 const Recorder = dynamic(() => import("~/components/Recorder"), { ssr: false });
 import dynamic from "next/dynamic";
+import { useAtom } from "jotai";
+import recordVideoModalOpen from "~/atoms/recordVideoModalOpen";
 
-interface Props {
-  open: boolean;
-  setOpen: (value: boolean) => void;
-}
-
-export default function VideoRecordModal({ open, setOpen }: Props) {
+export default function VideoRecordModal() {
+  const [open, setOpen] = useAtom(recordVideoModalOpen);
   const [step, setStep] = useState<"pre" | "in" | "post">("pre");
 
   function closeModal() {

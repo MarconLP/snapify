@@ -35,6 +35,7 @@
     "dayjs": "^1.11.7",
     "file-saver": "^2.0.5",
     "fix-webm-duration": "^1.0.5",
+    "jotai": "^2.0.4",
     "micro": "^10.0.1",
     "micro-cors": "^0.1.1",
     "next": "^13.3.0",

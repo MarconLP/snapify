@@ -3,13 +3,11 @@ import { Dialog, Transition } from "@headlessui/react";
 import { api } from "~/utils/api";
 import axios from "axios";
 import { useRouter } from "next/router";
+import { useAtom } from "jotai";
+import uploadVideoModalOpen from "~/atoms/uploadVideoModalOpen";
 
-interface Props {
-  open: boolean;
-  setOpen: (value: boolean) => void;
-}
-
-export default function VideoUploadModal({ open, setOpen }: Props) {
+export default function VideoUploadModal() {
+  const [open, setOpen] = useAtom(uploadVideoModalOpen);
   const router = useRouter();
   const [submitting, setSubmitting] = useState<boolean>(false);
   const [file, setFile] = useState<File>();
