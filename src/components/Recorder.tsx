@@ -274,8 +274,6 @@ export default function Recorder({ closeModal, step, setStep }: Props) {
             <video
               src={URL.createObjectURL(blob)}
               controls
-              autoPlay
-              ref={refVideo}
               className="mb-4 w-[75vw]"
             />
           )}
