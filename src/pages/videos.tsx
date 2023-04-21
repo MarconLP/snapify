@@ -22,7 +22,7 @@ const VideoList: NextPage = () => {
   const [, setUploadOpen] = useAtom(recordVideoModalOpen);
   const [, setPaywallOpen] = useAtom(paywallAtom);
   const router = useRouter();
-  const { status } = useSession();
+  const { status, data: session } = useSession();
   const { data: videos, isLoading } = api.video.getAll.useQuery();
 
   if (status === "unauthenticated") {
@@ -71,7 +71,7 @@ const VideoList: NextPage = () => {
                     Record a video
                   </button>
                   <button
-                    onClick={() => setPaywallOpen(true)}
+                    onClick={() => setRecordOpen(true)}
                     className="ml-4 inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                   >
                     Upload a video

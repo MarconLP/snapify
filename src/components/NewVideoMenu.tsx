@@ -5,8 +5,8 @@ import { useAtom } from "jotai";
 import recordVideoModalOpen from "~/atoms/recordVideoModalOpen";
 
 export default function NewVideoMenu() {
-  const [, setRecordOpen] = useAtom(uploadVideoModalOpen);
-  const [, setUploadOpen] = useAtom(recordVideoModalOpen);
+  const [, setRecordOpen] = useAtom(recordVideoModalOpen);
+  const [, setUploadOpen] = useAtom(uploadVideoModalOpen);
 
   return (
     <Menu as="div" className="relative inline-block text-left">
