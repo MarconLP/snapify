@@ -14,6 +14,7 @@ import fixWebmDuration from "fix-webm-duration";
 import { TRPCClientError } from "@trpc/client";
 import { useAtom } from "jotai/index";
 import paywallAtom from "~/atoms/paywallAtom";
+import recordVideoModalOpen from "~/atoms/recordVideoModalOpen";
 
 interface Props {
   closeModal: () => void;
@@ -37,6 +38,7 @@ export default function Recorder({ closeModal, step, setStep }: Props) {
     null
   );
   const router = useRouter();
+  const [, setRecordOpen] = useAtom(recordVideoModalOpen);
   const [submitting, setSubmitting] = useState<boolean>(false);
   const apiUtils = api.useContext();
   const getSignedUrl = api.video.getUploadUrl.useMutation();
@@ -156,6 +158,7 @@ export default function Recorder({ closeModal, step, setStep }: Props) {
         })
         .then(() => {
           void router.push("share/" + id);
+          setRecordOpen(false);
         })
         .catch((err) => {
           console.error(err);
