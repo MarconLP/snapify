@@ -3,10 +3,26 @@ import { Fragment } from "react";
 import uploadVideoModalOpen from "~/atoms/uploadVideoModalOpen";
 import { useAtom } from "jotai";
 import recordVideoModalOpen from "~/atoms/recordVideoModalOpen";
+import paywallAtom from "~/atoms/paywallAtom";
+import { useSession } from "next-auth/react";
 
 export default function NewVideoMenu() {
   const [, setRecordOpen] = useAtom(recordVideoModalOpen);
   const [, setUploadOpen] = useAtom(uploadVideoModalOpen);
+  const [, setPaywallOpen] = useAtom(paywallAtom);
+  const { data: session } = useSession();
+
+  const openRecordModal = () => {
+    setRecordOpen(true);
+  };
+
+  const openUploadModal = () => {
+    if (session?.user.stripeSubscriptionStatus === "active") {
+      setUploadOpen(true);
+    } else {
+      setPaywallOpen(true);
+    }
+  };
 
   return (
     <Menu as="div" className="relative inline-block text-left">
@@ -29,7 +45,7 @@ export default function NewVideoMenu() {
             <Menu.Item>
               {({ active }) => (
                 <div
-                  onClick={() => setRecordOpen(true)}
+                  onClick={openRecordModal}
                   className={`mx-2 flex h-8 w-40 cursor-pointer flex-row content-center rounded-md p-2 ${
                     active ? "bg-gray-100" : ""
                   }`}
@@ -41,7 +57,7 @@ export default function NewVideoMenu() {
             <Menu.Item>
               {({ active }) => (
                 <div
-                  onClick={() => setUploadOpen(true)}
+                  onClick={openUploadModal}
                   className={`mx-2 flex h-8 w-40 cursor-pointer flex-row content-center rounded-md p-2 ${
                     active ? "bg-gray-100" : ""
                   }`}

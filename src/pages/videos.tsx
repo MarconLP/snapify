@@ -18,8 +18,8 @@ import Paywall from "~/components/Paywall";
 import paywallAtom from "~/atoms/paywallAtom";
 
 const VideoList: NextPage = () => {
-  const [, setRecordOpen] = useAtom(uploadVideoModalOpen);
-  const [, setUploadOpen] = useAtom(recordVideoModalOpen);
+  const [, setRecordOpen] = useAtom(recordVideoModalOpen);
+  const [, setUploadOpen] = useAtom(uploadVideoModalOpen);
   const [, setPaywallOpen] = useAtom(paywallAtom);
   const router = useRouter();
   const { status, data: session } = useSession();
@@ -28,6 +28,18 @@ const VideoList: NextPage = () => {
   if (status === "unauthenticated") {
     void router.replace("/sign-in");
   }
+
+  const openRecordModal = () => {
+    setRecordOpen(true);
+  };
+
+  const openUploadModal = () => {
+    if (session?.user.stripeSubscriptionStatus === "active") {
+      setUploadOpen(true);
+    } else {
+      setPaywallOpen(true);
+    }
+  };
 
   return (
     <>
@@ -65,13 +77,13 @@ const VideoList: NextPage = () => {
                 </span>
                 <div className="mt-4">
                   <button
-                    onClick={() => setUploadOpen(true)}
-                    className="inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                    onClick={openRecordModal}
+                    className="inline-flex items-center rounded-md border border-transparent bg-red-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                   >
                     Record a video
                   </button>
                   <button
-                    onClick={() => setRecordOpen(true)}
+                    onClick={openUploadModal}
                     className="ml-4 inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                   >
                     Upload a video
