@@ -28,6 +28,7 @@ export const stripeRouter = createTRPCRouter({
         customer: customerId,
         client_reference_id: session.user?.id,
         payment_method_types: ["card"],
+        allow_promotion_codes: true,
         mode: "subscription",
         line_items: [
           {
