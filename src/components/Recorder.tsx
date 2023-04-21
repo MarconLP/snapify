@@ -11,6 +11,9 @@ import dayjs from "dayjs";
 import { useRouter } from "next/router";
 import { api } from "~/utils/api";
 import fixWebmDuration from "fix-webm-duration";
+import { TRPCClientError } from "@trpc/client";
+import { useAtom } from "jotai/index";
+import paywallAtom from "~/atoms/paywallAtom";
 
 interface Props {
   closeModal: () => void;
@@ -27,7 +30,6 @@ interface Props {
 export default function Recorder({ closeModal, step, setStep }: Props) {
   const [steam, setStream] = useState<null | MediaStream>(null);
   const [blob, setBlob] = useState<null | Blob>(null);
-  const refVideo = useRef<null | HTMLVideoElement>(null);
   const recorderRef = useRef<null | RecordRTC>(null);
   const [pause, setPause] = useState<boolean>(false);
   const [audioDevices, setAudioDevices] = useState<MediaDeviceInfo[]>([]);
@@ -39,6 +41,7 @@ export default function Recorder({ closeModal, step, setStep }: Props) {
   const apiUtils = api.useContext();
   const getSignedUrl = api.video.getUploadUrl.useMutation();
   const [duration, setDuration] = useState<number>(0);
+  const [, setPaywallOpen] = useAtom(paywallAtom);
 
   const handleRecording = async () => {
     const screenStream = await navigator.mediaDevices.getDisplayMedia({
@@ -139,22 +142,39 @@ export default function Recorder({ closeModal, step, setStep }: Props) {
 
   const handleUpload = async () => {
     if (!blob) return;
+
     const dateString = "Recording - " + dayjs().format("D MMM YYYY") + ".webm";
     setSubmitting(true);
-    const { signedUrl, id } = await getSignedUrl.mutateAsync({
-      key: dateString,
-    });
-    await axios
-      .put(signedUrl, blob.slice(), {
-        headers: { "Content-Type": "video/webm" },
-      })
-      .then(() => {
-        void router.push("share/" + id);
-      })
-      .catch((err) => {
-        console.error(err);
+
+    try {
+      const { signedUrl, id } = await getSignedUrl.mutateAsync({
+        key: dateString,
       });
-    setSubmitting(false);
+      await axios
+        .put(signedUrl, blob.slice(), {
+          headers: { "Content-Type": "video/webm" },
+        })
+        .then(() => {
+          void router.push("share/" + id);
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    } catch (err) {
+      if (err instanceof TRPCClientError) {
+        if (
+          err.message ===
+          "Sorry, you have reached the maximum video upload limit on our free tier. Please upgrade to upload more."
+        ) {
+          setPaywallOpen(true);
+        }
+      } else {
+        throw err;
+      }
+    } finally {
+      setSubmitting(false);
+    }
+
     void apiUtils.video.getAll.invalidate();
   };
 

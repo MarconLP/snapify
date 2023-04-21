@@ -59,6 +59,23 @@ export const videoRouter = createTRPCRouter({
       const { key } = input;
       const { s3 } = ctx;
 
+      const videos = await ctx.prisma.video.findMany({
+        where: {
+          userId: ctx.session.user.id,
+        },
+      });
+
+      if (
+        videos.length >= 10 &&
+        ctx.session.user.stripeSubscriptionStatus !== "active"
+      ) {
+        throw new TRPCError({
+          code: "FORBIDDEN",
+          message:
+            "Sorry, you have reached the maximum video upload limit on our free tier. Please upgrade to upload more.",
+        });
+      }
+
       const video = await ctx.prisma.video.create({
         data: {
           userId: ctx.session.user.id,
