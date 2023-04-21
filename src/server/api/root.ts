@@ -1,5 +1,4 @@
 import { createTRPCRouter } from "~/server/api/trpc";
-import { exampleRouter } from "~/server/api/routers/example";
 import { videoRouter } from "~/server/api/routers/video";
 import { stripeRouter } from "~/server/api/routers/stripe";
 
@@ -9,7 +8,6 @@ import { stripeRouter } from "~/server/api/routers/stripe";
  * All routers added in /api/routers should be manually added here.
  */
 export const appRouter = createTRPCRouter({
-  example: exampleRouter,
   video: videoRouter,
   stripe: stripeRouter,
 });
