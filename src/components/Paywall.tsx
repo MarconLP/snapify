@@ -19,10 +19,6 @@ export default function Paywall() {
     setOpen(false);
   }
 
-  function openModal() {
-    setOpen(true);
-  }
-
   const handleCheckout = async () => {
     const { checkoutUrl } = await createCheckoutSession({ billedAnnually });
     if (checkoutUrl) {
