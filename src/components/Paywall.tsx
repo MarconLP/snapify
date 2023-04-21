@@ -85,7 +85,7 @@ export default function Paywall() {
                           <span className=" svelte-10wstod">Monthly</span>
                           <label className="group relative flex cursor-pointer items-center gap-2 text-sm font-medium text-gray-600">
                             <input
-                              onClick={() => setBilledAnnually(!billedAnnually)}
+                              onChange={() => setBilledAnnually(!billedAnnually)}
                               checked={billedAnnually}
                               type="checkbox"
                               className="peer absolute left-1/2 hidden h-full w-full -translate-x-1/2 rounded-md"
