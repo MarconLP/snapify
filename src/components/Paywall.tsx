@@ -6,6 +6,7 @@ import { CloseIcon } from "next/dist/client/components/react-dev-overlay/interna
 import { api } from "~/utils/api";
 import { useRouter } from "next/router";
 import { CheckIcon } from "@heroicons/react/20/solid";
+import Tooltip from "~/components/Tooltip";
 
 export default function Paywall() {
   const { mutateAsync: createCheckoutSession } =
@@ -136,20 +137,34 @@ export default function Paywall() {
                         </div>
                         <div className="mt-4 flex flex-col gap-2 pb-8">
                           {[
-                            "Unlimited videos",
-                            "Video uploads",
-                            "Custom branding",
-                          ].map((x) => (
+                            {
+                              feature: "Unlimited videos",
+                              description: "Record and share unlimited videos",
+                            },
+                            {
+                              feature: "Video uploads",
+                              description:
+                                "Upload external videos to your Library",
+                            },
+                            {
+                              feature: "Remove branding",
+                              description:
+                                "Remove Snapify branding from your videos",
+                            },
+                          ].map(({ feature, description }) => (
                             <div
-                              key={x}
+                              key={feature}
                               className="flex items-center gap-2 text-gray-500"
                             >
                               <div className="ml-6 h-5 w-5 flex-none">
                                 <CheckIcon />
                               </div>
-                              <div className="svelte-10wstod text-base text-gray-500 underline decoration-gray-400 decoration-dashed underline-offset-4">
-                                {x}
-                              </div>
+
+                              <Tooltip title={description}>
+                                <div className="svelte-10wstod text-base text-gray-500 underline decoration-gray-400 decoration-dashed underline-offset-4">
+                                  {feature}
+                                </div>
+                              </Tooltip>
                             </div>
                           ))}
                         </div>
