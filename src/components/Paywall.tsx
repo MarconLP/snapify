@@ -74,8 +74,8 @@ export default function Paywall() {
                           Upgrade your plan
                         </h1>
                         <p className="mt-4 pr-8 text-lg text-gray-500">
-                          Turn your testimonials into your most powerful
-                          marketing tool with Senja.
+                          Replace unnecessary meetings that leave you with
+                          limited time to focus on more valuable things.
                         </p>
                       </div>
                       <p className="mt-6 text-base text-gray-500">
