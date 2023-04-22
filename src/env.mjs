@@ -41,6 +41,7 @@ const server = z.object({
 const client = z.object({
   // NEXT_PUBLIC_CLIENTVAR: z.string().min(1),
   NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: z.string(),
+  NEXT_PUBLIC_CRISP_WEBSITE_ID: z.string(),
 });
 
 /**
@@ -70,6 +71,7 @@ const processEnv = {
   STRIPE_WEBHOOK_SECRET: process.env.STRIPE_WEBHOOK_SECRET,
   STRIPE_MONTHLY_PRICE_ID: process.env.STRIPE_MONTHLY_PRICE_ID,
   STRIPE_ANNUAL_PRICE_ID: process.env.STRIPE_ANNUAL_PRICE_ID,
+  NEXT_PUBLIC_CRISP_WEBSITE_ID: process.env.NEXT_PUBLIC_CRISP_WEBSITE_ID,
 };
 
 // Don't touch the part below
