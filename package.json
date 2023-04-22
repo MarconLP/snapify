@@ -10,7 +10,8 @@
     "test:e2e": "npm run db-seed && playwright test --headed --workers 1",
     "stripe:listen": "stripe listen --forward-to http://localhost:3000/api/webhooks/stripe",
     "db-seed": "NODE_ENV=development prisma db seed",
-    "start": "next start"
+    "start": "next start",
+    "typecheck": "tsc --noEmit"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"
@@ -70,8 +71,7 @@
     "prettier-plugin-tailwindcss": "^0.2.6",
     "prisma": "^4.11.0",
     "tailwindcss": "^3.3.0",
-    "tsx": "^3.12.6",
-    "typescript": "^5.0.2"
+    "typescript": "^5.0.4"
   },
   "ct3aMetadata": {
     "initVersion": "7.10.3"
