@@ -70,6 +70,11 @@ export default function Recorder({ closeModal, step, setStep }: Props) {
       .getVideoTracks()
       .forEach((track) => mediaStream.addTrack(track));
 
+    const firstVideoTrack = screenStream.getVideoTracks()[0];
+    if (firstVideoTrack) {
+      firstVideoTrack.addEventListener("ended", () => handleStop());
+    }
+
     setStream(mediaStream);
     recorderRef.current = new RecordRTC(mediaStream, { type: "video" });
     recorderRef.current.startRecording();
