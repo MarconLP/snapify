@@ -1,4 +1,4 @@
-import { type ChangeEvent, Fragment, useState } from "react";
+import React, { type ChangeEvent, Fragment, useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { api } from "~/utils/api";
 import axios from "axios";
@@ -13,11 +13,22 @@ export default function VideoUploadModal() {
   const [file, setFile] = useState<File>();
   const getSignedUrl = api.video.getUploadUrl.useMutation();
   const apiUtils = api.useContext();
+  const videoRef = useRef<null | HTMLVideoElement>(null);
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>): void => {
     if (e.target.files) {
       setFile(e.target.files[0]);
     }
+  };
+
+  const generateThumbnail = async (video: HTMLVideoElement) => {
+    const canvas = document.createElement("canvas");
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+    canvas
+      .getContext("2d")
+      ?.drawImage(video, 0, 0, canvas.width, canvas.height);
+    return await new Promise((resolve) => canvas.toBlob(resolve));
   };
 
   function closeModal() {
@@ -27,14 +38,26 @@ export default function VideoUploadModal() {
   const handleSubmit = async (): Promise<void> => {
     if (!file) return;
     setSubmitting(true);
-    const { signedUrl, id } = await getSignedUrl.mutateAsync({
-      key: file.name,
-    });
+    const { signedVideoUrl, signedThumbnailUrl, id } =
+      await getSignedUrl.mutateAsync({
+        key: file.name,
+      });
     await axios
-      .put(signedUrl, file.slice(), {
+      .put(signedVideoUrl, file.slice(), {
         headers: { "Content-Type": file.type },
       })
+      .then(async () => {
+        if (!videoRef.current) return;
+        return axios.put(
+          signedThumbnailUrl,
+          await generateThumbnail(videoRef.current),
+          {
+            headers: { "Content-Type": "image/png" },
+          }
+        );
+      })
       .then(() => {
+        setOpen(false);
         void router.push("share/" + id);
       })
       .catch((err) => {
@@ -66,6 +89,14 @@ export default function VideoUploadModal() {
                 <div className="flex flex-col items-center gap-2">
                   <label className="flex h-32 w-full min-w-[300px] cursor-pointer appearance-none justify-center rounded-md border-2 border-dashed border-gray-300 px-4 transition hover:border-gray-400 focus:outline-none">
                     <span className="mx-6 flex items-center space-x-2 text-[#292D34]">
+                      {file ? (
+                        <video
+                          src={URL.createObjectURL(file)}
+                          controls
+                          ref={videoRef}
+                          className="max-h-[0px] max-w-[15px]"
+                        />
+                      ) : null}
                       {file ? (
                         <span className="font-medium">{file.name}</span>
                       ) : (
