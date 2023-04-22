@@ -22,7 +22,21 @@ export const videoRouter = createTRPCRouter({
       },
     });
 
-    return videos;
+    const videosWithThumbnailUrl = await Promise.all(
+      videos.map(async (video) => {
+        const thumbnailUrl = await getSignedUrl(
+          ctx.s3,
+          new GetObjectCommand({
+            Bucket: env.AWS_BUCKET_NAME,
+            Key: video.userId + "/" + video.id + "-thumbnail",
+          })
+        );
+
+        return { ...video, thumbnailUrl };
+      })
+    );
+
+    return videosWithThumbnailUrl;
   }),
   get: publicProcedure
     .input(z.object({ videoId: z.string() }))
@@ -95,7 +109,7 @@ export const videoRouter = createTRPCRouter({
         s3,
         new PutObjectCommand({
           Bucket: env.AWS_BUCKET_NAME,
-          Key: video.userId + "/" + video.id + "thumbnail",
+          Key: video.userId + "/" + video.id + "-thumbnail",
         })
       );
 

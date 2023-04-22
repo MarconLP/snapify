@@ -94,11 +94,12 @@ const VideoList: NextPage = () => {
           ) : (
             <div className="flex-start grid w-full max-w-[1300px] grid-cols-[repeat(auto-fill,250px)] flex-row flex-wrap items-center justify-center gap-14 px-4 pb-16">
               {videos &&
-                videos.map(({ title, id, createdAt }) => (
+                videos.map(({ title, id, createdAt, thumbnailUrl }) => (
                   <VideoCard
                     title={title}
                     id={id}
                     createdAt={createdAt}
+                    thumbnailUrl={thumbnailUrl}
                     key={id}
                   />
                 ))}
@@ -122,6 +123,7 @@ const VideoList: NextPage = () => {
 interface VideoCardProps {
   title: string;
   id: string;
+  thumbnailUrl: string;
   createdAt: Date;
 }
 
@@ -137,13 +139,13 @@ const VideoCardSkeleton = () => {
   );
 };
 
-const VideoCard = ({ title, id, createdAt }: VideoCardProps) => {
+const VideoCard = ({ title, id, createdAt, thumbnailUrl }: VideoCardProps) => {
   return (
     <Link href={`/share/${id}`}>
       <div className="h-[240px] w-[250px] cursor-pointer overflow-hidden rounded-lg border border-[#6c668533] text-sm font-normal">
         <figure>
           <Image
-            src="https://i3.ytimg.com/vi/BuaKzm7Kq9Q/maxresdefault.jpg"
+            src={thumbnailUrl}
             alt="video thumbnail"
             width={248}
             height={139.5}

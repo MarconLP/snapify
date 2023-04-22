@@ -143,15 +143,15 @@ export default function Recorder({ closeModal, step, setStep }: Props) {
     }
   };
 
-  function generateThumbnail(video: HTMLVideoElement) {
+  const generateThumbnail = async (video: HTMLVideoElement) => {
     const canvas = document.createElement("canvas");
     canvas.width = video.videoWidth;
     canvas.height = video.videoHeight;
     canvas
       .getContext("2d")
       ?.drawImage(video, 0, 0, canvas.width, canvas.height);
-    return canvas.toDataURL();
-  }
+    return await new Promise((resolve) => canvas.toBlob(resolve));
+  };
 
   const handleUpload = async () => {
     if (!blob || !videoRef.current) return;
@@ -169,11 +169,11 @@ export default function Recorder({ closeModal, step, setStep }: Props) {
         .put(signedVideoUrl, blob.slice(), {
           headers: { "Content-Type": "video/webm" },
         })
-        .then(() => {
+        .then(async () => {
           if (!videoRef.current) return;
           return axios.put(
             signedThumbnailUrl,
-            generateThumbnail(videoRef.current),
+            await generateThumbnail(videoRef.current),
             {
               headers: { "Content-Type": "image/png" },
             }
