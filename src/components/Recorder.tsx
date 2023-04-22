@@ -44,6 +44,7 @@ export default function Recorder({ closeModal, step, setStep }: Props) {
   const getSignedUrl = api.video.getUploadUrl.useMutation();
   const [duration, setDuration] = useState<number>(0);
   const [, setPaywallOpen] = useAtom(paywallAtom);
+  const videoRef = useRef<null | HTMLVideoElement>(null);
 
   const handleRecording = async () => {
     const screenStream = await navigator.mediaDevices.getDisplayMedia({
@@ -142,19 +143,41 @@ export default function Recorder({ closeModal, step, setStep }: Props) {
     }
   };
 
+  function generateThumbnail(video: HTMLVideoElement) {
+    const canvas = document.createElement("canvas");
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+    canvas
+      .getContext("2d")
+      ?.drawImage(video, 0, 0, canvas.width, canvas.height);
+    return canvas.toDataURL();
+  }
+
   const handleUpload = async () => {
-    if (!blob) return;
+    if (!blob || !videoRef.current) return;
 
     const dateString = "Recording - " + dayjs().format("D MMM YYYY") + ".webm";
     setSubmitting(true);
 
     try {
-      const { signedUrl, id } = await getSignedUrl.mutateAsync({
-        key: dateString,
-      });
+      const { signedVideoUrl, signedThumbnailUrl, id } =
+        await getSignedUrl.mutateAsync({
+          key: dateString,
+        });
+
       await axios
-        .put(signedUrl, blob.slice(), {
+        .put(signedVideoUrl, blob.slice(), {
           headers: { "Content-Type": "video/webm" },
+        })
+        .then(() => {
+          if (!videoRef.current) return;
+          return axios.put(
+            signedThumbnailUrl,
+            generateThumbnail(videoRef.current),
+            {
+              headers: { "Content-Type": "image/png" },
+            }
+          );
         })
         .then(() => {
           void router.push("share/" + id);
@@ -293,13 +316,14 @@ export default function Recorder({ closeModal, step, setStep }: Props) {
       ) : null}
       {step === "post" ? (
         <div>
-          {blob && (
+          {blob ? (
             <video
               src={URL.createObjectURL(blob)}
               controls
+              ref={videoRef}
               className="mb-4 w-[75vw]"
             />
-          )}
+          ) : null}
           <div className="flex items-center justify-center">
             <button
               type="button"

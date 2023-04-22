@@ -83,17 +83,27 @@ export const videoRouter = createTRPCRouter({
         },
       });
 
-      const putObjectCommand = new PutObjectCommand({
-        Bucket: env.AWS_BUCKET_NAME,
-        Key: ctx.session.user.id + "/" + video.id,
-      });
+      const signedVideoUrl = await getSignedUrl(
+        s3,
+        new PutObjectCommand({
+          Bucket: env.AWS_BUCKET_NAME,
+          Key: ctx.session.user.id + "/" + video.id,
+        })
+      );
 
-      const signedUrl = await getSignedUrl(s3, putObjectCommand);
+      const signedThumbnailUrl = await getSignedUrl(
+        s3,
+        new PutObjectCommand({
+          Bucket: env.AWS_BUCKET_NAME,
+          Key: video.userId + "/" + video.id + "thumbnail",
+        })
+      );
 
       return {
         success: true,
         id: video.id,
-        signedUrl,
+        signedVideoUrl,
+        signedThumbnailUrl,
       };
     }),
   setSharing: protectedProcedure
