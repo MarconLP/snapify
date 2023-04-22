@@ -238,17 +238,25 @@ export const videoRouter = createTRPCRouter({
         throw new TRPCError({ code: "FORBIDDEN" });
       }
 
-      const deleteObjectCommand = new DeleteObjectCommand({
-        Bucket: env.AWS_BUCKET_NAME,
-        Key: ctx.session.user.id + "/" + input.videoId,
-      });
+      const deleteVideoObject = await ctx.s3.send(
+        new DeleteObjectCommand({
+          Bucket: env.AWS_BUCKET_NAME,
+          Key: ctx.session.user.id + "/" + input.videoId,
+        })
+      );
 
-      const deleteObject = await ctx.s3.send(deleteObjectCommand);
+      const deleteThumbnailObject = await ctx.s3.send(
+        new DeleteObjectCommand({
+          Bucket: env.AWS_BUCKET_NAME,
+          Key: ctx.session.user.id + "/" + input.videoId + "-thumbnail",
+        })
+      );
 
       return {
         success: true,
         deleteVideo,
-        deleteObject,
+        deleteVideoObject,
+        deleteThumbnailObject,
       };
     }),
 });
