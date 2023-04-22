@@ -32,6 +32,7 @@ const server = z.object({
   STRIPE_WEBHOOK_SECRET: z.string(),
   STRIPE_MONTHLY_PRICE_ID: z.string(),
   STRIPE_ANNUAL_PRICE_ID: z.string(),
+  POSTHOG_PROXY_PATH: z.string(),
 });
 
 /**
@@ -44,6 +45,7 @@ const client = z.object({
   NEXT_PUBLIC_CRISP_WEBSITE_ID: z.string(),
   NEXT_PUBLIC_POSTHOG_KEY: z.string(),
   NEXT_PUBLIC_POSTHOG_HOST: z.string(),
+  NEXT_PUBLIC_POSTHOG_PROXY_HOST: z.string(),
 });
 
 /**
@@ -76,6 +78,8 @@ const processEnv = {
   NEXT_PUBLIC_CRISP_WEBSITE_ID: process.env.NEXT_PUBLIC_CRISP_WEBSITE_ID,
   NEXT_PUBLIC_POSTHOG_KEY: process.env.NEXT_PUBLIC_POSTHOG_KEY,
   NEXT_PUBLIC_POSTHOG_HOST: process.env.NEXT_PUBLIC_POSTHOG_HOST,
+  POSTHOG_PROXY_PATH: process.env.POSTHOG_PROXY_PATH,
+  NEXT_PUBLIC_POSTHOG_PROXY_HOST: process.env.NEXT_PUBLIC_POSTHOG_PROXY_HOST,
 };
 
 // Don't touch the part below

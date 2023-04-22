@@ -13,7 +13,7 @@ import { env } from "~/env.mjs";
 // Check that PostHog is client-side (used to handle Next.js SSR)
 if (typeof window !== "undefined") {
   posthog.init(env.NEXT_PUBLIC_POSTHOG_KEY, {
-    api_host: env.NEXT_PUBLIC_POSTHOG_HOST || "https://app.posthog.com",
+    api_host: env.NEXT_PUBLIC_POSTHOG_PROXY_HOST,
     // Enable debug mode in development
     loaded: (posthog) => {
       if (process.env.NODE_ENV === "development") posthog.debug();
