@@ -15,29 +15,40 @@ import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { TRPCError } from "@trpc/server";
 
 export const videoRouter = createTRPCRouter({
-  getAll: protectedProcedure.query(async ({ ctx }) => {
-    const videos = await ctx.prisma.video.findMany({
-      where: {
-        userId: ctx.session.user.id,
-      },
-    });
+  getAll: protectedProcedure.query(
+    async ({ ctx: { prisma, session, s3, posthog } }) => {
+      const videos = await prisma.video.findMany({
+        where: {
+          userId: session.user.id,
+        },
+      });
 
-    const videosWithThumbnailUrl = await Promise.all(
-      videos.map(async (video) => {
-        const thumbnailUrl = await getSignedUrl(
-          ctx.s3,
-          new GetObjectCommand({
-            Bucket: env.AWS_BUCKET_NAME,
-            Key: video.userId + "/" + video.id + "-thumbnail",
-          })
-        );
+      posthog.capture({
+        distinctId: session.user.id,
+        event: "viewing video list",
+        properties: {
+          videoAmount: videos.length,
+        },
+      });
+      void posthog.shutdownAsync();
 
-        return { ...video, thumbnailUrl };
-      })
-    );
+      const videosWithThumbnailUrl = await Promise.all(
+        videos.map(async (video) => {
+          const thumbnailUrl = await getSignedUrl(
+            s3,
+            new GetObjectCommand({
+              Bucket: env.AWS_BUCKET_NAME,
+              Key: video.userId + "/" + video.id + "-thumbnail",
+            })
+          );
 
-    return videosWithThumbnailUrl;
-  }),
+          return { ...video, thumbnailUrl };
+        })
+      );
+
+      return videosWithThumbnailUrl;
+    }
+  ),
   get: publicProcedure
     .input(z.object({ videoId: z.string() }))
     .query(async ({ ctx, input }) => {
