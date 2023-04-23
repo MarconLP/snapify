@@ -11,11 +11,13 @@ import { ShareModal } from "~/components/ShareModal";
 import { useSession } from "next-auth/react";
 import VideoMoreMenu from "~/components/VideoMoreMenu";
 import ProfileMenu from "~/components/ProfileMenu";
+import { usePostHog } from "posthog-js/react";
 
 const VideoList: NextPage = () => {
   const router = useRouter();
   const { status, data: session } = useSession();
   const { videoId } = router.query as { videoId: string };
+  const posthog = usePostHog();
 
   const { data: video, isLoading } = api.video.get.useQuery(
     { videoId },
@@ -78,6 +80,30 @@ const VideoList: NextPage = () => {
                 width="100%"
                 height="100%"
                 controls={true}
+                onPlay={() =>
+                  posthog?.capture("play video", {
+                    videoId: video.id,
+                    videoCreatedAt: video.createdAt,
+                    videoUpdatedAt: video.updatedAt,
+                    videoUser: video.user.id,
+                    videoSharing: video.sharing,
+                    videoDeleteAfterLinkExpires:
+                      video.delete_after_link_expires,
+                    videoShareLinkExpiresAt: video.shareLinkExpiresAt,
+                  })
+                }
+                onPause={() =>
+                  posthog?.capture("pause video", {
+                    videoId: video.id,
+                    videoCreatedAt: video.createdAt,
+                    videoUpdatedAt: video.updatedAt,
+                    videoUser: video.user.id,
+                    videoSharing: video.sharing,
+                    videoDeleteAfterLinkExpires:
+                      video.delete_after_link_expires,
+                    videoShareLinkExpiresAt: video.shareLinkExpiresAt,
+                  })
+                }
                 url={video.video_url}
               />
             )}
