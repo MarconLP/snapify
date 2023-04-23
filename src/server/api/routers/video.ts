@@ -65,24 +65,26 @@ export const videoRouter = createTRPCRouter({
         throw new TRPCError({ code: "NOT_FOUND" });
       }
 
-      if (!session || (video.userId !== session?.user.id && !video.sharing)) {
+      if (video.userId !== session?.user.id && !video.sharing) {
         throw new TRPCError({ code: "FORBIDDEN" });
       }
 
-      posthog.capture({
-        distinctId: session.user.id,
-        event: "viewing video",
-        properties: {
-          videoId: video.id,
-          videoCreatedAt: video.createdAt,
-          videoUpdatedAt: video.updatedAt,
-          videoUser: video.user.id,
-          videoSharing: video.sharing,
-          videoDeleteAfterLinkExpires: video.delete_after_link_expires,
-          videoShareLinkExpiresAt: video.shareLinkExpiresAt,
-        },
-      });
-      void posthog.shutdownAsync();
+      if (session) {
+        posthog.capture({
+          distinctId: session.user.id,
+          event: "viewing video",
+          properties: {
+            videoId: video.id,
+            videoCreatedAt: video.createdAt,
+            videoUpdatedAt: video.updatedAt,
+            videoUser: video.user.id,
+            videoSharing: video.sharing,
+            videoDeleteAfterLinkExpires: video.delete_after_link_expires,
+            videoShareLinkExpiresAt: video.shareLinkExpiresAt,
+          },
+        });
+        void posthog.shutdownAsync();
+      }
 
       const getObjectCommand = new GetObjectCommand({
         Bucket: env.AWS_BUCKET_NAME,
