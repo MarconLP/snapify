@@ -1,5 +1,6 @@
 import type { PrismaClient } from "@prisma/client";
 import type Stripe from "stripe";
+import { type PostHog } from "posthog-node";
 
 // retrieves a Stripe customer id for a given user if it exists or creates a new one
 export const getOrCreateStripeCustomerIdForUser = async ({
@@ -54,10 +55,12 @@ export const handleInvoicePaid = async ({
   event,
   stripe,
   prisma,
+  posthog,
 }: {
   event: Stripe.Event;
   stripe: Stripe;
   prisma: PrismaClient;
+  posthog: PostHog;
 }) => {
   const invoice = event.data.object as Stripe.Invoice;
   const subscriptionId = invoice.subscription;
@@ -76,14 +79,27 @@ export const handleInvoicePaid = async ({
       stripeSubscriptionStatus: subscription.status,
     },
   });
+
+  if (userId && subscription.status) {
+    posthog.capture({
+      distinctId: userId,
+      event: "stripe invoice.paid",
+      properties: {
+        stripeSubscriptionStatus: subscription.status,
+      },
+    });
+    void posthog.shutdownAsync();
+  }
 };
 
 export const handleSubscriptionCreatedOrUpdated = async ({
   event,
   prisma,
+  posthog,
 }: {
   event: Stripe.Event;
   prisma: PrismaClient;
+  posthog: PostHog;
 }) => {
   const subscription = event.data.object as Stripe.Subscription;
   const userId = subscription.metadata.userId;
@@ -98,14 +114,24 @@ export const handleSubscriptionCreatedOrUpdated = async ({
       stripeSubscriptionStatus: subscription.status,
     },
   });
+
+  if (userId && subscription.status) {
+    posthog.capture({
+      distinctId: userId,
+      event: "stripe subscription created or updated",
+    });
+    void posthog.shutdownAsync();
+  }
 };
 
 export const handleSubscriptionCanceled = async ({
   event,
   prisma,
+  posthog,
 }: {
   event: Stripe.Event;
   prisma: PrismaClient;
+  posthog: PostHog;
 }) => {
   const subscription = event.data.object as Stripe.Subscription;
   const userId = subscription.metadata.userId;
@@ -120,4 +146,12 @@ export const handleSubscriptionCanceled = async ({
       stripeSubscriptionStatus: null,
     },
   });
+
+  if (userId && subscription.status) {
+    posthog.capture({
+      distinctId: userId,
+      event: "stripe subscription cancelled",
+    });
+    void posthog.shutdownAsync();
+  }
 };

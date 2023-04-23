@@ -9,6 +9,7 @@ import {
   handleSubscriptionCreatedOrUpdated,
 } from "~/server/stripe-webhook-handlers";
 import { stripe } from "~/server/stripe";
+import { posthog } from "~/server/posthog";
 
 // Stripe requires the raw body to construct the event.
 export const config = {
@@ -41,6 +42,7 @@ export default async function handler(
             event,
             stripe,
             prisma,
+            posthog,
           });
           break;
         case "customer.subscription.created":
@@ -48,6 +50,7 @@ export default async function handler(
           await handleSubscriptionCreatedOrUpdated({
             event,
             prisma,
+            posthog,
           });
           break;
         case "customer.subscription.updated":
@@ -55,6 +58,7 @@ export default async function handler(
           await handleSubscriptionCreatedOrUpdated({
             event,
             prisma,
+            posthog,
           });
           break;
         case "invoice.payment_failed":
@@ -63,6 +67,17 @@ export default async function handler(
           // Use this webhook to notify your user that their payment has
           // failed and to retrieve new card details.
           // Can also have Stripe send an email to the customer notifying them of the failure. See settings: https://dashboard.stripe.com/settings/billing/automatic
+
+          const subscription = event.data.object as Stripe.Subscription;
+          const userId = subscription.metadata.userId;
+
+          if (userId) {
+            posthog.capture({
+              distinctId: userId,
+              event: "stripe invoice.payment_failed",
+            });
+            void posthog.shutdownAsync();
+          }
           break;
         case "customer.subscription.deleted":
           // handle subscription cancelled automatically based
@@ -70,6 +85,7 @@ export default async function handler(
           await handleSubscriptionCanceled({
             event,
             prisma,
+            posthog,
           });
           break;
         default:
