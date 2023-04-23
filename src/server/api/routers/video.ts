@@ -167,11 +167,11 @@ export const videoRouter = createTRPCRouter({
     }),
   setSharing: protectedProcedure
     .input(z.object({ videoId: z.string(), sharing: z.boolean() }))
-    .mutation(async ({ ctx, input }) => {
-      const updateVideo = await ctx.prisma.video.updateMany({
+    .mutation(async ({ ctx: { prisma, session, posthog }, input }) => {
+      const updateVideo = await prisma.video.updateMany({
         where: {
           id: input.videoId,
-          userId: ctx.session.user.id,
+          userId: session.user.id,
         },
         data: {
           sharing: input.sharing,
@@ -181,6 +181,16 @@ export const videoRouter = createTRPCRouter({
       if (updateVideo.count === 0) {
         throw new TRPCError({ code: "FORBIDDEN" });
       }
+
+      posthog.capture({
+        distinctId: session.user.id,
+        event: "update video setSharing",
+        properties: {
+          videoId: input.videoId,
+          videoSharing: input.sharing,
+        },
+      });
+      void posthog.shutdownAsync();
 
       return {
         success: true,
