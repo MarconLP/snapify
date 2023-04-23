@@ -238,11 +238,11 @@ export const videoRouter = createTRPCRouter({
         shareLinkExpiresAt: z.nullable(z.date()),
       })
     )
-    .mutation(async ({ ctx, input }) => {
-      const updateVideo = await ctx.prisma.video.updateMany({
+    .mutation(async ({ ctx: { prisma, session, posthog }, input }) => {
+      const updateVideo = await prisma.video.updateMany({
         where: {
           id: input.videoId,
-          userId: ctx.session.user.id,
+          userId: session.user.id,
         },
         data: {
           shareLinkExpiresAt: input.shareLinkExpiresAt,
@@ -252,6 +252,16 @@ export const videoRouter = createTRPCRouter({
       if (updateVideo.count === 0) {
         throw new TRPCError({ code: "FORBIDDEN" });
       }
+
+      posthog.capture({
+        distinctId: session.user.id,
+        event: "update video shareLinkExpiresAt",
+        properties: {
+          videoId: input.videoId,
+          shareLinkExpiresAt: input.shareLinkExpiresAt,
+        },
+      });
+      void posthog.shutdownAsync();
 
       return {
         success: true,
