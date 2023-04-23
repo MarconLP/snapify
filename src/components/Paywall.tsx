@@ -7,6 +7,7 @@ import { api } from "~/utils/api";
 import { useRouter } from "next/router";
 import { CheckIcon } from "@heroicons/react/20/solid";
 import Tooltip from "~/components/Tooltip";
+import { usePostHog } from "posthog-js/react";
 
 export default function Paywall() {
   const { mutateAsync: createCheckoutSession } =
@@ -14,9 +15,12 @@ export default function Paywall() {
   const router = useRouter();
   const [open, setOpen] = useAtom(paywallAtom);
   const [billedAnnually, setBilledAnnually] = useState<boolean>(false);
+  const posthog = usePostHog();
 
   function closeModal() {
     setOpen(false);
+
+    posthog?.capture("close paywall");
   }
 
   const handleCheckout = async () => {
@@ -24,6 +28,12 @@ export default function Paywall() {
     if (checkoutUrl) {
       void router.push(checkoutUrl);
     }
+  };
+
+  const toggleBillingCycle = () => {
+    setBilledAnnually(!billedAnnually);
+
+    posthog?.capture("change billing cycle");
   };
 
   return (
@@ -85,7 +95,7 @@ export default function Paywall() {
                           <span className=" svelte-10wstod">Monthly</span>
                           <label className="group relative flex cursor-pointer items-center gap-2 text-sm font-medium text-gray-600">
                             <input
-                              onChange={() => setBilledAnnually(!billedAnnually)}
+                              onChange={toggleBillingCycle}
                               checked={billedAnnually}
                               type="checkbox"
                               className="peer absolute left-1/2 hidden h-full w-full -translate-x-1/2 rounded-md"
