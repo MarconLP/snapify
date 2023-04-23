@@ -24,6 +24,17 @@ const VideoList: NextPage = () => {
     {
       enabled: router.isReady,
       refetchOnWindowFocus: false,
+      retry: (failureCount, error) => {
+        if (error?.data?.code === "FORBIDDEN") return false;
+        else return failureCount < 2;
+      },
+      onError: (err) => {
+        if (err?.data?.code === "FORBIDDEN") {
+          posthog?.capture("video page: FORBIDDEN");
+        } else if (err?.data?.code === "NOT_FOUND") {
+          posthog?.capture("video page: NOT_FOUND");
+        }
+      },
     }
   );
 
@@ -35,7 +46,13 @@ const VideoList: NextPage = () => {
         </span>
         <span className="mt-3 max-w-[80%] text-center text-sm">
           To create your own public recordings,{" "}
-          <Link href="/sign-in" className="pointer text-[#4169e1] underline">
+          <Link
+            onClick={() =>
+              posthog?.capture("click sign-up from video error page")
+            }
+            href="/sign-in"
+            className="pointer text-[#4169e1] underline"
+          >
             create an account
           </Link>{" "}
           for free!
