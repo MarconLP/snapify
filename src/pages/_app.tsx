@@ -1,14 +1,15 @@
 import { type AppType } from "next/app";
 import { type Session } from "next-auth";
-import { SessionProvider } from "next-auth/react";
+import { SessionProvider, useSession } from "next-auth/react";
 
 import { api } from "~/utils/api";
 
 import "~/styles/globals.css";
 import CrispChat from "~/components/CrispChat";
 import posthog from "posthog-js";
-import { PostHogProvider } from "posthog-js/react";
+import { PostHogProvider, usePostHog } from "posthog-js/react";
 import { env } from "~/env.mjs";
+import { type ReactNode, useEffect } from "react";
 
 // Check that PostHog is client-side (used to handle Next.js SSR)
 if (typeof window !== "undefined") {
@@ -28,11 +29,38 @@ const MyApp: AppType<{ session: Session | null }> = ({
   return (
     <SessionProvider session={session}>
       <PostHogProvider client={posthog}>
-        <Component {...pageProps} />
+        <PostHogIdentificationWrapper>
+          <Component {...pageProps} />
+        </PostHogIdentificationWrapper>
         <CrispChat />
       </PostHogProvider>
     </SessionProvider>
   );
+};
+
+const PostHogIdentificationWrapper = ({
+  children,
+}: {
+  children: ReactNode;
+}) => {
+  const { data: session, status } = useSession();
+  const posthog = usePostHog();
+
+  useEffect(() => {
+    if (!posthog) return;
+    if (status === "authenticated") {
+      const { id, name, email, stripeSubscriptionStatus } = session?.user;
+      posthog.identify(id, {
+        name,
+        email,
+        stripeSubscriptionStatus,
+      });
+    } else if (status === "unauthenticated") {
+      posthog.reset();
+    }
+  }, [posthog, session, status]);
+
+  return <div>{children}</div>;
 };
 
 export default api.withTRPC(MyApp);
