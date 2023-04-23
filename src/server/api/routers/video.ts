@@ -201,11 +201,11 @@ export const videoRouter = createTRPCRouter({
     .input(
       z.object({ videoId: z.string(), delete_after_link_expires: z.boolean() })
     )
-    .mutation(async ({ ctx, input }) => {
-      const updateVideo = await ctx.prisma.video.updateMany({
+    .mutation(async ({ ctx: { prisma, session, posthog }, input }) => {
+      const updateVideo = await prisma.video.updateMany({
         where: {
           id: input.videoId,
-          userId: ctx.session.user.id,
+          userId: session.user.id,
         },
         data: {
           delete_after_link_expires: input.delete_after_link_expires,
@@ -215,6 +215,16 @@ export const videoRouter = createTRPCRouter({
       if (updateVideo.count === 0) {
         throw new TRPCError({ code: "FORBIDDEN" });
       }
+
+      posthog.capture({
+        distinctId: session.user.id,
+        event: "update video delete_after_link_expires",
+        properties: {
+          videoId: input.videoId,
+          delete_after_link_expires: input.delete_after_link_expires,
+        },
+      });
+      void posthog.shutdownAsync();
 
       return {
         success: true,
