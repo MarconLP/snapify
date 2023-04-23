@@ -3,6 +3,7 @@ import { Fragment, useState } from "react";
 import { ModernSwitch } from "~/components/ModernSwitch";
 import { api, type RouterOutputs } from "~/utils/api";
 import ExpireDateSelectMenu from "~/components/ExpireDateSelectMenu";
+import { usePostHog } from "posthog-js/react";
 
 interface Props {
   video: RouterOutputs["video"]["get"];
@@ -11,6 +12,23 @@ interface Props {
 export function ShareModal({ video }: Props) {
   const utils = api.useContext();
   const [open, setOpen] = useState<boolean>(false);
+  const posthog = usePostHog();
+
+  const openModal = () => {
+    setOpen(true);
+    posthog?.capture("open video share modal", {
+      videoSharing: video.sharing,
+      videoId: video.id,
+    });
+  };
+
+  const closeModal = () => {
+    setOpen(false);
+    posthog?.capture("close video share modal", {
+      videoSharing: video.sharing,
+      videoId: video.id,
+    });
+  };
 
   const setSharingMutation = api.video.setSharing.useMutation({
     onMutate: async ({ videoId, sharing }) => {
@@ -58,23 +76,24 @@ export function ShareModal({ video }: Props) {
     setTimeout(() => {
       setLinkCopied(false);
     }, 5000);
+
+    posthog?.capture("public video link copied", {
+      videoSharing: video.sharing,
+      videoId: video.id,
+    });
   };
 
   return (
     <>
       <span
-        onClick={() => setOpen(true)}
+        onClick={openModal}
         className="ml-4 cursor-pointer rounded border border-[#0000001a] px-2 py-2 text-sm text-[#292d34] hover:bg-[#fafbfc]"
       >
         Share
       </span>
 
       <Transition appear show={open} as={Fragment}>
-        <Dialog
-          as="div"
-          className="relative z-10"
-          onClose={() => setOpen(false)}
-        >
+        <Dialog as="div" className="relative z-10" onClose={closeModal}>
           <Transition.Child
             as={Fragment}
             enter="ease-out duration-300"
@@ -146,19 +165,6 @@ export function ShareModal({ video }: Props) {
                               }
                             />
                           </div>
-                          {/*<div className="mt-3 flex h-6 items-center justify-between">*/}
-                          {/*  <span>Share link with search engines</span>*/}
-                          {/*  <ModernSwitch*/}
-                          {/*    enabled={video.linkShareSeo}*/}
-                          {/*    toggle={() => console.log("test")}*/}
-                          {/*  />*/}
-                          {/*</div>*/}
-                          {/*<div className="mt-3 flex h-6 items-center justify-between">*/}
-                          {/*  <span>Embed code</span>*/}
-                          {/*  <button className="h-6 rounded border border-solid border-[#d5d9df] bg-white px-[7px] font-medium">*/}
-                          {/*    Copy code*/}
-                          {/*  </button>*/}
-                          {/*</div>*/}
                         </div>
                       </>
                     ) : null}

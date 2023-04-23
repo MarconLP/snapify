@@ -15,6 +15,7 @@ import { TRPCClientError } from "@trpc/client";
 import { useAtom } from "jotai/index";
 import paywallAtom from "~/atoms/paywallAtom";
 import recordVideoModalOpen from "~/atoms/recordVideoModalOpen";
+import { usePostHog } from "posthog-js/react";
 
 interface Props {
   closeModal: () => void;
@@ -45,6 +46,7 @@ export default function Recorder({ closeModal, step, setStep }: Props) {
   const [duration, setDuration] = useState<number>(0);
   const [, setPaywallOpen] = useAtom(paywallAtom);
   const videoRef = useRef<null | HTMLVideoElement>(null);
+  const posthog = usePostHog();
 
   const handleRecording = async () => {
     const screenStream = await navigator.mediaDevices.getDisplayMedia({
@@ -80,6 +82,8 @@ export default function Recorder({ closeModal, step, setStep }: Props) {
     recorderRef.current.startRecording();
 
     setStep("in");
+
+    posthog?.capture("recorder: start video recording");
   };
 
   const handleStop = () => {
@@ -98,6 +102,8 @@ export default function Recorder({ closeModal, step, setStep }: Props) {
     });
 
     setStep("post");
+
+    posthog?.capture("recorder: video recording finished");
   };
 
   const handleDelete = () => {
@@ -109,6 +115,8 @@ export default function Recorder({ closeModal, step, setStep }: Props) {
 
     closeModal();
     setStep("pre");
+
+    posthog?.capture("recorder: video deleted");
   };
 
   const handlePause = () => {
@@ -119,6 +127,7 @@ export default function Recorder({ closeModal, step, setStep }: Props) {
       } else {
         recorderRef.current.pauseRecording();
       }
+      posthog?.capture("recorder: recording paused/resumed", { pause });
       setPause(!pause);
     }
   };
@@ -146,6 +155,8 @@ export default function Recorder({ closeModal, step, setStep }: Props) {
         "Recording - " + dayjs().format("D MMM YYYY") + ".webm";
       invokeSaveAsDialog(blob, dateString);
     }
+
+    posthog?.capture("recorder: video downloaded");
   };
 
   const generateThumbnail = async (video: HTMLVideoElement) => {
@@ -187,6 +198,7 @@ export default function Recorder({ closeModal, step, setStep }: Props) {
         .then(() => {
           void router.push("share/" + id);
           setRecordOpen(false);
+          posthog?.capture("recorder: video uploaded");
         })
         .catch((err) => {
           console.error(err);
@@ -197,6 +209,7 @@ export default function Recorder({ closeModal, step, setStep }: Props) {
           err.message ===
           "Sorry, you have reached the maximum video upload limit on our free tier. Please upgrade to upload more."
         ) {
+          posthog?.capture("recorder: video upload paywall hit");
           setPaywallOpen(true);
         }
       } else {
@@ -325,6 +338,8 @@ export default function Recorder({ closeModal, step, setStep }: Props) {
             <video
               src={URL.createObjectURL(blob)}
               controls
+              onPlay={() => posthog?.capture("recorder: played preview video")}
+              onPause={() => posthog?.capture("recorder: paused preview video")}
               ref={videoRef}
               className="mb-4 w-[75vw]"
             />
@@ -374,7 +389,10 @@ export default function Recorder({ closeModal, step, setStep }: Props) {
             <button
               type="button"
               className="ml-auto inline-flex items-center rounded-md bg-indigo-500 px-4 py-2 text-sm font-semibold leading-6 text-white shadow transition duration-150 ease-in-out hover:bg-indigo-400 disabled:cursor-not-allowed"
-              onClick={() => void closeModal()}
+              onClick={() => {
+                posthog?.capture("recorder: closed post-modal");
+                void closeModal();
+              }}
             >
               Close
             </button>

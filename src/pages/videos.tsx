@@ -16,6 +16,7 @@ import uploadVideoModalOpen from "~/atoms/uploadVideoModalOpen";
 import recordVideoModalOpen from "~/atoms/recordVideoModalOpen";
 import Paywall from "~/components/Paywall";
 import paywallAtom from "~/atoms/paywallAtom";
+import { usePostHog } from "posthog-js/react";
 
 const VideoList: NextPage = () => {
   const [, setRecordOpen] = useAtom(recordVideoModalOpen);
@@ -24,6 +25,7 @@ const VideoList: NextPage = () => {
   const router = useRouter();
   const { status, data: session } = useSession();
   const { data: videos, isLoading } = api.video.getAll.useQuery();
+  const posthog = usePostHog();
 
   if (status === "unauthenticated") {
     void router.replace("/sign-in");
@@ -31,13 +33,28 @@ const VideoList: NextPage = () => {
 
   const openRecordModal = () => {
     setRecordOpen(true);
+
+    posthog?.capture("open record video modal", {
+      stripeSubscriptionStatus: session?.user.stripeSubscriptionStatus,
+      cta: "empty video list page",
+    });
   };
 
   const openUploadModal = () => {
     if (session?.user.stripeSubscriptionStatus === "active") {
       setUploadOpen(true);
+
+      posthog?.capture("open upload video modal", {
+        stripeSubscriptionStatus: session?.user.stripeSubscriptionStatus,
+        cta: "empty video list page",
+      });
     } else {
       setPaywallOpen(true);
+
+      posthog?.capture("hit video upload paywall", {
+        stripeSubscriptionStatus: session?.user.stripeSubscriptionStatus,
+        cta: "empty video list page",
+      });
     }
   };
 

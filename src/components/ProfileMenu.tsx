@@ -3,12 +3,26 @@ import { Fragment } from "react";
 import { signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { api } from "~/utils/api";
+import { usePostHog } from "posthog-js/react";
 
 export default function ProfileMenu() {
   const { mutateAsync: createBillingPortalSession } =
     api.stripe.createBillingPortalSession.useMutation();
   const { push } = useRouter();
   const { data: session } = useSession();
+  const posthog = usePostHog();
+
+  const openBillingSettings = () => {
+    void createBillingPortalSession().then(({ billingPortalUrl }) => {
+      if (billingPortalUrl) {
+        void push(billingPortalUrl);
+      }
+    });
+
+    posthog?.capture("billing settings opened", {
+      stripeSubscriptionStatus: session?.user.stripeSubscriptionStatus,
+    });
+  };
 
   return (
     <Menu as="div" className="relative inline-block text-left">
@@ -34,15 +48,7 @@ export default function ProfileMenu() {
             <Menu.Item>
               {({ active }) => (
                 <div
-                  onClick={() => {
-                    void createBillingPortalSession().then(
-                      ({ billingPortalUrl }) => {
-                        if (billingPortalUrl) {
-                          void push(billingPortalUrl);
-                        }
-                      }
-                    );
-                  }}
+                  onClick={openBillingSettings}
                   className={`mx-2 flex h-8 w-40 cursor-pointer flex-row content-center rounded-md p-2 ${
                     active ? "bg-gray-100" : ""
                   }`}

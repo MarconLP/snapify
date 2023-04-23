@@ -11,17 +11,30 @@ import { ShareModal } from "~/components/ShareModal";
 import { useSession } from "next-auth/react";
 import VideoMoreMenu from "~/components/VideoMoreMenu";
 import ProfileMenu from "~/components/ProfileMenu";
+import { usePostHog } from "posthog-js/react";
 
 const VideoList: NextPage = () => {
   const router = useRouter();
   const { status, data: session } = useSession();
   const { videoId } = router.query as { videoId: string };
+  const posthog = usePostHog();
 
   const { data: video, isLoading } = api.video.get.useQuery(
     { videoId },
     {
       enabled: router.isReady,
       refetchOnWindowFocus: false,
+      retry: (failureCount, error) => {
+        if (error?.data?.code === "FORBIDDEN") return false;
+        else return failureCount < 2;
+      },
+      onError: (err) => {
+        if (err?.data?.code === "FORBIDDEN") {
+          posthog?.capture("video page: FORBIDDEN");
+        } else if (err?.data?.code === "NOT_FOUND") {
+          posthog?.capture("video page: NOT_FOUND");
+        }
+      },
     }
   );
 
@@ -33,7 +46,13 @@ const VideoList: NextPage = () => {
         </span>
         <span className="mt-3 max-w-[80%] text-center text-sm">
           To create your own public recordings,{" "}
-          <Link href="/sign-in" className="pointer text-[#4169e1] underline">
+          <Link
+            onClick={() =>
+              posthog?.capture("click sign-up from video error page")
+            }
+            href="/sign-in"
+            className="pointer text-[#4169e1] underline"
+          >
             create an account
           </Link>{" "}
           for free!
@@ -78,6 +97,30 @@ const VideoList: NextPage = () => {
                 width="100%"
                 height="100%"
                 controls={true}
+                onPlay={() =>
+                  posthog?.capture("play video", {
+                    videoId: video.id,
+                    videoCreatedAt: video.createdAt,
+                    videoUpdatedAt: video.updatedAt,
+                    videoUser: video.user.id,
+                    videoSharing: video.sharing,
+                    videoDeleteAfterLinkExpires:
+                      video.delete_after_link_expires,
+                    videoShareLinkExpiresAt: video.shareLinkExpiresAt,
+                  })
+                }
+                onPause={() =>
+                  posthog?.capture("pause video", {
+                    videoId: video.id,
+                    videoCreatedAt: video.createdAt,
+                    videoUpdatedAt: video.updatedAt,
+                    videoUser: video.user.id,
+                    videoSharing: video.sharing,
+                    videoDeleteAfterLinkExpires:
+                      video.delete_after_link_expires,
+                    videoShareLinkExpiresAt: video.shareLinkExpiresAt,
+                  })
+                }
                 url={video.video_url}
               />
             )}
