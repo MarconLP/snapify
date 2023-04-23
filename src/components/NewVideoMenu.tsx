@@ -5,22 +5,36 @@ import { useAtom } from "jotai";
 import recordVideoModalOpen from "~/atoms/recordVideoModalOpen";
 import paywallAtom from "~/atoms/paywallAtom";
 import { useSession } from "next-auth/react";
+import { usePostHog } from "posthog-js/react";
 
 export default function NewVideoMenu() {
   const [, setRecordOpen] = useAtom(recordVideoModalOpen);
   const [, setUploadOpen] = useAtom(uploadVideoModalOpen);
   const [, setPaywallOpen] = useAtom(paywallAtom);
   const { data: session } = useSession();
+  const posthog = usePostHog();
 
   const openRecordModal = () => {
     setRecordOpen(true);
+
+    posthog?.capture("open record video modal", {
+      stripeSubscriptionStatus: session?.user.stripeSubscriptionStatus,
+    });
   };
 
   const openUploadModal = () => {
     if (session?.user.stripeSubscriptionStatus === "active") {
       setUploadOpen(true);
+
+      posthog?.capture("open upload video modal", {
+        stripeSubscriptionStatus: session?.user.stripeSubscriptionStatus,
+      });
     } else {
       setPaywallOpen(true);
+
+      posthog?.capture("hit video upload paywall", {
+        stripeSubscriptionStatus: session?.user.stripeSubscriptionStatus,
+      });
     }
   };
 
