@@ -12,12 +12,16 @@ import { useSession } from "next-auth/react";
 import VideoMoreMenu from "~/components/VideoMoreMenu";
 import ProfileMenu from "~/components/ProfileMenu";
 import { usePostHog } from "posthog-js/react";
+import { useAtom } from "jotai";
+import recordVideoModalOpen from "~/atoms/recordVideoModalOpen";
+import VideoRecordModal from "~/components/VideoRecordModal";
 
 const VideoList: NextPage = () => {
   const router = useRouter();
   const { status, data: session } = useSession();
   const { videoId } = router.query as { videoId: string };
   const posthog = usePostHog();
+  const [, setRecordOpen] = useAtom(recordVideoModalOpen);
 
   const { data: video, isLoading } = api.video.get.useQuery(
     { videoId },
@@ -37,6 +41,15 @@ const VideoList: NextPage = () => {
       },
     }
   );
+
+  const openRecordModal = () => {
+    setRecordOpen(true);
+
+    posthog?.capture("open record video modal", {
+      stripeSubscriptionStatus: session?.user.stripeSubscriptionStatus,
+      cta: "shared video",
+    });
+  };
 
   if (!isLoading && !video) {
     return (
@@ -73,20 +86,29 @@ const VideoList: NextPage = () => {
           <span>Snapify</span>
           <div className="flex items-center justify-center">
             {video && video.userId === session?.user.id ? (
-              <VideoMoreMenu video={video} />
+              <>
+                <VideoMoreMenu video={video} />
+                <ShareModal video={video} />
+              </>
             ) : null}
-            <Link href="/videos">
-              <span className="cursor-pointer rounded border border-[#0000001a] px-2 py-2 text-sm text-[#292d34] hover:bg-[#fafbfc]">
-                Personal Library
-              </span>
-            </Link>
-            {video && video.userId === session?.user.id ? (
-              <ShareModal video={video} />
-            ) : null}
-            {status === "authenticated" && (
-              <div className="ml-4 flex items-center justify-center">
-                <ProfileMenu />
-              </div>
+            {status === "authenticated" ? (
+              <>
+                <Link href="/videos">
+                  <span className="cursor-pointer rounded border border-[#0000001a] px-2 py-2 text-sm text-[#292d34] hover:bg-[#fafbfc]">
+                    Personal Library
+                  </span>
+                </Link>
+                <div className="ml-4 flex items-center justify-center">
+                  <ProfileMenu />
+                </div>
+              </>
+            ) : (
+              <button
+                onClick={openRecordModal}
+                className="inline-flex max-h-[35px] items-center rounded-md border border-transparent bg-red-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
+              >
+                Record a video
+              </button>
             )}
           </div>
         </div>
@@ -169,6 +191,8 @@ const VideoList: NextPage = () => {
           </div>
         </div>
       </main>
+
+      <VideoRecordModal />
     </>
   );
 };
