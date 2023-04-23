@@ -275,11 +275,11 @@ export const videoRouter = createTRPCRouter({
         title: z.string(),
       })
     )
-    .mutation(async ({ ctx, input }) => {
-      const updateVideo = await ctx.prisma.video.updateMany({
+    .mutation(async ({ ctx: { prisma, session, posthog }, input }) => {
+      const updateVideo = await prisma.video.updateMany({
         where: {
           id: input.videoId,
-          userId: ctx.session.user.id,
+          userId: session.user.id,
         },
         data: {
           title: input.title,
@@ -289,6 +289,16 @@ export const videoRouter = createTRPCRouter({
       if (updateVideo.count === 0) {
         throw new TRPCError({ code: "FORBIDDEN" });
       }
+
+      posthog.capture({
+        distinctId: session.user.id,
+        event: "update video title",
+        properties: {
+          videoId: input.videoId,
+          title: input.title,
+        },
+      });
+      void posthog.shutdownAsync();
 
       return {
         success: true,
