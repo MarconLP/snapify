@@ -9,6 +9,7 @@ import GitHubProvider from "next-auth/providers/github";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { env } from "~/env.mjs";
 import { prisma } from "~/server/db";
+import { PostHog } from "posthog-node";
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -67,6 +68,44 @@ export const authOptions: NextAuthOptions = {
      * @see https://next-auth.js.org/providers/github
      */
   ],
+  events: {
+    async signIn(message) {
+      const client = new PostHog(env.NEXT_PUBLIC_POSTHOG_KEY, {
+        host: env.NEXT_PUBLIC_POSTHOG_HOST,
+      });
+
+      client.capture({
+        distinctId: message.user.id,
+        event: "user logged in",
+        properties: {
+          provider: message.account?.provider,
+          isNewUser: message.isNewUser,
+        },
+      });
+
+      await client.shutdownAsync();
+    },
+    async signOut(message) {
+      const session = message.session as unknown as {
+        id: string;
+        sessionToken: string;
+        userId: string;
+        expires: Date;
+      };
+      if (!session?.userId) return;
+
+      const client = new PostHog(env.NEXT_PUBLIC_POSTHOG_KEY, {
+        host: env.NEXT_PUBLIC_POSTHOG_HOST,
+      });
+
+      client.capture({
+        distinctId: session.userId,
+        event: "user logged out",
+      });
+
+      await client.shutdownAsync();
+    },
+  },
   pages: {
     signIn: "/sign-in",
   },
