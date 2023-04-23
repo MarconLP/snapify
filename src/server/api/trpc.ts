@@ -81,6 +81,7 @@ import { s3 } from "~/server/aws/s3";
 import { stripe } from "~/server/stripe";
 import { type NextApiRequest, type NextApiResponse } from "next";
 import { posthog } from "~/server/posthog";
+import { rateLimit } from "~/server/rateLimit";
 
 const t = initTRPC.context<typeof createTRPCContext>().create({
   transformer: superjson,
@@ -120,10 +121,15 @@ export const createTRPCRouter = t.router;
 export const publicProcedure = t.procedure;
 
 /** Reusable middleware that enforces users are logged in before running the procedure. */
-const enforceUserIsAuthed = t.middleware(({ ctx, next }) => {
+const enforceUserIsAuthed = t.middleware(async ({ ctx, next }) => {
   if (!ctx.session || !ctx.session.user) {
     throw new TRPCError({ code: "UNAUTHORIZED" });
   }
+  const { success } = await rateLimit.limit(ctx.session.user.id);
+  if (!success) {
+    throw new TRPCError({ code: "TOO_MANY_REQUESTS" });
+  }
+
   return next({
     ctx: {
       // infers the `session` as non-nullable

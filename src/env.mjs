@@ -33,6 +33,8 @@ const server = z.object({
   STRIPE_MONTHLY_PRICE_ID: z.string(),
   STRIPE_ANNUAL_PRICE_ID: z.string(),
   POSTHOG_PROXY_PATH: z.string(),
+  UPSTASH_REDIS_REST_URL: z.string(),
+  UPSTASH_REDIS_REST_TOKEN: z.string(),
 });
 
 /**
@@ -80,6 +82,8 @@ const processEnv = {
   NEXT_PUBLIC_POSTHOG_HOST: process.env.NEXT_PUBLIC_POSTHOG_HOST,
   POSTHOG_PROXY_PATH: process.env.POSTHOG_PROXY_PATH,
   NEXT_PUBLIC_POSTHOG_PROXY_HOST: process.env.NEXT_PUBLIC_POSTHOG_PROXY_HOST,
+  UPSTASH_REDIS_REST_URL: process.env.UPSTASH_REDIS_REST_URL,
+  UPSTASH_REDIS_REST_TOKEN: process.env.UPSTASH_REDIS_REST_TOKEN,
 };
 
 // Don't touch the part below
