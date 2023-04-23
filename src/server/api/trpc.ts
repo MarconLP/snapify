@@ -41,6 +41,7 @@ const createInnerTRPCContext = (opts: CreateContextOptions) => {
     session: opts.session,
     prisma,
     s3,
+    posthog,
     stripe,
     req: opts.req,
     res: opts.res,
@@ -79,6 +80,7 @@ import { ZodError } from "zod";
 import { s3 } from "~/server/aws/s3";
 import { stripe } from "~/server/stripe";
 import { type NextApiRequest, type NextApiResponse } from "next";
+import { posthog } from "~/server/posthog";
 
 const t = initTRPC.context<typeof createTRPCContext>().create({
   transformer: superjson,

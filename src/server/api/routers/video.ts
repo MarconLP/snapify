@@ -41,8 +41,8 @@ export const videoRouter = createTRPCRouter({
   get: publicProcedure
     .input(z.object({ videoId: z.string() }))
     .query(async ({ ctx, input }) => {
-      const { s3 } = ctx;
-      const video = await ctx.prisma.video.findUnique({
+      const { s3, posthog, session, prisma } = ctx;
+      const video = await prisma.video.findUnique({
         where: {
           id: input.videoId,
         },
@@ -54,9 +54,24 @@ export const videoRouter = createTRPCRouter({
         throw new TRPCError({ code: "NOT_FOUND" });
       }
 
-      if (video.userId !== ctx?.session?.user.id && !video.sharing) {
+      if (!session || (video.userId !== session?.user.id && !video.sharing)) {
         throw new TRPCError({ code: "FORBIDDEN" });
       }
+
+      posthog.capture({
+        distinctId: session.user.id,
+        event: "viewing video",
+        properties: {
+          videoId: video.id,
+          videoCreatedAt: video.createdAt,
+          videoUpdatedAt: video.updatedAt,
+          videoUser: video.user.id,
+          videoSharing: video.sharing,
+          videoDeleteAfterLinkExpires: video.delete_after_link_expires,
+          videoShareLinkExpiresAt: video.shareLinkExpiresAt,
+        },
+      });
+      void posthog.shutdownAsync();
 
       const getObjectCommand = new GetObjectCommand({
         Bucket: env.AWS_BUCKET_NAME,
