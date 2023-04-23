@@ -95,20 +95,29 @@ export const videoRouter = createTRPCRouter({
     }),
   getUploadUrl: protectedProcedure
     .input(z.object({ key: z.string() }))
-    .mutation(async ({ ctx, input }) => {
+    .mutation(async ({ ctx: { prisma, session, s3, posthog }, input }) => {
       const { key } = input;
-      const { s3 } = ctx;
 
-      const videos = await ctx.prisma.video.findMany({
+      const videos = await prisma.video.findMany({
         where: {
-          userId: ctx.session.user.id,
+          userId: session.user.id,
         },
       });
 
       if (
         videos.length >= 10 &&
-        ctx.session.user.stripeSubscriptionStatus !== "active"
+        session.user.stripeSubscriptionStatus !== "active"
       ) {
+        posthog.capture({
+          distinctId: session.user.id,
+          event: "hit video upload limit",
+          properties: {
+            videoAmount: videos.length,
+            stripeSubscriptionStatus: session.user.stripeSubscriptionStatus,
+          },
+        });
+        void posthog.shutdownAsync();
+
         throw new TRPCError({
           code: "FORBIDDEN",
           message:
@@ -116,9 +125,19 @@ export const videoRouter = createTRPCRouter({
         });
       }
 
-      const video = await ctx.prisma.video.create({
+      posthog.capture({
+        distinctId: session.user.id,
+        event: "uploading video",
+        properties: {
+          videoAmount: videos.length,
+          stripeSubscriptionStatus: session.user.stripeSubscriptionStatus,
+        },
+      });
+      void posthog.shutdownAsync();
+
+      const video = await prisma.video.create({
         data: {
-          userId: ctx.session.user.id,
+          userId: session.user.id,
           title: key,
         },
       });
@@ -127,7 +146,7 @@ export const videoRouter = createTRPCRouter({
         s3,
         new PutObjectCommand({
           Bucket: env.AWS_BUCKET_NAME,
-          Key: ctx.session.user.id + "/" + video.id,
+          Key: session.user.id + "/" + video.id,
         })
       );
 
