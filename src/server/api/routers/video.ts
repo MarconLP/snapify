@@ -311,11 +311,11 @@ export const videoRouter = createTRPCRouter({
         videoId: z.string(),
       })
     )
-    .mutation(async ({ ctx, input }) => {
-      const deleteVideo = await ctx.prisma.video.deleteMany({
+    .mutation(async ({ ctx: { prisma, session, s3, posthog }, input }) => {
+      const deleteVideo = await prisma.video.deleteMany({
         where: {
           id: input.videoId,
-          userId: ctx.session.user.id,
+          userId: session.user.id,
         },
       });
 
@@ -323,17 +323,26 @@ export const videoRouter = createTRPCRouter({
         throw new TRPCError({ code: "FORBIDDEN" });
       }
 
-      const deleteVideoObject = await ctx.s3.send(
+      posthog.capture({
+        distinctId: session.user.id,
+        event: "video delete",
+        properties: {
+          videoId: input.videoId,
+        },
+      });
+      void posthog.shutdownAsync();
+
+      const deleteVideoObject = await s3.send(
         new DeleteObjectCommand({
           Bucket: env.AWS_BUCKET_NAME,
-          Key: ctx.session.user.id + "/" + input.videoId,
+          Key: session.user.id + "/" + input.videoId,
         })
       );
 
-      const deleteThumbnailObject = await ctx.s3.send(
+      const deleteThumbnailObject = await s3.send(
         new DeleteObjectCommand({
           Bucket: env.AWS_BUCKET_NAME,
-          Key: ctx.session.user.id + "/" + input.videoId + "-thumbnail",
+          Key: session.user.id + "/" + input.videoId + "-thumbnail",
         })
       );
 
