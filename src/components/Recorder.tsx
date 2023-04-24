@@ -211,7 +211,7 @@ export default function Recorder({ closeModal, step, setStep }: Props) {
         ) {
           posthog?.capture("recorder: video upload paywall hit");
           setPaywallOpen(true);
-        } else if (err.data.code === "UNAUTHORIZED") {
+        } else if (err.message === "UNAUTHORIZED") {
           window.open(
             `/sign-in?redirect=${encodeURIComponent("/window-close")}`,
             "Sign In",
