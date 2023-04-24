@@ -70,6 +70,7 @@ export default function VideoMoreMenu({ video }: Props) {
       if (previousValue) {
         utils.video.get.setData({ videoId }, { ...previousValue, title });
       }
+      void utils.video.getAll.invalidate();
       return { previousValue };
     },
     onError: (err, { videoId }, context) => {
