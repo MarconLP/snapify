@@ -73,6 +73,22 @@ const VideoList: NextPage = () => {
             <VideoUploadModal />
             <Paywall />
 
+            {videos?.length &&
+            session?.user?.stripeSubscriptionStatus !== "active" ? (
+              <div className="mr-4 flex max-h-[35px] flex-col items-center justify-center rounded px-2 py-2 text-sm text-[#6c6685]">
+                <span>{videos.length}/10 videos</span>
+                <div className="mt-1 h-[3px] w-full rounded-full bg-gray-200">
+                  <div
+                    className={`h-[3px] w-[45%] rounded-full ${
+                      videos.length >= 7 ? "bg-red-600" : "bg-blue-600"
+                    }`}
+                    style={{
+                      width: videos.length.toString() + "0%",
+                    }}
+                  ></div>
+                </div>
+              </div>
+            ) : null}
             <NewVideoMenu />
             {status === "authenticated" && (
               <div className="ml-4 flex items-center justify-center">
