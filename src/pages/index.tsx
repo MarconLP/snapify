@@ -6,6 +6,13 @@ import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { Dialog } from "@headlessui/react";
 import { useState } from "react";
 import Link from "next/link";
+import { usePostHog } from "posthog-js/react";
+import { useAtom } from "jotai";
+import recordVideoModalOpen from "~/atoms/recordVideoModalOpen";
+import VideoRecordModal from "~/components/VideoRecordModal";
+import { ShareIcon, VideoCameraIcon } from "@heroicons/react/24/solid";
+import { CheckIcon } from "@heroicons/react/20/solid";
+import { CheckCircleIcon } from "@heroicons/react/24/outline";
 
 const navigation = [
   { name: "Features", href: "#features" },
@@ -14,7 +21,17 @@ const navigation = [
 ];
 
 const Home: NextPage = () => {
+  const [, setRecordOpen] = useAtom(recordVideoModalOpen);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const posthog = usePostHog();
+
+  const openRecordModal = () => {
+    setRecordOpen(true);
+
+    posthog?.capture("open record video modal", {
+      cta: "landing page",
+    });
+  };
 
   return (
     <>
@@ -31,7 +48,7 @@ const Home: NextPage = () => {
           >
             <div className="flex lg:flex-1">
               <Link href="/" className="-m-1.5 p-1.5">
-                <span className="sr-only">Your Company</span>
+                <span className="sr-only">Snapify</span>
                 <img
                   className="h-8 w-auto"
                   src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
@@ -79,7 +96,7 @@ const Home: NextPage = () => {
             <Dialog.Panel className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
               <div className="flex items-center justify-between">
                 <Link href="/" className="-m-1.5 p-1.5">
-                  <span className="sr-only">Your Company</span>
+                  <span className="sr-only">Snapify</span>
                   <img
                     className="h-8 w-auto"
                     src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
@@ -121,21 +138,8 @@ const Home: NextPage = () => {
             </Dialog.Panel>
           </Dialog>
         </header>
-
         <div className="relative isolate px-6 pt-14 lg:px-8">
-          <div
-            className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80"
-            aria-hidden="true"
-          >
-            <div
-              className="relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]"
-              style={{
-                clipPath:
-                  "polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)",
-              }}
-            />
-          </div>
-          <div className="mx-auto max-w-2xl py-32 sm:py-48 lg:py-56">
+          <div className="mx-auto max-w-7xl py-32 sm:py-48 lg:py-56">
             {/*<div className="hidden sm:mb-8 sm:flex sm:justify-center">*/}
             {/*  <div className="relative rounded-full px-3 py-1 text-sm leading-6 text-gray-600 ring-1 ring-gray-900/10 hover:ring-gray-900/20">*/}
             {/*    Announcing our next round of funding.{" "}*/}
@@ -154,35 +158,291 @@ const Home: NextPage = () => {
                 own schedule
               </p>
               <div className="mt-10 flex items-center justify-center gap-x-6">
-                <Link
-                  href="/"
-                  className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                <button
+                  onClick={openRecordModal}
+                  className="inline-flex max-h-[35px] items-center rounded-md border border-transparent bg-red-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
                 >
-                  Get started
-                </Link>
+                  Record a video
+                </button>
                 <Link
                   href="/"
                   className="text-sm font-semibold leading-6 text-gray-900"
                 >
-                  Learn more <span aria-hidden="true">→</span>
+                  Sign in <span aria-hidden="true">→</span>
                 </Link>
               </div>
             </div>
           </div>
-          <div
-            className="absolute inset-x-0 top-[calc(100%-13rem)] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[calc(100%-30rem)]"
-            aria-hidden="true"
-          >
-            <div
-              className="relative left-[calc(50%+3rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%+36rem)] sm:w-[72.1875rem]"
-              style={{
-                clipPath:
-                  "polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)",
-              }}
-            />
+
+          <div className="mx-auto max-w-7xl py-6 sm:py-6 lg:py-6">
+            <div className="text-center">
+              <p className="mt-6 text-xl font-semibold leading-8 text-gray-600">
+                TRUSTED BY THE BEST BRANDS
+              </p>
+              <div className="relative flex overflow-x-hidden">
+                {[1, 2].map((x) => (
+                  <div
+                    key={x}
+                    className={`flex flex-row whitespace-nowrap py-12 ${
+                      x === 1
+                        ? "animate-marquee"
+                        : "absolute top-0 animate-marquee2"
+                    }`}
+                  >
+                    {[1, 2, 3, 4, 5].map((i) => (
+                      <div
+                        key={i}
+                        className="mr-8 h-[54px] min-w-[250px] overflow-hidden"
+                      >
+                        <a
+                          href="https://www.producthunt.com/posts/tape-5?utm_source=badge-top-post-badge&amp;utm_medium=badge&amp;utm_souce=badge-tape-5"
+                          target="_blank"
+                        >
+                          <img
+                            src="https://api.producthunt.com/widgets/embed-image/v1/top-post-badge.svg?post_id=378944&amp;theme=light&amp;period=daily"
+                            alt="Tape - Cut down meetings by 40% - interactive async video for work | Product Hunt"
+                            className="h-[54px] w-[250px]"
+                            width="250"
+                            height="54"
+                          />
+                        </a>
+                      </div>
+                    ))}
+                  </div>
+                ))}
+              </div>
+              <div className="mt-4 flex flex-row items-center justify-center gap-x-8 overflow-hidden">
+                <div className="animate-slide mt-4 flex flex-row items-center justify-center gap-x-8"></div>
+              </div>
+            </div>
+          </div>
+
+          <div className="mx-auto max-w-7xl py-32">
+            <div className="flex flex-col text-center">
+              <span className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
+                How does Snapify work?
+              </span>
+              <span className="mt-4 text-[#6c6684]">
+                Get started easily. Share video instantly.
+              </span>
+            </div>
+            <div className="mt-6 flex gap-x-6 lg:mt-16 lg:gap-x-20">
+              <div className="flex flex-1 items-center justify-center">
+                <img
+                  src="https://i.ibb.co/wcpMNG9/633edb0b80d27778f9078a5c-home-main-2x.webp"
+                  alt="step description"
+                />
+              </div>
+              <div className="flex flex-1 flex-col items-center justify-center gap-y-12">
+                {[
+                  {
+                    icon: (
+                      <VideoCameraIcon className="h-12 w-12 text-[#ff0000]" />
+                    ),
+                    title: "1. Record a video message",
+                    description:
+                      "Record a short video of your screen and camera with just a few clicks. No installations required.",
+                  },
+                  {
+                    icon: <ShareIcon className="h-12 w-12" />,
+                    title: "2. Share with a link",
+                    description:
+                      "Simply share a link to your video message. Your recipients can watch it right then and there without the need to create an account or sign in.",
+                  },
+                  {
+                    icon: <CheckCircleIcon className="h-12 w-12" />,
+                    title: "3. Get work done",
+                    description:
+                      "Get feedback, gather opinions, make decisions and more using interactive features such as on-video comments, on-video emoji reactions, video replies, polls, and more.",
+                  },
+                ].map(({ title, description, icon }) => (
+                  <div key={title} className="flex gap-x-4">
+                    <div className="">{icon}</div>
+                    <div className="flex flex-col">
+                      <span className="mb-4 text-[32px]">{title}</span>
+                      <span>{description}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <div className="mx-auto max-w-7xl py-32">
+            <div className="flex flex-col items-center justify-center text-center">
+              <span className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
+                Ways to Use Snapify
+              </span>
+              <span className="mt-4 max-w-[75%] text-[#6c6684]">
+                Snapify helps you get your message across quickly and clearly
+                whether you’re sharing an update with your team, documenting a
+                bug, or demoing an app.
+              </span>
+            </div>
+            <div className="mt-16 flex grid grid-cols-2 gap-8">
+              {[
+                {
+                  title: "Engineering",
+                  description:
+                    "Review, document, and collaborate across engineering teams using async video.",
+                  features: [
+                    "To improve code reviews",
+                    "To centralize team knowledge",
+                    "To collaborate asynchronously",
+                  ],
+                },
+                {
+                  title: "Bug Reporting",
+                  description:
+                    "Stop reading and writing wordy bug reports. Instead report bugs in a highly demonstrative way.",
+                  features: ["do stuff", "do bla", "make stuff"],
+                },
+                {
+                  title: "Education",
+                  description:
+                    "Stop reading and writing wordy bug reports. Instead, Tape can help you report bugs in a highly demonstrative way. Show, don't tell.",
+                  features: [
+                    "To enable individualized learning",
+                    "To complement a curriculum",
+                    "To add context to assignments",
+                  ],
+                },
+                {
+                  title: "Support",
+                  description:
+                    "Stop reading and writing wordy bug reports. Instead, Tape can help you report bugs in a highly demonstrative way. Show, don't tell.",
+                  features: [
+                    "To provide visual support",
+                    "To improve self-serve content",
+                    "To accelerate team onboarding",
+                  ],
+                },
+              ].map(({ title, description, features }) => (
+                <div
+                  key={title}
+                  className="flex-1 overflow-hidden rounded-lg border border-[#eaeaea]"
+                >
+                  <div className="flex flex-col py-8">
+                    <div className="flex flex-col px-8">
+                      <span className="mb-3 text-xl font-semibold">
+                        {title}
+                      </span>
+                      <span className="text-[#666]">{description}</span>
+                    </div>
+                    <div className="mx-8 mt-4 border-t border-[#eaeaea] pt-4">
+                      {features.map((feature) => (
+                        <div key={feature} className="mb-2 flex flex-row">
+                          <CheckIcon className="h-6 w-6" />
+                          <span className="text-md ml-4">{feature}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                  <img
+                    src="https://i.imgur.com/8UqJzoD.png"
+                    alt="usecase cover"
+                  />
+                </div>
+              ))}
+            </div>
           </div>
         </div>
+        <div className="flex w-full items-center justify-center border-y border-[#eaeaea] bg-[#fafafa]">
+          <div className="flex h-[140px] max-w-7xl flex-1 items-center justify-center">
+            {[
+              { stat: "uptime", value: "99%" },
+              { stat: "minutes recorded", value: "15B" },
+              { stat: "recordings created", value: "15M" },
+              { stat: "data served", value: "15PB" },
+            ].map(({ stat, value }) => (
+              <div
+                key={stat}
+                className="flex flex-1 flex-col border-r border-[#eaeaea] text-center"
+              >
+                <span className="text-6xl font-bold text-black">{value}</span>
+                <span className="pt-2 text-sm font-semibold uppercase text-[#666]">
+                  {stat}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="bg-white">
+          <div className="mx-auto max-w-7xl py-12 sm:px-6 sm:py-16 lg:px-8">
+            <div className="relative isolate overflow-hidden bg-gray-900 px-6 py-24 text-center shadow-2xl sm:rounded-3xl sm:px-16">
+              <h2 className="mx-auto max-w-2xl text-4xl font-bold tracking-tight text-white">
+                Ready to improve how your team communicates?
+              </h2>
+              <div className="mt-10 flex items-center justify-center gap-x-6">
+                <button
+                  onClick={openRecordModal}
+                  className="inline-flex max-h-[40px] items-center rounded-md border border-transparent bg-red-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
+                >
+                  Record a video
+                </button>
+              </div>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 1024 1024"
+                className="absolute left-1/2 top-1/2 -z-10 h-[64rem] w-[64rem] -translate-x-1/2"
+                aria-hidden="true"
+              >
+                <circle
+                  cx={512}
+                  cy={512}
+                  r={512}
+                  fill="url(#827591b1-ce8c-4110-b064-7cb85a0b1217)"
+                  fillOpacity="0.7"
+                />
+                <defs>
+                  <radialGradient
+                    id="827591b1-ce8c-4110-b064-7cb85a0b1217"
+                    cx={0}
+                    cy={0}
+                    r={1}
+                    gradientUnits="userSpaceOnUse"
+                    gradientTransform="translate(512 512) rotate(90) scale(512)"
+                  >
+                    <stop stopColor="#7775D6" />
+                    <stop offset={1} stopColor="#E935C1" stopOpacity={0} />
+                  </radialGradient>
+                </defs>
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <div className="mx-16 flex items-center justify-center">
+          <footer className="mb-4 mt-12 flex h-full w-[1048px] flex-col-reverse items-center justify-between text-sm sm:flex-row">
+            <div className="mx-8 my-[50px] text-sm text-[#666] sm:my-0">
+              © 2023 Snapify
+            </div>
+            <div className="mx-8 flex w-full flex-col px-[50px] sm:w-auto sm:flex-row sm:px-0">
+              <a
+                className="flex h-[42px] cursor-pointer items-center border-b border-[#eee] text-sm text-[#666] hover:text-black sm:ml-8 sm:border-none"
+                href="/legal/privacy-policy"
+              >
+                Privacy Policy
+              </a>
+              <a
+                className="flex h-[42px] cursor-pointer items-center border-b border-[#eee] text-sm text-[#666] hover:text-black sm:ml-8 sm:border-none"
+                href="/legal/terms"
+              >
+                Terms and Conditions
+              </a>
+              <a
+                className="flex h-[42px] cursor-pointer items-center border-b border-[#eee] text-sm text-[#666] hover:text-black sm:ml-8 sm:border-none"
+                href="https://status.snapify.it"
+              >
+                Status
+              </a>
+            </div>
+          </footer>
+        </div>
       </div>
+
+      <VideoRecordModal />
     </>
   );
 };
