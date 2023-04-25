@@ -1,5 +1,4 @@
 import { type Config } from "tailwindcss";
-import tailwindcssRadix from "tailwindcss-radix";
 
 export default {
   content: ["./src/**/*.{js,ts,jsx,tsx}"],
@@ -20,5 +19,5 @@ export default {
       },
     },
   },
-  plugins: [tailwindcssRadix()],
+  plugins: [require("tailwindcss-radix")()],
 } satisfies Config;
