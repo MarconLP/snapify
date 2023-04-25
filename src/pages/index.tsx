@@ -173,7 +173,7 @@ const Home: NextPage = () => {
               <p className="mt-6 text-xl font-semibold leading-8 text-gray-600">
                 TRUSTED BY THE BEST BRANDS
               </p>
-              <div className="relative flex overflow-x-hidden">
+              <div className="relative relative flex overflow-x-hidden before:absolute before:left-0 before:z-10 before:h-full before:w-[15vw] before:bg-gradient-to-r before:from-white before:to-transparent after:absolute after:right-0 after:h-full after:w-[15vw] after:bg-gradient-to-r after:from-transparent after:to-white">
                 {[1, 2].map((x) => (
                   <div
                     key={x}
