@@ -160,16 +160,10 @@ const Home: NextPage = () => {
               <div className="mt-10 flex items-center justify-center gap-x-6">
                 <button
                   onClick={openRecordModal}
-                  className="inline-flex max-h-[35px] items-center rounded-md border border-transparent bg-red-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
+                  className="inline-flex h-[60px] items-center rounded-md border border-transparent bg-red-600 px-8 py-4 text-sm font-medium text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
                 >
                   Record a video
                 </button>
-                <Link
-                  href="/"
-                  className="text-sm font-semibold leading-6 text-gray-900"
-                >
-                  Sign in <span aria-hidden="true">→</span>
-                </Link>
               </div>
             </div>
           </div>
