@@ -295,7 +295,11 @@ const Home: NextPage = () => {
                   title: "Bug Reporting",
                   description:
                     "Stop reading and writing wordy bug reports. Instead report bugs in a highly demonstrative way.",
-                  features: ["do stuff", "do bla", "make stuff"],
+                  features: [
+                    "Record a video on how to reproduce a bug",
+                    "Request a quick demo when the bug is fixed",
+                    "Keep it in your issue tracking system",
+                  ],
                 },
                 {
                   title: "Education",
