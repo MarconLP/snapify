@@ -183,18 +183,40 @@ const Home: NextPage = () => {
                         : "absolute top-0 animate-marquee2"
                     }`}
                   >
-                    {[1, 2, 3, 4, 5].map((i) => (
+                    {[
+                      {
+                        url: "https://producthunt.com/",
+                        image:
+                          "https://api.producthunt.com/widgets/embed-image/v1/top-post-badge.svg?post_id=378944&amp;theme=light&period=daily",
+                        title: "",
+                      },
+                      {
+                        url: "https://samsung.com",
+                        image:
+                          "data:image/svg+xml,%3Csvg xmlns:inkscape='http://www.inkscape.org/namespaces/inkscape' xmlns:sodipodi='http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd' xmlns='http://www.w3.org/2000/svg' xmlns:svg='http://www.w3.org/2000/svg' version='1.1' id='svg2' xml:space='preserve' width='7051.4023' height='1080' viewBox='0 0 7051.4024 1080' sodipodi:docname='Samsung_wordmark.svg' inkscape:version='1.1 (c68e22c387, 2021-05-23)'%3E%3Csodipodi:namedview id='namedview11' pagecolor='%23ffffff' bordercolor='%23666666' borderopacity='1.0' inkscape:pageshadow='2' inkscape:pageopacity='0.0' inkscape:pagecheckerboard='0' showgrid='false' fit-margin-top='0' fit-margin-left='0' fit-margin-right='0' fit-margin-bottom='0' inkscape:zoom='0.059829465' inkscape:cx='2849.7664' inkscape:cy='1429.0617' inkscape:window-width='1920' inkscape:window-height='1017' inkscape:window-x='1912' inkscape:window-y='-8' inkscape:window-maximized='1' inkscape:current-layer='svg2'/%3E%3Cdefs id='defs6'%3E%3CclipPath clipPathUnits='userSpaceOnUse' id='clipPath16'%3E%3Cpath d='M 0,166.885 H 628.238 V 0 H 0 Z' id='path14'/%3E%3C/clipPath%3E%3C/defs%3E%3Cg id='g8' transform='matrix(12.944053,0,0,-12.944053,-540.03625,1620.0233)'%3E%3Cg id='g10'%3E%3Cg id='g12' clip-path='url(%23clipPath16)'%3E%3Cg id='g18' transform='translate(558.9328,88.5098)'%3E%3Cpath d='m 0,0 v -11.358 h 7.982 v -11.269 c 0.025,-1.007 -0.03,-2.093 -0.203,-2.962 -0.317,-2.102 -2.314,-5.681 -7.98,-5.681 -5.632,0 -7.593,3.579 -7.933,5.681 -0.143,0.869 -0.204,1.955 -0.204,2.962 v 35.593 c 0,1.259 0.085,2.637 0.352,3.68 0.387,1.897 2.068,5.638 7.743,5.638 5.957,0 7.444,-3.944 7.785,-5.638 0.224,-1.122 0.237,-3.004 0.237,-3.004 V 9.32 h 19.613 v 2.555 c 0,0 0.089,2.666 -0.149,5.154 C 25.769,31.638 13.732,36.26 -0.07,36.26 c -13.827,0 -25.62,-4.665 -27.338,-19.231 -0.155,-1.332 -0.392,-3.728 -0.392,-5.154 v -32.742 c 0,-1.426 0.046,-2.53 0.31,-5.136 1.28,-14.207 13.593,-19.243 27.365,-19.243 13.857,0 26.085,5.036 27.387,19.243 0.231,2.606 0.255,3.71 0.286,5.136 V 0 Z m -135.235,34.165 h -19.696 v -57.613 c 0.031,-1.004 0,-2.132 -0.173,-2.959 -0.411,-1.934 -2.05,-5.656 -7.484,-5.656 -5.364,0 -7.046,3.722 -7.426,5.656 -0.197,0.827 -0.222,1.955 -0.197,2.959 v 57.613 h -19.69 V -21.66 c -0.025,-1.439 0.088,-4.379 0.173,-5.149 1.359,-14.547 12.824,-19.27 27.14,-19.27 14.344,0 25.802,4.723 27.186,19.27 0.109,0.77 0.252,3.71 0.167,5.149 z m -180.97,0 -9.825,-60.876 -9.819,60.876 h -31.771 l -1.685,-77.878 h 19.464 l 0.527,72.094 13.392,-72.094 h 19.748 l 13.404,72.094 0.529,-72.094 h 19.513 l -1.742,77.878 z m -117.631,0 -14.426,-77.878 h 21.037 l 10.871,72.094 10.61,-72.094 h 20.891 l -14.366,77.878 z m 367.435,-62.701 -18.34,62.701 h -28.9 v -77.066 h 19.118 l -1.11,64.707 19.696,-64.707 h 27.717 v 77.066 h -19.243 z m -176.838,42.433 c -0.346,1.538 -0.246,3.172 -0.067,4.026 0.557,2.493 2.232,5.212 7.058,5.212 4.498,0 7.135,-2.804 7.135,-7.012 v -4.762 h 19.2 v 5.428 c 0,16.78 -15.044,19.416 -25.936,19.416 -13.718,0 -24.921,-4.522 -26.967,-17.148 -0.541,-3.436 -0.675,-6.486 0.186,-10.378 3.336,-15.743 30.743,-20.31 34.721,-30.266 0.702,-1.886 0.501,-4.291 0.143,-5.708 -0.596,-2.591 -2.339,-5.197 -7.506,-5.197 -4.846,0 -7.763,2.786 -7.763,6.985 l -0.006,7.474 h -20.666 v -5.941 c 0,-17.215 13.484,-22.409 28.007,-22.409 13.909,0 25.397,4.753 27.24,17.637 0.879,6.657 0.216,10.993 -0.137,12.626 -3.22,16.147 -32.431,21.004 -34.642,30.017 m -253.273,0.191 c -0.377,1.57 -0.289,3.227 -0.079,4.091 0.532,2.481 2.217,5.248 7.128,5.248 4.555,0 7.237,-2.831 7.237,-7.073 v -4.82 h 19.425 v 5.471 c 0,16.941 -15.274,19.641 -26.285,19.641 -13.833,0 -25.136,-4.592 -27.204,-17.309 -0.566,-3.491 -0.663,-6.562 0.155,-10.497 3.372,-15.922 31.05,-20.526 35.077,-30.601 0.754,-1.873 0.526,-4.278 0.152,-5.75 -0.639,-2.618 -2.396,-5.261 -7.606,-5.261 -4.865,0 -7.775,2.834 -7.775,7.091 l -0.027,7.494 h -20.898 v -5.955 c 0,-17.412 13.675,-22.648 28.311,-22.648 14.071,0 25.626,4.795 27.511,17.828 0.937,6.718 0.234,11.09 -0.082,12.748 -3.287,16.345 -32.823,21.186 -35.04,30.302' style='fill:%231428a0;fill-opacity:1;fill-rule:nonzero;stroke:none' id='path20'/%3E%3C/g%3E%3C/g%3E%3C/g%3E%3C/g%3E%3C/svg%3E",
+                        title: "",
+                      },
+                      {
+                        url: "https://stripe.com",
+                        image:
+                          "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDI0LjAuMywgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDYuMDAgQnVpbGQgMCkgIC0tPgo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkxheWVyXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IgoJIHZpZXdCb3g9IjAgMCA0NjggMjIyLjUiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDQ2OCAyMjIuNTsiIHhtbDpzcGFjZT0icHJlc2VydmUiPgo8c3R5bGUgdHlwZT0idGV4dC9jc3MiPgoJLnN0MHtmaWxsLXJ1bGU6ZXZlbm9kZDtjbGlwLXJ1bGU6ZXZlbm9kZDtmaWxsOiM2MzVCRkY7fQo8L3N0eWxlPgo8Zz4KCTxwYXRoIGNsYXNzPSJzdDAiIGQ9Ik00MTQsMTEzLjRjMC0yNS42LTEyLjQtNDUuOC0zNi4xLTQ1LjhjLTIzLjgsMC0zOC4yLDIwLjItMzguMiw0NS42YzAsMzAuMSwxNyw0NS4zLDQxLjQsNDUuMwoJCWMxMS45LDAsMjAuOS0yLjcsMjcuNy02LjV2LTIwYy02LjgsMy40LTE0LjYsNS41LTI0LjUsNS41Yy05LjcsMC0xOC4zLTMuNC0xOS40LTE1LjJoNDguOUM0MTMuOCwxMjEsNDE0LDExNS44LDQxNCwxMTMuNHoKCQkgTTM2NC42LDEwMy45YzAtMTEuMyw2LjktMTYsMTMuMi0xNmM2LjEsMCwxMi42LDQuNywxMi42LDE2SDM2NC42eiIvPgoJPHBhdGggY2xhc3M9InN0MCIgZD0iTTMwMS4xLDY3LjZjLTkuOCwwLTE2LjEsNC42LTE5LjYsNy44bC0xLjMtNi4yaC0yMnYxMTYuNmwyNS01LjNsMC4xLTI4LjNjMy42LDIuNiw4LjksNi4zLDE3LjcsNi4zCgkJYzE3LjksMCwzNC4yLTE0LjQsMzQuMi00Ni4xQzMzNS4xLDgzLjQsMzE4LjYsNjcuNiwzMDEuMSw2Ny42eiBNMjk1LjEsMTM2LjVjLTUuOSwwLTkuNC0yLjEtMTEuOC00LjdsLTAuMS0zNy4xCgkJYzIuNi0yLjksNi4yLTQuOSwxMS45LTQuOWM5LjEsMCwxNS40LDEwLjIsMTUuNCwyMy4zQzMxMC41LDEyNi41LDMwNC4zLDEzNi41LDI5NS4xLDEzNi41eiIvPgoJPHBvbHlnb24gY2xhc3M9InN0MCIgcG9pbnRzPSIyMjMuOCw2MS43IDI0OC45LDU2LjMgMjQ4LjksMzYgMjIzLjgsNDEuMyAJIi8+Cgk8cmVjdCB4PSIyMjMuOCIgeT0iNjkuMyIgY2xhc3M9InN0MCIgd2lkdGg9IjI1LjEiIGhlaWdodD0iODcuNSIvPgoJPHBhdGggY2xhc3M9InN0MCIgZD0iTTE5Ni45LDc2LjdsLTEuNi03LjRoLTIxLjZ2ODcuNWgyNVY5Ny41YzUuOS03LjcsMTUuOS02LjMsMTktNS4ydi0yM0MyMTQuNSw2OC4xLDIwMi44LDY1LjksMTk2LjksNzYuN3oiLz4KCTxwYXRoIGNsYXNzPSJzdDAiIGQ9Ik0xNDYuOSw0Ny42bC0yNC40LDUuMmwtMC4xLDgwLjFjMCwxNC44LDExLjEsMjUuNywyNS45LDI1LjdjOC4yLDAsMTQuMi0xLjUsMTcuNS0zLjNWMTM1CgkJYy0zLjIsMS4zLTE5LDUuOS0xOS04LjlWOTAuNmgxOVY2OS4zaC0xOUwxNDYuOSw0Ny42eiIvPgoJPHBhdGggY2xhc3M9InN0MCIgZD0iTTc5LjMsOTQuN2MwLTMuOSwzLjItNS40LDguNS01LjRjNy42LDAsMTcuMiwyLjMsMjQuOCw2LjRWNzIuMmMtOC4zLTMuMy0xNi41LTQuNi0yNC44LTQuNgoJCUM2Ny41LDY3LjYsNTQsNzguMiw1NCw5NS45YzAsMjcuNiwzOCwyMy4yLDM4LDM1LjFjMCw0LjYtNCw2LjEtOS42LDYuMWMtOC4zLDAtMTguOS0zLjQtMjcuMy04djIzLjhjOS4zLDQsMTguNyw1LjcsMjcuMyw1LjcKCQljMjAuOCwwLDM1LjEtMTAuMywzNS4xLTI4LjJDMTE3LjQsMTAwLjYsNzkuMywxMDUuOSw3OS4zLDk0Ljd6Ii8+CjwvZz4KPC9zdmc+Cg==",
+                        title: "",
+                      },
+                      {
+                        url: "https://ycombinator.com",
+                        image:
+                          "data:image/svg+xml;base64,PHN2ZyBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMTIgNDQiPjxwYXRoIGZpbGwtcnVsZT0iZXZlbm9kZCIgY2xpcC1ydWxlPSJldmVub2RkIiBkPSJNMCAwaDQzLjg2MnY0NEgwVjBabTEyLjg2NyAxMC43MDcgNy42MDMgMTQuMjI2djkuMjRoMi45MjRWMjUuMDhsNy42MDMtMTQuMzczSDI3Ljc4bC00LjM4NiA4Ljk0NmMtLjI5My40NC0uNTg1Ljg4LS43MzEgMS4zMi0uMDg0LjMzOC0uMjE3LjU3OS0uMzQyLjgwNi0uMDkzLjE2Ny0uMTgxLjMyOC0uMjQzLjUxNC0uMDczLS4wNzMtLjExLS4xODMtLjE0Ni0uMjkzLS4wMzctLjExLS4wNzMtLjIyLS4xNDYtLjI5My0uMDc0LS4xNDctLjExLS4yNTctLjE0Ny0uMzY3YTIuNTI5IDIuNTI5IDAgMCAwLS4xNDYtLjM2N3YtLjE0NmwtLjE0Ni0uMTQ3YTIuODgxIDIuODgxIDAgMCAxLS4xMi0uMjhjLS4wNDgtLjEyNS0uMDgyLS4yMTYtLjE3Mi0uMzA3LS4xNDctLjE0Ni0uMjkzLS4yOTMtLjI5My0uNDRsLTQuMzg2LTguOTQ2aC0zLjUxWiIgZmlsbD0iIzAwMCIvPjxwYXRoIGQ9Ik02My44OTMgOC41MDdjMi4xOTMgMCA0LjA5NC41ODYgNS41NTYgMS43NmwtMS40NjIgMS43NmMtMS4zMTYtLjg4LTIuNjMyLTEuNDY3LTQuMjQtMS40NjctMi40ODYgMC00LjM4NiAxLjMyLTUuNDEgMy44MTMtLjU4NSAxLjQ2Ny0uODc3IDMuMzc0LS44NzcgNS44NjcgMCAxLjkwNy4yOTIgMy41Mi43MyA0LjY5MyAxLjE3IDIuNzg3IDMuMDcxIDQuMTA3IDUuOTk1IDQuMTA3IDEuNjA5IDAgMy4wNy0uNDQgNC4zODctMS40NjdsMS40NjIgMS45MDdjLTEuOTAxIDEuMTczLTMuOTQ4IDEuNzYtNi4xNDEgMS43Ni0yLjYzMiAwLTQuODI1LTEuMDI3LTYuNTgtMy4yMjctMS43NTQtMi4wNTMtMi40ODUtNC44NC0yLjQ4NS04LjIxMyAwLTMuMzczLjg3Ny02LjAxMyAyLjYzMi04LjIxMyAxLjYwOC0xLjkwNyAzLjgwMS0zLjA4IDYuNDMzLTMuMDhaTTcyLjIyNiAyMy4wMjdjMC0yLjY0LjU4NS00LjY5NCAxLjktNi4xNiAxLjMxNy0xLjQ2NyAyLjkyNS0yLjM0NyA0Ljk3Mi0yLjM0NyAyLjM0IDAgNC4yNC44OCA1LjU1NiAyLjc4NyAxLjAyMyAxLjQ2NiAxLjQ2MiAzLjUyIDEuNDYyIDYuMDEzIDAgMi45MzMtLjg3NyA1LjI4LTIuNDg2IDYuNzQ3LTEuMTcgMS4wMjYtMi42MzEgMS42MTMtNC4zODYgMS42MTMtMi4xOTMgMC0zLjgwMS0uNzMzLTUuMTE3LTIuMzQ3LTEuMzE2LTEuNDY2LTEuOS0zLjY2Ni0xLjktNi4zMDZabTEwLjIzNS00LjI1NGMtLjczMS0xLjMyLTEuNzU1LTIuMDUzLTMuMzYzLTIuMDUzcy0yLjYzMi41ODctMy4zNjMgMS43NmMtLjU4NS44OC0uNzMxIDIuMzQ3LS43MzEgNC4yNTMgMCAyLjQ5NC4yOTIgNC4yNTQgMS4wMjMgNS4yOC43MzEgMS4wMjcgMS43NTUgMS42MTQgMy4yMTcgMS42MTQgMS43NTUgMCAyLjkyNC0uODggMy41MDktMi40OTQuMjkyLS44OC40MzktMi4wNTMuNDM5LTMuNTIuMTQ2LTIuMi0uMTQ3LTMuODEzLS43MzEtNC44NFpNOTAuNzk1IDE5LjA2N2MwLTEuNjE0LS4xNDYtMi45MzQtLjU4NS0zLjk2bDIuNDg2LS41ODdjLjQzOC43MzMuNTg0IDEuNjEzLjU4NCAyLjM0N3YuMTQ2Yy41ODUtLjU4NiAxLjE3LTEuMTczIDIuMDQ3LTEuNjEzIDEuMDI0LS41ODcgMS45LS44OCAyLjc3OC0uODggMS4zMTYgMCAyLjQ4Ni41ODcgMy4yMTcgMS42MTMuMTQ2LjI5NC40MzguNzM0LjU4NSAxLjAyNyAxLjc1NC0xLjc2IDMuMzYyLTIuNjQgNS4xMTctMi42NCAxLjE2OSAwIDIuMTkzLjQ0IDIuOTI0IDEuMTczLjczMS44OCAxLjE3IDEuOTA3IDEuMTcgMy4wOHYxMi4xNzRoLTIuNjMyVjE4LjkyYzAtMS42MTMtLjczMS0yLjM0Ny0yLjA0Ny0yLjM0Ny0uNzMxIDAtMS42MDguMjk0LTIuMzM5Ljg4LS4yOTMuMjk0LS44NzguNzM0LTEuNjA5IDEuMzJsLS4yOTIuMjk0djExLjg4aC0yLjc3OHYtMTEuNDRjMC0xLjAyNy0uMTQ2LTEuNzYtLjQzOS0yLjA1NC0uNDM4LS40NC0uODc3LS41ODYtMS42MDgtLjU4Ni0xLjE3IDAtMi40ODUuNzMzLTQuMDk0IDIuMnYxMi4wMjZoLTIuNDg1VjE5LjA2N1pNMTE1LjY1IDcuOTJsMi42MzItLjU4N2MuMjkzIDEuMTc0LjQzOSAyLjQ5NC40MzkgNC4xMDd2NS40MjdjMS40NjItMS40NjcgMy4wNy0yLjIgNC42NzgtMi4yIDEuOTAxIDAgMy41MDkuNzMzIDQuNTMzIDIuMiAxLjE2OSAxLjQ2NiAxLjc1NCAzLjUyIDEuNzU0IDYuMDEzIDAgMi42NC0uNTg1IDQuNjkzLTEuNzU0IDYuMzA3LTEuMTcgMS42MTMtMi43NzggMi4zNDYtNC42NzkgMi4zNDZhNS4xNSA1LjE1IDAgMCAxLTIuNDg1LS41ODZjLS44NzgtLjQ0LTEuNDYyLS44OC0xLjkwMS0xLjQ2Ny0uMTQ2LjczMy0uMjkyIDEuMzItLjQzOSAxLjc2aC0yLjQ4NWMuMjkyLS43MzMuNDM4LTIuMDUzLjQzOC00LjEwN3YtMTUuNGMtLjE0Ni0xLjc2LS4yOTItMy4wOC0uNzMxLTMuODEzWm00LjI0IDkuOTczYTQuNDU3IDQuNDU3IDAgMCAwLTEuMTY5IDEuMTc0djguMzZjMS4wMjMgMS4zMiAyLjMzOSAxLjkwNiAzLjk0NyAxLjkwNiAxLjMxNiAwIDIuMzQtLjQ0IDIuOTI0LTEuNDY2LjczMi0xLjE3NCAxLjE3LTIuNzg3IDEuMTctNS4xMzQgMC0yLjA1My0uMjkyLTMuNTItMS4wMjMtNC40LS41ODUtLjg4LTEuNjA5LTEuMzItMy4wNzEtMS4zMi0uODc3LS4xNDYtMS45LjE0Ny0yLjc3OC44OFpNMTMzLjQ4NyA5Ljk3M2MwLS41ODYuMTQ2LTEuMDI2LjU4NS0xLjQ2Ni40MzgtLjQ0Ljg3Ny0uNTg3IDEuNDYyLS41ODdzMS4wMjMuMTQ3IDEuNDYyLjU4N2MuNDM4LjQ0LjU4NS44OC41ODUgMS40NjYgMCAuNTg3LS4xNDcgMS4wMjctLjU4NSAxLjQ2Ny0uNDM5LjQ0LS44NzcuNTg3LTEuNDYyLjU4N3MtMS4wMjQtLjE0Ny0xLjQ2Mi0uNTg3Yy0uNDM5LS40NC0uNTg1LS44OC0uNTg1LTEuNDY3Wm0uNTg1IDIxLjEyVjE0Ljk2bDIuNjMxLS40NHYxNi41NzNoLTIuNjMxWk0xNDIuNDA2IDE5LjA2N2MwLTEuMTc0IDAtMS45MDctLjE0Ni0yLjIgMC0uNDQtLjI5Mi0uODgtLjU4NS0xLjYxNGwyLjQ4Ni0uNzMzYy40MzguODguNTg1IDEuNjEzLjU4NSAyLjQ5MyAxLjYwOC0xLjYxMyAzLjM2Mi0yLjQ5MyA1LjExNy0yLjQ5My44NzcgMCAxLjYwOC4xNDcgMi4zMzkuNTg3LjczMS40NCAxLjMxNiAxLjAyNiAxLjYwOCAxLjc2LjI5My41ODYuNDM5IDEuMTczLjQzOSAxLjkwNnYxMi4zMmgtMi40ODV2LTExYzAtMS4zMi0uMTQ3LTIuMi0uNTg1LTIuNjRhMi40MiAyLjQyIDAgMCAwLTEuNzU1LS43MzNjLS41ODUgMC0xLjQ2Mi4yOTMtMi4zMzkuNzMzYTguNTI1IDguNTI1IDAgMCAwLTIuMTkzIDEuNjE0djEyLjAyNmgtMi40ODZWMTkuMDY3Wk0xNjAuMDk2IDE4LjQ4bC0xLjMxNi0xLjc2YzIuMTkzLTEuNDY3IDQuMzg3LTIuMiA2LjcyNi0yLjIgMi4zMzkgMCAzLjgwMS44OCA0LjUzMiAyLjQ5My4yOTMuNTg3LjI5MyAxLjQ2Ny4yOTMgMi43ODd2Ljg4bC0uMTQ3IDUuMjh2LjczM2MwIC44OCAwIDEuNDY3LjE0NyAxLjkwNy4xNDYuNTg3LjU4NSAxLjAyNyAxLjE2OSAxLjMybC0xLjMxNiAxLjc2Yy0xLjE2OS0uNDQtMS45LTEuMTczLTIuMTkzLTIuMzQ3LTEuNDYyIDEuNDY3LTMuMDcgMi4yLTQuNjc4IDIuMi0xLjYwOSAwLTIuOTI0LS40NC0zLjk0OC0xLjMyLS44NzctLjczMy0xLjMxNi0xLjkwNi0xLjMxNi0zLjM3MyAwLTEuOTA3LjczMS0zLjIyNyAyLjE5My00LjI1MyAxLjQ2Mi0xLjAyNyAzLjY1Ni0xLjQ2NyA2LjI4Ny0xLjQ2N2gxLjE3di0xLjE3M2MwLTEuMzItLjE0Ni0yLjItLjU4NS0yLjQ5NC0uNTg1LS41ODYtMS4xNy0uODgtMi4xOTMtLjg4LS44NzcgMC0xLjkwMS4yOTQtMy4wNy43MzQtLjQzOS4yOTMtMS4wMjQuNzMzLTEuNzU1IDEuMTczWm03Ljc0OSA4LjY1My4xNDYtNC4yNTNoLTEuMzE1Yy0yLjM0IDAtMy44MDIuNDQtNC42NzkgMS4zMi0uNTg1LjU4Ny0uODc3IDEuNDY3LS44NzcgMi42NCAwIDEuOTA3Ljg3NyAyLjkzMyAyLjc3OCAyLjkzMyAxLjc1NC0uMTQ2IDMuMDctMS4wMjYgMy45NDctMi42NFpNMTc4LjY2NSAxNC45Nmg0LjA5NGwtLjczMSAyLjA1M2gtMy4zNjN2MTAuNDE0YzAgLjg4LjE0NyAxLjQ2Ni40MzkgMS45MDYuMjkyLjI5NC44NzcuNTg3IDEuNjA4LjU4Ny41ODUgMCAxLjE3LS4xNDcgMS42MDktLjI5M2wuMjkyIDEuNjEzYy0uODc3LjQ0LTEuNzU0LjU4Ny0yLjc3OC41ODctMi40ODUgMC0zLjY1NS0xLjE3NC0zLjY1NS0zLjY2N1YxNy4wMTNoLTIuMTkzVjE0Ljk2aDIuMDQ3di0uMjkzYzAtLjI5NC4xNDYtMS40NjcuMjkyLTMuMzc0di0uNDRsMi42MzItLjU4NmMtLjI5MyAxLjc2LS4yOTMgMy4zNzMtLjI5MyA0LjY5M1pNMTg1LjM5MiAyMy4wMjdjMC0yLjY0LjU4NC00LjY5NCAxLjktNi4xNiAxLjE3LTEuNDY3IDIuOTI0LTIuMzQ3IDQuOTcxLTIuMzQ3IDIuMzQgMCA0LjI0Ljg4IDUuNTU2IDIuNzg3IDEuMDI0IDEuNDY2IDEuNDYyIDMuNTIgMS40NjIgNi4wMTMgMCAyLjkzMy0uODc3IDUuMjgtMi40ODUgNi43NDctMS4xNyAxLjAyNi0yLjYzMiAxLjYxMy00LjM4NiAxLjYxMy0yLjE5NCAwLTMuODAyLS43MzMtNS4xMTgtMi4zNDctMS4xNjktMS40NjYtMS45LTMuNjY2LTEuOS02LjMwNlptMTAuMzgtNC4yNTRjLS43MzEtMS4zMi0xLjc1NC0yLjA1My0zLjM2Mi0yLjA1My0xLjYwOSAwLTIuNjMyLjU4Ny0zLjM2MyAxLjc2LS41ODUuODgtLjczMSAyLjM0Ny0uNzMxIDQuMjUzIDAgMi40OTQuMjkyIDQuMjU0IDEuMDIzIDUuMjguNzMxIDEuMDI3IDEuNzU1IDEuNjE0IDMuMjE3IDEuNjE0IDEuNzU0IDAgMi45MjQtLjg4IDMuNTA5LTIuNDk0LjI5Mi0uODguNDM4LTIuMDUzLjQzOC0zLjUyIDAtMi4yLS4yOTItMy44MTMtLjczMS00Ljg0Wk0yMDQuMTA0IDE4Ljc3M2MwLTEuNDY2LS4xNDYtMi42NC0uNTg0LTMuNTJsMi40ODUtLjczM2MuNDM5Ljg4LjU4NSAxLjYxMy41ODUgMi40OTN2LjI5NGMxLjMxNi0xLjc2IDIuNzc4LTIuNjQgNC41MzItMi42NC4yOTMgMCAuNTg1IDAgLjg3OC4xNDZsLTEuMDI0IDIuNzg3Yy0uMjkyLS4xNDctLjU4NS0uMTQ3LS43MzEtLjE0Ny0uNTg1IDAtMS4zMTYuMTQ3LTEuOTAxLjU4Ny0uNTg0LjQ0LTEuMTY5Ljg4LTEuNDYyIDEuNDY3YTUuNDkzIDUuNDkzIDAgMCAwLS4yOTIgMS43NnYxMC4xMmgtMi40ODZWMTguNzczWiIgZmlsbD0iIzAwMCIvPjwvc3ZnPg==",
+                        title: "",
+                      },
+                    ].map(({ url, image, title }) => (
                       <div
-                        key={i}
+                        key={url}
                         className="mr-8 h-[54px] min-w-[250px] overflow-hidden"
                       >
-                        <a
-                          href="https://www.producthunt.com/posts/tape-5?utm_source=badge-top-post-badge&amp;utm_medium=badge&amp;utm_souce=badge-tape-5"
-                          target="_blank"
-                        >
+                        <a href={url} target="_blank">
                           <img
-                            src="https://api.producthunt.com/widgets/embed-image/v1/top-post-badge.svg?post_id=378944&amp;theme=light&amp;period=daily"
-                            alt="Tape - Cut down meetings by 40% - interactive async video for work | Product Hunt"
+                            src={image}
+                            alt={title}
                             className="h-[54px] w-[250px]"
                             width="250"
                             height="54"
@@ -220,8 +242,8 @@ const Home: NextPage = () => {
                 Get started easily. Share video instantly.
               </span>
             </div>
-            <div className="mt-6 flex gap-x-6 lg:mt-16 lg:gap-x-20">
-              <div className="flex flex-1 items-center justify-center">
+            <div className="mt-6 flex flex-col gap-x-6 lg:mt-16 lg:flex-row lg:gap-x-20">
+              <div className="mb-24 flex flex-1 items-center justify-center lg:mb-0">
                 <img
                   src="https://i.ibb.co/wcpMNG9/633edb0b80d27778f9078a5c-home-main-2x.webp"
                   alt="step description"
@@ -250,7 +272,10 @@ const Home: NextPage = () => {
                       "Get feedback, gather opinions, make decisions and more using interactive features such as on-video comments, on-video emoji reactions, video replies, polls, and more.",
                   },
                 ].map(({ title, description, icon }) => (
-                  <div key={title} className="flex gap-x-4">
+                  <div
+                    key={title}
+                    className="flex max-w-[600px] gap-x-4 lg:max-w-none"
+                  >
                     <div className="">{icon}</div>
                     <div className="flex flex-col">
                       <span className="mb-4 text-[32px]">{title}</span>
@@ -273,7 +298,7 @@ const Home: NextPage = () => {
                 bug, or demoing an app.
               </span>
             </div>
-            <div className="mt-16 flex grid grid-cols-2 gap-8">
+            <div className="mt-16 flex grid grid-cols-1 gap-8 md:grid-cols-2">
               {[
                 {
                   title: "Engineering",
@@ -297,8 +322,7 @@ const Home: NextPage = () => {
                 },
                 {
                   title: "Education",
-                  description:
-                    "Stop reading and writing wordy bug reports. Instead, Tape can help you report bugs in a highly demonstrative way. Show, don't tell.",
+                  description: "Engage students in and outside the classroom.",
                   features: [
                     "To enable individualized learning",
                     "To complement a curriculum",
@@ -308,7 +332,7 @@ const Home: NextPage = () => {
                 {
                   title: "Support",
                   description:
-                    "Stop reading and writing wordy bug reports. Instead, Tape can help you report bugs in a highly demonstrative way. Show, don't tell.",
+                    "Discover a whole new way to delight customers and reach resolutions faster.",
                   features: [
                     "To provide visual support",
                     "To improve self-serve content",
@@ -346,16 +370,16 @@ const Home: NextPage = () => {
           </div>
         </div>
         <div className="flex w-full items-center justify-center border-y border-[#eaeaea] bg-[#fafafa]">
-          <div className="flex h-[140px] max-w-7xl flex-1 items-center justify-center">
+          <div className="flex max-w-7xl flex-1 flex-col items-center justify-center py-4 lg:h-[140px] lg:flex-row">
             {[
-              { stat: "uptime", value: "99%" },
-              { stat: "minutes recorded", value: "15B" },
-              { stat: "recordings created", value: "15M" },
-              { stat: "data served", value: "15PB" },
+              { stat: "data served", value: "16GB" },
+              { stat: "videos viewed", value: "650" },
+              { stat: "videos created", value: "260" },
+              { stat: "uptime", value: "99.9%" },
             ].map(({ stat, value }) => (
               <div
                 key={stat}
-                className="flex flex-1 flex-col border-r border-[#eaeaea] text-center"
+                className="flex flex-1 flex-col py-5 text-center lg:border-r lg:border-[#eaeaea] lg:py-0"
               >
                 <span className="text-6xl font-bold text-black">{value}</span>
                 <span className="pt-2 text-sm font-semibold uppercase text-[#666]">
@@ -412,25 +436,25 @@ const Home: NextPage = () => {
         </div>
 
         <div className="mx-16 flex items-center justify-center">
-          <footer className="mb-4 mt-12 flex h-full w-[1048px] flex-col-reverse items-center justify-between text-sm sm:flex-row">
-            <div className="mx-8 my-[50px] text-sm text-[#666] sm:my-0">
+          <footer className="mb-4 mt-12 flex h-full w-[1048px] flex-col-reverse items-center justify-between text-sm md:flex-row">
+            <div className="mx-8 my-[50px] text-sm text-[#666] md:my-0">
               © 2023 Snapify
             </div>
-            <div className="mx-8 flex w-full flex-col px-[50px] sm:w-auto sm:flex-row sm:px-0">
+            <div className="mx-8 flex w-full flex-col px-[50px] md:w-auto md:flex-row md:px-0">
               <a
-                className="flex h-[42px] cursor-pointer items-center border-b border-[#eee] text-sm text-[#666] hover:text-black sm:ml-8 sm:border-none"
+                className="flex h-[42px] cursor-pointer items-center border-b border-[#eee] text-sm text-[#666] hover:text-black md:ml-8 md:border-none"
                 href="/legal/privacy-policy"
               >
                 Privacy Policy
               </a>
               <a
-                className="flex h-[42px] cursor-pointer items-center border-b border-[#eee] text-sm text-[#666] hover:text-black sm:ml-8 sm:border-none"
+                className="flex h-[42px] cursor-pointer items-center border-b border-[#eee] text-sm text-[#666] hover:text-black md:ml-8 md:border-none"
                 href="/legal/terms"
               >
                 Terms and Conditions
               </a>
               <a
-                className="flex h-[42px] cursor-pointer items-center border-b border-[#eee] text-sm text-[#666] hover:text-black sm:ml-8 sm:border-none"
+                className="flex h-[42px] cursor-pointer items-center border-b border-[#eee] text-sm text-[#666] hover:text-black md:ml-8 md:border-none"
                 href="https://status.snapify.it"
               >
                 Status
