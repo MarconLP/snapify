@@ -1,11 +1,6 @@
 import { type GetServerSideProps, type NextPage } from "next";
 import Head from "next/head";
 import { getSession } from "next-auth/react";
-import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
-
-import { Dialog } from "@headlessui/react";
-import { useState } from "react";
-import Link from "next/link";
 import { usePostHog } from "posthog-js/react";
 import { useAtom } from "jotai";
 import recordVideoModalOpen from "~/atoms/recordVideoModalOpen";
@@ -13,6 +8,8 @@ import VideoRecordModal from "~/components/VideoRecordModal";
 import { ShareIcon, VideoCameraIcon } from "@heroicons/react/24/solid";
 import { CheckIcon } from "@heroicons/react/20/solid";
 import { CheckCircleIcon } from "@heroicons/react/24/outline";
+import Footer from "~/components/Footer";
+import Header from "~/components/Header";
 
 const navigation = [
   { name: "Features", href: "#features" },
@@ -22,7 +19,6 @@ const navigation = [
 
 const Home: NextPage = () => {
   const [, setRecordOpen] = useAtom(recordVideoModalOpen);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const posthog = usePostHog();
 
   const openRecordModal = () => {
@@ -41,103 +37,8 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className="bg-white">
-        <header className="absolute inset-x-0 top-0 z-50">
-          <nav
-            className="flex items-center justify-between p-6 lg:px-8"
-            aria-label="Global"
-          >
-            <div className="flex lg:flex-1">
-              <Link href="/" className="-m-1.5 p-1.5">
-                <span className="sr-only">Snapify</span>
-                <img
-                  className="h-8 w-auto"
-                  src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-                  alt=""
-                />
-              </Link>
-            </div>
-            <div className="flex lg:hidden">
-              <button
-                type="button"
-                className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
-                onClick={() => setMobileMenuOpen(true)}
-              >
-                <span className="sr-only">Open main menu</span>
-                <Bars3Icon className="h-6 w-6" aria-hidden="true" />
-              </button>
-            </div>
-            <div className="hidden lg:flex lg:gap-x-12">
-              {navigation.map((item) => (
-                <a
-                  key={item.name}
-                  href={item.href}
-                  className="text-sm font-semibold leading-6 text-gray-900"
-                >
-                  {item.name}
-                </a>
-              ))}
-            </div>
-            <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-              <Link
-                href="/sign-in"
-                className="text-sm font-semibold leading-6 text-gray-900"
-              >
-                Log in <span aria-hidden="true">&rarr;</span>
-              </Link>
-            </div>
-          </nav>
-          <Dialog
-            as="div"
-            className="lg:hidden"
-            open={mobileMenuOpen}
-            onClose={setMobileMenuOpen}
-          >
-            <div className="fixed inset-0 z-50" />
-            <Dialog.Panel className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
-              <div className="flex items-center justify-between">
-                <Link href="/" className="-m-1.5 p-1.5">
-                  <span className="sr-only">Snapify</span>
-                  <img
-                    className="h-8 w-auto"
-                    src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-                    alt=""
-                  />
-                </Link>
-                <button
-                  type="button"
-                  className="-m-2.5 rounded-md p-2.5 text-gray-700"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  <span className="sr-only">Close menu</span>
-                  <XMarkIcon className="h-6 w-6" aria-hidden="true" />
-                </button>
-              </div>
-              <div className="mt-6 flow-root">
-                <div className="-my-6 divide-y divide-gray-500/10">
-                  <div className="space-y-2 py-6">
-                    {navigation.map((item) => (
-                      <Link
-                        key={item.name}
-                        href={item.href}
-                        className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                      >
-                        {item.name}
-                      </Link>
-                    ))}
-                  </div>
-                  <div className="py-6">
-                    <Link
-                      href="/sign-in"
-                      className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                    >
-                      Log in
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            </Dialog.Panel>
-          </Dialog>
-        </header>
+        <Header />
+
         <div className="relative isolate px-6 pt-14 lg:px-8">
           <div className="mx-auto max-w-7xl py-32 sm:py-48 lg:py-56">
             {/*<div className="hidden sm:mb-8 sm:flex sm:justify-center">*/}
@@ -435,33 +336,7 @@ const Home: NextPage = () => {
           </div>
         </div>
 
-        <div className="mx-16 flex items-center justify-center">
-          <footer className="mb-4 mt-12 flex h-full w-[1048px] flex-col-reverse items-center justify-between text-sm md:flex-row">
-            <div className="mx-8 my-[50px] text-sm text-[#666] md:my-0">
-              © 2023 Snapify
-            </div>
-            <div className="mx-8 flex w-full flex-col px-[50px] md:w-auto md:flex-row md:px-0">
-              <a
-                className="flex h-[42px] cursor-pointer items-center border-b border-[#eee] text-sm text-[#666] hover:text-black md:ml-8 md:border-none"
-                href="/legal/privacy-policy"
-              >
-                Privacy Policy
-              </a>
-              <a
-                className="flex h-[42px] cursor-pointer items-center border-b border-[#eee] text-sm text-[#666] hover:text-black md:ml-8 md:border-none"
-                href="/legal/terms"
-              >
-                Terms and Conditions
-              </a>
-              <a
-                className="flex h-[42px] cursor-pointer items-center border-b border-[#eee] text-sm text-[#666] hover:text-black md:ml-8 md:border-none"
-                href="https://status.snapify.it"
-              >
-                Status
-              </a>
-            </div>
-          </footer>
-        </div>
+        <Footer />
       </div>
 
       <VideoRecordModal />
