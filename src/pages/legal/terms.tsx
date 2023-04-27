@@ -5,7 +5,7 @@ import Legal from "~/components/Legal";
 const Terms: NextPage = () => {
   return (
     <Legal name="Terms of Service">
-      <div className="px-8 pt-[100px] lg:px-0">
+      <div className="mb-8 px-8 pt-[100px] lg:px-0">
         <p className="mb-5">Effective: May 1, 2023</p>
         <p className="mb-5">
           These Terms of Service (“Terms”) govern access to and use of the
