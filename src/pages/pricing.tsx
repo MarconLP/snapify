@@ -26,7 +26,7 @@ export default function Pricing() {
         </span>
       </div>
 
-      <div className="relative mx-4 mb-20 flex flex-row gap-4 lg:mx-16 lg:gap-16">
+      <div className="relative mx-4 mb-20 flex flex-col justify-center gap-12 md:flex-row md:gap-4 lg:mx-16 lg:gap-16">
         <div className="absolute left-[calc(50%_-_calc(min(75vw,500px)_/_2))] h-[min(75vw,500px)] w-[min(75vw,500px)] bg-[radial-gradient(circle_at_center,#666_0,#fff_100%)] opacity-80 blur-[calc(0.5_*_min(75vw,500px))]"></div>
         {[
           {
@@ -68,7 +68,7 @@ export default function Pricing() {
         ].map(({ name, price, features }) => (
           <div
             key={name}
-            className="relative flex-1 rounded-3xl border bg-white shadow-sm"
+            className="relative max-w-[400px] flex-1 rounded-3xl border bg-white shadow-sm"
           >
             {name === "Pro" ? (
               <div className="absolute -top-6 left-2/4 z-[1] mt-0 -translate-x-2/4 cursor-default select-none rounded-3xl border-0 border-solid border-[#eaeaea] bg-[linear-gradient(180deg,rgba(0,0,0,.8),#000)] px-[22px] py-3.5 text-white shadow-[0_8px_30px_rgb(0_0_0/6%)] backdrop-blur-[2px]">
@@ -144,7 +144,7 @@ export default function Pricing() {
             <Disclosure
               key={question}
               as="div"
-              className="w-[600px] max-w-[600px]"
+              className="max-w-[600px] max-w-[80vw] sm:w-[600px]"
             >
               {({ open }) => (
                 <>
