@@ -20,13 +20,14 @@ export default function Pricing() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header />
-      <div className="m-20 flex h-40 items-center justify-center">
-        <span className="text-center text-7xl font-bold">
+      <div className="my-20 flex h-40 items-center justify-center sm:mx-10 lg:mx-20">
+        <span className="text-center text-4xl font-bold lg:text-7xl">
           Choose the plan that fits your needs.
         </span>
       </div>
 
-      <div className="mx-4 mb-20 flex flex-row gap-4 lg:mx-16 lg:gap-16">
+      <div className="relative mx-4 mb-20 flex flex-row gap-4 lg:mx-16 lg:gap-16">
+        <div className="absolute left-[calc(50%_-_calc(min(75vw,500px)_/_2))] h-[min(75vw,500px)] w-[min(75vw,500px)] bg-[radial-gradient(circle_at_center,#666_0,#fff_100%)] opacity-80 blur-[calc(0.5_*_min(75vw,500px))]"></div>
         {[
           {
             name: "Free",
@@ -67,8 +68,13 @@ export default function Pricing() {
         ].map(({ name, price, features }) => (
           <div
             key={name}
-            className="flex-1 rounded-3xl border bg-white shadow-sm"
+            className="relative flex-1 rounded-3xl border bg-white shadow-sm"
           >
+            {name === "Pro" ? (
+              <div className="absolute -top-6 left-2/4 z-[1] mt-0 -translate-x-2/4 cursor-default select-none rounded-3xl border-0 border-solid border-[#eaeaea] bg-[linear-gradient(180deg,rgba(0,0,0,.8),#000)] px-[22px] py-3.5 text-white shadow-[0_8px_30px_rgb(0_0_0/6%)] backdrop-blur-[2px]">
+                <span className="text-xs font-bold">Most Popular</span>
+              </div>
+            ) : null}
             <div className="hero relative flex flex-col items-start rounded-3xl px-6 py-6 shadow-sm">
               <div className="rounded-lg bg-white/20 px-2 font-medium">
                 {name}
@@ -110,7 +116,7 @@ export default function Pricing() {
         ))}
       </div>
 
-      <div className="flex flex-col items-center justify-center border-y border-[#eaeaea] pb-8">
+      <div className="flex flex-col items-center justify-center border-y border-[#eaeaea] bg-[#fafafa] pb-8">
         <div className="mb-12 mt-8">
           <span className="text-5xl font-bold">FAQs</span>
         </div>
