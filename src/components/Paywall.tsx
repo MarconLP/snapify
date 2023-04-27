@@ -92,7 +92,7 @@ export default function Paywall() {
                     <div className="w-full md:max-w-sm">
                       <div className="sm:align-center mb-4 flex flex-none flex-wrap items-center gap-4 px-2 py-1 md:justify-center">
                         <div className="relative flex items-center gap-2 text-sm font-medium">
-                          <span className=" svelte-10wstod">Monthly</span>
+                          <span className="">Monthly</span>
                           <label className="group relative flex cursor-pointer items-center gap-2 text-sm font-medium text-gray-600">
                             <input
                               onChange={toggleBillingCycle}
@@ -105,9 +105,7 @@ export default function Paywall() {
                             </span>
                             <span />
                           </label>
-                          <span className="svelte-10wstod opacity-50">
-                            Annually
-                          </span>
+                          <span className="opacity-50">Annually</span>
                           <span className="rounded-md bg-[#cbf4c9] px-2 py-1 text-xs text-[#0e6245]">
                             20% Off
                           </span>
@@ -118,7 +116,7 @@ export default function Paywall() {
                         className="w-full flex-none rounded-3xl border bg-white shadow-sm"
                       >
                         <div className="hero relative flex flex-col items-start rounded-3xl px-6 py-6 shadow-sm">
-                          <div className="svelte-10wstod rounded-lg bg-white/20 px-2 font-medium">
+                          <div className="rounded-lg bg-white/20 px-2 font-medium">
                             Pro
                           </div>
                           <div className="mb-2 mt-4 flex items-end text-5xl font-extrabold tracking-tight">
@@ -167,7 +165,7 @@ export default function Paywall() {
                               </div>
 
                               <Tooltip title={description}>
-                                <div className="svelte-10wstod text-base text-gray-500 underline decoration-gray-400 decoration-dashed underline-offset-4">
+                                <div className="text-base text-gray-500 underline decoration-gray-400 decoration-dashed underline-offset-4">
                                   {feature}
                                 </div>
                               </Tooltip>
