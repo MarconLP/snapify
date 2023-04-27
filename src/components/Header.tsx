@@ -49,62 +49,42 @@ export default function Header() {
             </Link>
           ))}
         </div>
-        <Link
-          href="/sign-in"
-          className="text-sm font-semibold leading-6 text-gray-900"
-        >
-          Log in <span aria-hidden="true">&rarr;</span>
-        </Link>
 
-        <>
-          <div className="flex flex-row items-center md:hidden">
-            <Link href={"#"} className="mr-6">
-              <div className="block h-[32px] rounded-[5px] border border-solid border-black bg-black p-2 text-sm leading-3 text-white transition hover:bg-white hover:text-black">
-                Open App
-              </div>
-            </Link>
-            <div
-              className="flex h-[42px] w-[42px] cursor-pointer items-center justify-center"
-              onClick={() => setNavbarOpen(!navbarOpen)}
-            >
-              <Bars3Icon className="h-6 w-6" />
-            </div>
-          </div>
-
-          <div
-            style={{
-              transition: "all 0.2s cubic-bezier(.17,.27,0,.99)",
-              height: navbarOpen ? "calc(100vh - 64px)" : "calc(100vh - 80px)",
-              opacity: 0,
-            }}
-            className={`absolute left-0 right-0 bg-white px-6 pt-6 opacity-0 ${
-              navbarOpen
-                ? "visible top-[64px] block !opacity-100"
-                : "invisible top-[80px]"
-            }`}
+        <div className="flex flex-row items-center md:hidden">
+          <Link
+            href="/sign-in"
+            className="text-sm font-semibold leading-6 text-gray-900"
           >
-            <Link href="/" onClick={closeNav}>
-              <div className="flex h-[48px] cursor-pointer items-center border-b border-[#EAEAEA] text-[16px] hover:bg-[#FAFAFA]">
-                Overview
-              </div>
-            </Link>
-            <Link href="/contact" onClick={closeNav}>
-              <div className="flex h-[48px] cursor-pointer items-center border-b border-[#EAEAEA] text-[16px] hover:bg-[#FAFAFA]">
-                Contact
-              </div>
-            </Link>
-            <Link href="/changelog" onClick={closeNav}>
-              <div className="flex h-[48px] cursor-pointer items-center border-b border-[#EAEAEA] text-[16px] hover:bg-[#FAFAFA]">
-                Changelog
-              </div>
-            </Link>
-            <Link href="https://app.tablane.net/shared/board/63906741c22c232ed88df799">
-              <div className="flex h-[48px] cursor-pointer items-center border-b border-[#EAEAEA] text-[16px] hover:bg-[#FAFAFA]">
-                Roadmap
-              </div>
-            </Link>
+            Log in <span aria-hidden="true">&rarr;</span>
+          </Link>
+          <div
+            className="flex h-[42px] w-[42px] cursor-pointer items-center justify-center"
+            onClick={() => setNavbarOpen(!navbarOpen)}
+          >
+            <Bars3Icon className="h-6 w-6" />
           </div>
-        </>
+        </div>
+
+        <div
+          style={{
+            transition: "all 0.2s cubic-bezier(.17,.27,0,.99)",
+            height: navbarOpen ? "calc(100vh - 64px)" : "calc(100vh - 80px)",
+            opacity: 0,
+          }}
+          className={`absolute left-0 right-0 bg-white px-6 pt-6 opacity-0 ${
+            navbarOpen
+              ? "visible top-[64px] block !opacity-100"
+              : "invisible top-[80px]"
+          }`}
+        >
+          {navigation.map(({ href, name }) => (
+            <Link key={name} href={href} onClick={closeNav}>
+              <div className="flex h-[48px] cursor-pointer items-center border-b border-[#EAEAEA] text-[16px] hover:bg-[#FAFAFA]">
+                {name}
+              </div>
+            </Link>
+          ))}
+        </div>
       </div>
     </div>
   );
