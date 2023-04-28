@@ -162,7 +162,7 @@ interface VideoCardProps {
 
 const VideoCardSkeleton = () => {
   return (
-    <div className="h-[240px] w-[250px] animate-pulse overflow-hidden rounded-lg border border-[#6c668533] text-sm font-normal">
+    <div className="animate-pulse h-[240px] w-[250px] overflow-hidden rounded-lg border border-[#6c668533] text-sm font-normal">
       <figure className="relative aspect-video w-full bg-slate-200"></figure>
       <div className="m-4 flex flex-col">
         <span className="h-4 rounded bg-slate-200"></span>
@@ -177,7 +177,7 @@ const VideoCard = ({ title, id, createdAt, thumbnailUrl }: VideoCardProps) => {
     <Link href={`/share/${id}`}>
       <div className="h-[240px] w-[250px] cursor-pointer overflow-hidden rounded-lg border border-[#6c668533] text-sm font-normal">
         <figure>
-          <Image
+          <img
             src={thumbnailUrl}
             alt="video thumbnail"
             width={248}

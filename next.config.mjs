@@ -30,19 +30,13 @@ const config = {
       },
       {
         protocol: 'https',
-        hostname: '*.ytimg.com',
+        hostname: 'tailwindui.com',
         port: '',
         pathname: '/**',
       },
       {
         protocol: 'https',
-        hostname: '*.imgur.com',
-        port: '',
-        pathname: '/**',
-      },
-      {
-        protocol: 'https',
-        hostname: '*.githubusercontent.com',
+        hostname: '*.producthunt.com',
         port: '',
         pathname: '/**',
       },

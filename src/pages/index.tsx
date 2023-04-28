@@ -10,12 +10,7 @@ import { CheckIcon } from "@heroicons/react/20/solid";
 import { CheckCircleIcon } from "@heroicons/react/24/outline";
 import Footer from "~/components/Footer";
 import Header from "~/components/Header";
-
-const navigation = [
-  { name: "Features", href: "#features" },
-  { name: "Pricing", href: "/pricing" },
-  { name: "Discord", href: "https://discord.com/invite/invalid" },
-];
+import Image from "next/image";
 
 const Home: NextPage = () => {
   const [, setRecordOpen] = useAtom(recordVideoModalOpen);
@@ -115,7 +110,7 @@ const Home: NextPage = () => {
                         className="mr-8 h-[54px] min-w-[250px] overflow-hidden"
                       >
                         <a href={url} target="_blank">
-                          <img
+                          <Image
                             src={image}
                             alt={title}
                             className="h-[54px] w-[250px]"
@@ -145,8 +140,10 @@ const Home: NextPage = () => {
             </div>
             <div className="mt-6 flex flex-col gap-x-6 lg:mt-16 lg:flex-row lg:gap-x-20">
               <div className="mb-24 flex flex-1 items-center justify-center lg:mb-0">
-                <img
-                  src="https://i.ibb.co/wcpMNG9/633edb0b80d27778f9078a5c-home-main-2x.webp"
+                <Image
+                  src="https://f003.backblazeb2.com/file/test-cloudflares/how+it+works.webp"
+                  width={600}
+                  height={575}
                   alt="step description"
                 />
               </div>
@@ -210,6 +207,8 @@ const Home: NextPage = () => {
                     "To centralize team knowledge",
                     "To collaborate asynchronously",
                   ],
+                  image:
+                    "https://f003.backblazeb2.com/file/test-cloudflares/engineering+usecase.png",
                 },
                 {
                   title: "Bug Reporting",
@@ -220,6 +219,8 @@ const Home: NextPage = () => {
                     "Request a quick demo when the bug is fixed",
                     "Keep it in your issue tracking system",
                   ],
+                  image:
+                    "https://f003.backblazeb2.com/file/test-cloudflares/bug+report+usecase.webp",
                 },
                 {
                   title: "Education",
@@ -229,6 +230,8 @@ const Home: NextPage = () => {
                     "To complement a curriculum",
                     "To add context to assignments",
                   ],
+                  image:
+                    "https://f003.backblazeb2.com/file/test-cloudflares/education+usecase.webp",
                 },
                 {
                   title: "Support",
@@ -239,13 +242,15 @@ const Home: NextPage = () => {
                     "To improve self-serve content",
                     "To accelerate team onboarding",
                   ],
+                  image:
+                    "https://f003.backblazeb2.com/file/test-cloudflares/support+usecase.webp",
                 },
-              ].map(({ title, description, features }) => (
+              ].map(({ title, description, features, image }) => (
                 <div
                   key={title}
-                  className="flex-1 overflow-hidden rounded-lg border border-[#eaeaea]"
+                  className="max-w-[600px] flex-1 overflow-hidden rounded-lg border border-[#eaeaea]"
                 >
-                  <div className="flex flex-col py-8">
+                  <div className="flex flex-col pb-2 pt-8">
                     <div className="flex flex-col px-8">
                       <span className="mb-3 text-xl font-semibold">
                         {title}
@@ -261,9 +266,12 @@ const Home: NextPage = () => {
                       ))}
                     </div>
                   </div>
-                  <img
-                    src="https://i.imgur.com/8UqJzoD.png"
+                  <Image
+                    src={image}
+                    width={600}
+                    height={575}
                     alt="usecase cover"
+                    unoptimized
                   />
                 </div>
               ))}
@@ -280,7 +288,7 @@ const Home: NextPage = () => {
             ].map(({ stat, value }) => (
               <div
                 key={stat}
-                className="flex flex-1 flex-col py-5 text-center lg:border-r lg:border-[#eaeaea] lg:py-0"
+                className="flex flex-1 flex-col py-5 text-center lg:border-r lg:border-[#eaeaea] lg:py-0 lg:last:border-r-0"
               >
                 <span className="text-6xl font-bold text-black">{value}</span>
                 <span className="pt-2 text-sm font-semibold uppercase text-[#666]">
