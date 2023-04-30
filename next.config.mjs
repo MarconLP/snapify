@@ -34,12 +34,6 @@ const config = {
         port: '',
         pathname: '/**',
       },
-      {
-        protocol: 'https',
-        hostname: '*.producthunt.com',
-        port: '',
-        pathname: '/**',
-      },
     ],
   },
 
