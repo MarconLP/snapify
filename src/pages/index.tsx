@@ -226,7 +226,7 @@ const Home: NextPage = () => {
               ].map(({ title, description, features, image }) => (
                 <div
                   key={title}
-                  className="max-w-[600px] flex-1 overflow-hidden rounded-lg border border-[#eaeaea]"
+                  className="mx-auto max-w-[600px] flex-1 overflow-hidden rounded-lg border border-[#eaeaea]"
                 >
                   <div className="flex flex-col pb-2 pt-8">
                     <div className="flex flex-col px-8">
