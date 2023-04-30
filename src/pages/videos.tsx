@@ -5,7 +5,6 @@ import { api } from "~/utils/api";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-import Image from "next/image";
 import { getTime } from "~/utils/getTime";
 import ProfileMenu from "~/components/ProfileMenu";
 import NewVideoMenu from "~/components/NewVideoMenu";
