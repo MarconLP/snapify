@@ -51,7 +51,7 @@ export default function Header() {
 
         <Link
           href="/sign-in"
-          className="text-sm font-semibold leading-6 text-gray-900"
+          className="hidden text-sm font-semibold leading-6 text-gray-900 md:block"
         >
           Log in <span aria-hidden="true">&rarr;</span>
         </Link>
