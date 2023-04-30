@@ -212,29 +212,6 @@ const Home: NextPage = () => {
                     "https://f003.backblazeb2.com/file/test-cloudflares/engineering+usecase.png",
                 },
                 {
-                  title: "Bug Reporting",
-                  description:
-                    "Stop reading and writing wordy bug reports. Instead report bugs in a highly demonstrative way.",
-                  features: [
-                    "Record a video on how to reproduce a bug",
-                    "Request a quick demo when the bug is fixed",
-                    "Keep it in your issue tracking system",
-                  ],
-                  image:
-                    "https://f003.backblazeb2.com/file/test-cloudflares/bug+report+usecase.webp",
-                },
-                {
-                  title: "Education",
-                  description: "Engage students in and outside the classroom.",
-                  features: [
-                    "To enable individualized learning",
-                    "To complement a curriculum",
-                    "To add context to assignments",
-                  ],
-                  image:
-                    "https://f003.backblazeb2.com/file/test-cloudflares/education+usecase.webp",
-                },
-                {
                   title: "Support",
                   description:
                     "Discover a whole new way to delight customers and reach resolutions faster.",
