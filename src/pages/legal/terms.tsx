@@ -71,12 +71,12 @@ const Terms: NextPage = () => {
         <p className="mb-5">
           <strong>1.5 Corporate Domains. </strong>If a user creates a Workspace
           using an email address belonging to their employer or organization,
-          that account may be added to the organization's Workspace, in which
-          case Snapify will provide notice to the user or Administrator of the
-          account, so they can help facilitate the transfer of their account.
-          The Administrator of the Workspace will have the ability to control
-          that account, which includes being able to access, modify, or remove
-          information from the account, modify user roles, and delete or
+          that account may be added to the organization&apos;s Workspace, in
+          which case Snapify will provide notice to the user or Administrator of
+          the account, so they can help facilitate the transfer of their
+          account. The Administrator of the Workspace will have the ability to
+          control that account, which includes being able to access, modify, or
+          remove information from the account, modify user roles, and delete or
           restrict access to the account. Customers and Authorized Users agree
           to comply with their organization’s terms and policies regarding use
           of the Service.
@@ -218,9 +218,9 @@ const Terms: NextPage = () => {
         <p className="mb-5">
           <strong>5.1 Use. </strong>If the parties disclose Confidential
           Information to each other, the recipient will only use the disclosing
-          party's Confidential Information to exercise its rights and fulfill
-          its obligations under these Terms. The recipient will use at least
-          reasonable care to protect Confidential Information.
+          party&apos;s Confidential Information to exercise its rights and
+          fulfill its obligations under these Terms. The recipient will use at
+          least reasonable care to protect Confidential Information.
         </p>
         <p className="mb-5">
           <strong>5.2 Nondisclosure. </strong>The recipient will not disclose
@@ -382,14 +382,14 @@ const Terms: NextPage = () => {
         </p>
         <p className="mb-5">
           <strong>10.3 Possible Infringement. </strong>If the Services infringe
-          or are alleged to infringe a third party's intellectual property
+          or are alleged to infringe a third party&apos;s intellectual property
           rights, Snapify may: (a) obtain the right for Customer, at Snapify’s
           expense, to continue using the Services; (b) provide, at no additional
           charge, a non-infringing functionally equivalent replacement; or (c)
           modify the Services so that they no longer infringe. If Snapify does
           not believe the options above are commercially reasonable, Snapify may
-          terminate Customer's use of the affected Services and provide Customer
-          a prorated refund of prepaid fees for the remainder of the
+          terminate Customer&apos;s use of the affected Services and provide
+          Customer a prorated refund of prepaid fees for the remainder of the
           Subscription Term. Snapify will have no liability under this section
           if Customer continues the allegedly infringing activity after being
           notified and provided with a non-infringing functionally equivalent
@@ -423,10 +423,10 @@ const Terms: NextPage = () => {
         <p className="mb-5">
           <strong>11.2 Total Liability.</strong> EXCEPT FOR LIABILITY ARISING
           FROM A PARTY’S GROSS NEGLIGENCE, WILLFUL MISCONDUCT, OR BREACH OF
-          SECTIONS 1.4 OR 2.4, EACH PARTY'S ENTIRE LIABILITY ARISING OUT OF OR
-          RELATED TO THESE TERMS, WHETHER IN CONTRACT OR TORT OR UNDER ANY OTHER
-          THEORY OF LIABILITY, WILL NOT EXCEED IN AGGREGATE OF THE GREATER OF
-          FIFTY DOLLARS OR THE AMOUNT PAID BY CUSTOMER TO SNAPIFY IN THE 12
+          SECTIONS 1.4 OR 2.4, EACH PARTY&apos;S ENTIRE LIABILITY ARISING OUT OF
+          OR RELATED TO THESE TERMS, WHETHER IN CONTRACT OR TORT OR UNDER ANY
+          OTHER THEORY OF LIABILITY, WILL NOT EXCEED IN AGGREGATE OF THE GREATER
+          OF FIFTY DOLLARS OR THE AMOUNT PAID BY CUSTOMER TO SNAPIFY IN THE 12
           MONTHS PRECEDING THE LAST EVENT GIVING RISE TO LIABILITY. THE
           FOREGOING DISCLAIMER WILL NOT LIMIT CUSTOMER’S PAYMENT OBLIGATIONS
           ABOVE.
@@ -520,9 +520,9 @@ const Terms: NextPage = () => {
         <p className="mb-5">
           <strong>13.4 Waiver and Severance. </strong>A waiver of any default is
           not a waiver of any subsequent default. Unenforceable provisions will
-          be modified to reflect the parties' intention, but only to the extent
-          necessary to make them enforceable, and the remaining provisions will
-          remain in full effect.
+          be modified to reflect the parties&apos; intention, but only to the
+          extent necessary to make them enforceable, and the remaining
+          provisions will remain in full effect.
         </p>
         <p className="mb-5">
           <strong>13.5 Notices. </strong>Notices must be sent via first class
@@ -556,8 +556,8 @@ const Terms: NextPage = () => {
         <p className="mb-5">
           <strong>13.8 Force Majeure.</strong> Except for payment obligations,
           no party will be liable for inadequate performance to the extent
-          caused by a condition that was beyond the party's reasonable control
-          (such as, natural disaster, terrorism, governmental action, or
+          caused by a condition that was beyond the party&apos;s reasonable
+          control (such as, natural disaster, terrorism, governmental action, or
           Internet disturbance).
         </p>
         <p className="mb-5">
