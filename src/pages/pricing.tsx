@@ -10,7 +10,7 @@ import CTA from "~/components/CTA";
 import VideoRecordModal from "~/components/VideoRecordModal";
 
 export default function Pricing() {
-  const [billedAnnually, setBilledAnnually] = useState<boolean>(false);
+  const [billedAnnually, setBilledAnnually] = useState<boolean>(true);
 
   return (
     <>

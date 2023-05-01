@@ -14,7 +14,7 @@ export default function Paywall() {
     api.stripe.createCheckoutSession.useMutation();
   const router = useRouter();
   const [open, setOpen] = useAtom(paywallAtom);
-  const [billedAnnually, setBilledAnnually] = useState<boolean>(false);
+  const [billedAnnually, setBilledAnnually] = useState<boolean>(true);
   const posthog = usePostHog();
 
   function closeModal() {
