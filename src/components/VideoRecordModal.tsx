@@ -12,6 +12,7 @@ export default function VideoRecordModal() {
   const posthog = usePostHog();
 
   function closeModal() {
+    setStep("pre");
     setOpen(false);
   }
 
