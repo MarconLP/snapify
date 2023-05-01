@@ -43,7 +43,7 @@ export const getTime = (timestamp: Date): string => {
     timeString =
       `${
         months[date.getMonth()] || ""
-      }} ${date.getDate()} ${date.getFullYear()} ` +
+      } ${date.getDate()} ${date.getFullYear()} ` +
       `at ${
         date.getHours().toString().length === 1
           ? "0" + date.getHours().toString()
