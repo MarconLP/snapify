@@ -44,7 +44,7 @@ export default function Pricing() {
                 billedAnnually ? "bg-white" : ""
               }`}
             >
-              <span>Annual</span>
+              <span>Annually</span>
               <span className="ml-2 rounded-lg bg-neutral-200 p-1 text-xs font-normal">
                 -20%
               </span>
