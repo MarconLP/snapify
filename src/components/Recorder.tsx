@@ -135,6 +135,11 @@ export default function Recorder({ closeModal, step, setStep }: Props) {
   useEffect(() => {
     async function getAudioDevices() {
       try {
+        const stream = await navigator.mediaDevices.getUserMedia({
+          audio: { echoCancellation: false },
+        });
+        stream.getTracks().forEach((track) => track.stop()); // release the stream
+
         const devices = await navigator.mediaDevices.enumerateDevices();
         const audioDevices = devices.filter(
           (device) => device.kind === "audioinput"
@@ -368,7 +373,7 @@ export default function Recorder({ closeModal, step, setStep }: Props) {
               {submitting ? (
                 <>
                   <svg
-                    className="-ml-1 mr-3 h-5 w-5 animate-spin text-white"
+                    className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
                     viewBox="0 0 24 24"
