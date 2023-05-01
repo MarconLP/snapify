@@ -160,8 +160,8 @@ const VideoList: NextPage = () => {
                 </div>
               ) : (
                 <div className="mb-4 flex flex-col">
-                  <div className="h-5 w-[300px] animate-pulse rounded bg-slate-200"></div>
-                  <div className="mt-2 h-4 w-[50px] animate-pulse rounded bg-slate-200"></div>
+                  <div className="animate-pulse h-5 w-[300px] rounded bg-slate-200"></div>
+                  <div className="animate-pulse mt-2 h-4 w-[50px] rounded bg-slate-200"></div>
                 </div>
               )}
             </div>
@@ -169,9 +169,8 @@ const VideoList: NextPage = () => {
               {!isLoading ? (
                 <>
                   <div className="h-10 w-10 overflow-hidden rounded-full">
-                    <Image
-                      width={40}
-                      height={40}
+                    <img
+                      className="h-[40px] w-[40px]"
                       src={
                         video.user.image ??
                         "https://i.stack.imgur.com/dr5qp.jpg"
@@ -183,8 +182,8 @@ const VideoList: NextPage = () => {
                 </>
               ) : (
                 <>
-                  <div className="h-10 w-10 animate-pulse overflow-hidden rounded-full bg-red-400 bg-slate-200"></div>
-                  <div className="ml-3 h-4 w-[100px] animate-pulse rounded bg-slate-200 font-medium"></div>
+                  <div className="animate-pulse h-10 w-10 overflow-hidden rounded-full bg-red-400 bg-slate-200"></div>
+                  <div className="animate-pulse ml-3 h-4 w-[100px] rounded bg-slate-200 font-medium"></div>
                 </>
               )}
             </div>
