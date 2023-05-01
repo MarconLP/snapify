@@ -8,9 +8,17 @@ import { Disclosure, Transition } from "@headlessui/react";
 import { ChevronUpIcon } from "@heroicons/react/20/solid";
 import CTA from "~/components/CTA";
 import VideoRecordModal from "~/components/VideoRecordModal";
+import { usePostHog } from "posthog-js/react";
 
 export default function Pricing() {
   const [billedAnnually, setBilledAnnually] = useState<boolean>(true);
+  const posthog = usePostHog();
+
+  const toggleBillingCycle = () => {
+    setBilledAnnually(!billedAnnually);
+
+    posthog?.capture("change billing cycle");
+  };
 
   return (
     <>
@@ -30,7 +38,7 @@ export default function Pricing() {
         <div className="z-20 mt-4 flex items-center gap-2 lg:mt-8">
           <div
             className="relative flex w-full rounded-full border border-[#b0b0b0] bg-gray-200/70"
-            onClick={() => setBilledAnnually(!billedAnnually)}
+            onClick={toggleBillingCycle}
           >
             <button
               className={`rounded-full border border-gray-200 px-4 py-2 text-sm font-medium text-gray-900 shadow-sm transition focus:z-10 focus:outline-none focus:ring-0 sm:w-auto ${
