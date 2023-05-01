@@ -1,9 +1,10 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Bars3Icon } from "@heroicons/react/24/outline";
+import { useRouter } from "next/router";
 
 const navigation = [
-  { name: "Features", href: "/#features" },
+  { name: "Overview", href: "/" },
   { name: "Pricing", href: "/pricing" },
   { name: "Discord", href: "https://discord.com/invite/invalid" },
 ];
@@ -11,6 +12,7 @@ const navigation = [
 export default function Header() {
   const [attop, setAtTop] = useState(true);
   const [navbarOpen, setNavbarOpen] = useState(false);
+  const router = useRouter();
 
   const closeNav = () => {
     setNavbarOpen(false);
@@ -42,7 +44,11 @@ export default function Header() {
         <div className="hidden md:block">
           {navigation.map(({ href, name }) => (
             <Link key={name} href={href}>
-              <span className="mx-[6px] cursor-pointer p-2 text-sm text-[#666] hover:text-black">
+              <span
+                className={`mx-[6px] cursor-pointer rounded-full p-2 text-sm text-[#666] hover:text-black ${
+                  router.asPath === href ? "bg-[#00000014]" : ""
+                }`}
+              >
                 {name}
               </span>
             </Link>
