@@ -2,6 +2,8 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Bars3Icon } from "@heroicons/react/24/outline";
 import { useRouter } from "next/router";
+import logo from "~/assets/logo.png";
+import Image from "next/image";
 
 const navigation = [
   { name: "Overview", href: "/" },
@@ -30,14 +32,13 @@ export default function Header() {
     >
       <div className="m-auto flex w-[1048px] items-center justify-between px-[24px]">
         <Link href="/">
-          <img
+          <Image
             className="cursor-pointer p-2"
-            src={
-              "https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-            }
+            src={logo}
             alt="logo"
             width={42}
             height={42}
+            unoptimized
           />
         </Link>
 

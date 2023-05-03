@@ -14,6 +14,7 @@ import Image from "next/image";
 import CTA from "~/components/CTA";
 import engineeringUsecase from "~/assets/engineering usecase.png";
 import supportUsecase from "~/assets/support usecase.png";
+import logo from "~/assets/logo.png";
 
 const Home: NextPage = () => {
   const [, setRecordOpen] = useAtom(recordVideoModalOpen);
@@ -160,7 +161,13 @@ const Home: NextPage = () => {
                 {[
                   {
                     icon: (
-                      <VideoCameraIcon className="h-12 w-12 text-[#ff0000]" />
+                      <Image
+                        src={logo}
+                        alt="logo"
+                        width={48}
+                        height={48}
+                        unoptimized
+                      />
                     ),
                     title: "1. Record a video message",
                     description:
