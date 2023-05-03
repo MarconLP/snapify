@@ -66,7 +66,7 @@ export default function Pricing() {
         {[
           {
             name: "Free",
-            price: { monthly: 0, annual: 0 },
+            price: { monthly: "$0", annual: "$0" },
             features: [
               {
                 feature: "Unlimited recording",
@@ -101,7 +101,7 @@ export default function Pricing() {
           },
           {
             name: "Pro",
-            price: { monthly: 5, annual: 4 },
+            price: { monthly: "$5", annual: "$4" },
             features: [
               {
                 feature: "Unlimited recording",
