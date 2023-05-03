@@ -8,6 +8,14 @@ export const stripeRouter = createTRPCRouter({
     .input(z.object({ billedAnnually: z.boolean() }))
     .mutation(
       async ({ ctx: { prisma, stripe, session, req, posthog }, input }) => {
+        if (
+          !stripe ||
+          !env.STRIPE_ANNUAL_PRICE_ID ||
+          !env.STRIPE_MONTHLY_PRICE_ID
+        ) {
+          throw new Error("Stripe env variables not set");
+        }
+
         const customerId = await getOrCreateStripeCustomerIdForUser({
           prisma,
           stripe,
@@ -50,20 +58,24 @@ export const stripeRouter = createTRPCRouter({
           throw new Error("Could not create checkout session");
         }
 
-        posthog.capture({
+        posthog?.capture({
           distinctId: session.user.id,
           event: "visiting checkout page",
           properties: {
             billingCycle: input.billedAnnually ? "annual" : "monthly",
           },
         });
-        void posthog.shutdownAsync();
+        void posthog?.shutdownAsync();
 
         return { checkoutUrl: checkoutSession.url };
       }
     ),
   createBillingPortalSession: protectedProcedure.mutation(
     async ({ ctx: { stripe, session, prisma, req, posthog } }) => {
+      if (!stripe) {
+        throw new Error("Stripe env variables not set");
+      }
+
       const customerId = await getOrCreateStripeCustomerIdForUser({
         prisma,
         stripe,
@@ -89,14 +101,14 @@ export const stripeRouter = createTRPCRouter({
         throw new Error("Could not create billing portal session");
       }
 
-      posthog.capture({
+      posthog?.capture({
         distinctId: session.user.id,
         event: "visiting billing portal page",
         properties: {
           stripeSubscriptionStatus: session.user.stripeSubscriptionStatus,
         },
       });
-      void posthog.shutdownAsync();
+      void posthog?.shutdownAsync();
 
       return { billingPortalUrl: stripeBillingPortalSession.url };
     }

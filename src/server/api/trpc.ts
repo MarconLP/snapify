@@ -125,9 +125,11 @@ const enforceUserIsAuthed = t.middleware(async ({ ctx, next }) => {
   if (!ctx.session || !ctx.session.user) {
     throw new TRPCError({ code: "UNAUTHORIZED" });
   }
-  const { success } = await rateLimit.limit(ctx.session.user.id);
-  if (!success) {
-    throw new TRPCError({ code: "TOO_MANY_REQUESTS" });
+  if (rateLimit) {
+    const { success } = await rateLimit.limit(ctx.session.user.id);
+    if (!success) {
+      throw new TRPCError({ code: "TOO_MANY_REQUESTS" });
+    }
   }
 
   return next({

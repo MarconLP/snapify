@@ -23,14 +23,14 @@ export const videoRouter = createTRPCRouter({
         },
       });
 
-      posthog.capture({
+      posthog?.capture({
         distinctId: session.user.id,
         event: "viewing video list",
         properties: {
           videoAmount: videos.length,
         },
       });
-      void posthog.shutdownAsync();
+      void posthog?.shutdownAsync();
 
       const videosWithThumbnailUrl = await Promise.all(
         videos.map(async (video) => {
@@ -70,7 +70,7 @@ export const videoRouter = createTRPCRouter({
       }
 
       if (session) {
-        posthog.capture({
+        posthog?.capture({
           distinctId: session.user.id,
           event: "viewing video",
           properties: {
@@ -83,7 +83,7 @@ export const videoRouter = createTRPCRouter({
             videoShareLinkExpiresAt: video.shareLinkExpiresAt,
           },
         });
-        void posthog.shutdownAsync();
+        void posthog?.shutdownAsync();
       }
 
       const getObjectCommand = new GetObjectCommand({
@@ -110,7 +110,7 @@ export const videoRouter = createTRPCRouter({
         videos.length >= 10 &&
         session.user.stripeSubscriptionStatus !== "active"
       ) {
-        posthog.capture({
+        posthog?.capture({
           distinctId: session.user.id,
           event: "hit video upload limit",
           properties: {
@@ -118,7 +118,7 @@ export const videoRouter = createTRPCRouter({
             stripeSubscriptionStatus: session.user.stripeSubscriptionStatus,
           },
         });
-        void posthog.shutdownAsync();
+        void posthog?.shutdownAsync();
 
         throw new TRPCError({
           code: "FORBIDDEN",
@@ -127,7 +127,7 @@ export const videoRouter = createTRPCRouter({
         });
       }
 
-      posthog.capture({
+      posthog?.capture({
         distinctId: session.user.id,
         event: "uploading video",
         properties: {
@@ -135,7 +135,7 @@ export const videoRouter = createTRPCRouter({
           stripeSubscriptionStatus: session.user.stripeSubscriptionStatus,
         },
       });
-      void posthog.shutdownAsync();
+      void posthog?.shutdownAsync();
 
       const video = await prisma.video.create({
         data: {
@@ -184,7 +184,7 @@ export const videoRouter = createTRPCRouter({
         throw new TRPCError({ code: "FORBIDDEN" });
       }
 
-      posthog.capture({
+      posthog?.capture({
         distinctId: session.user.id,
         event: "update video setSharing",
         properties: {
@@ -192,7 +192,7 @@ export const videoRouter = createTRPCRouter({
           videoSharing: input.sharing,
         },
       });
-      void posthog.shutdownAsync();
+      void posthog?.shutdownAsync();
 
       return {
         success: true,
@@ -218,7 +218,7 @@ export const videoRouter = createTRPCRouter({
         throw new TRPCError({ code: "FORBIDDEN" });
       }
 
-      posthog.capture({
+      posthog?.capture({
         distinctId: session.user.id,
         event: "update video delete_after_link_expires",
         properties: {
@@ -226,7 +226,7 @@ export const videoRouter = createTRPCRouter({
           delete_after_link_expires: input.delete_after_link_expires,
         },
       });
-      void posthog.shutdownAsync();
+      void posthog?.shutdownAsync();
 
       return {
         success: true,
@@ -255,7 +255,7 @@ export const videoRouter = createTRPCRouter({
         throw new TRPCError({ code: "FORBIDDEN" });
       }
 
-      posthog.capture({
+      posthog?.capture({
         distinctId: session.user.id,
         event: "update video shareLinkExpiresAt",
         properties: {
@@ -263,7 +263,7 @@ export const videoRouter = createTRPCRouter({
           shareLinkExpiresAt: input.shareLinkExpiresAt,
         },
       });
-      void posthog.shutdownAsync();
+      void posthog?.shutdownAsync();
 
       return {
         success: true,
@@ -292,7 +292,7 @@ export const videoRouter = createTRPCRouter({
         throw new TRPCError({ code: "FORBIDDEN" });
       }
 
-      posthog.capture({
+      posthog?.capture({
         distinctId: session.user.id,
         event: "update video title",
         properties: {
@@ -300,7 +300,7 @@ export const videoRouter = createTRPCRouter({
           title: input.title,
         },
       });
-      void posthog.shutdownAsync();
+      void posthog?.shutdownAsync();
 
       return {
         success: true,
@@ -325,14 +325,14 @@ export const videoRouter = createTRPCRouter({
         throw new TRPCError({ code: "FORBIDDEN" });
       }
 
-      posthog.capture({
+      posthog?.capture({
         distinctId: session.user.id,
         event: "video delete",
         properties: {
           videoId: input.videoId,
         },
       });
-      void posthog.shutdownAsync();
+      void posthog?.shutdownAsync();
 
       const deleteVideoObject = await s3.send(
         new DeleteObjectCommand({

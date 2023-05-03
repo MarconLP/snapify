@@ -70,40 +70,44 @@ export const authOptions: NextAuthOptions = {
   ],
   events: {
     async signIn(message) {
-      const client = new PostHog(env.NEXT_PUBLIC_POSTHOG_KEY, {
-        host: env.NEXT_PUBLIC_POSTHOG_HOST,
-      });
+      if (!!env.NEXT_PUBLIC_POSTHOG_KEY) {
+        const client = new PostHog(env.NEXT_PUBLIC_POSTHOG_KEY, {
+          host: env.NEXT_PUBLIC_POSTHOG_HOST,
+        });
 
-      client.capture({
-        distinctId: message.user.id,
-        event: "user logged in",
-        properties: {
-          provider: message.account?.provider,
-          isNewUser: message.isNewUser,
-        },
-      });
+        client.capture({
+          distinctId: message.user.id,
+          event: "user logged in",
+          properties: {
+            provider: message.account?.provider,
+            isNewUser: message.isNewUser,
+          },
+        });
 
-      await client.shutdownAsync();
+        await client.shutdownAsync();
+      }
     },
     async signOut(message) {
-      const session = message.session as unknown as {
-        id: string;
-        sessionToken: string;
-        userId: string;
-        expires: Date;
-      };
-      if (!session?.userId) return;
+      if (!!env.NEXT_PUBLIC_POSTHOG_KEY) {
+        const session = message.session as unknown as {
+          id: string;
+          sessionToken: string;
+          userId: string;
+          expires: Date;
+        };
+        if (!session?.userId) return;
 
-      const client = new PostHog(env.NEXT_PUBLIC_POSTHOG_KEY, {
-        host: env.NEXT_PUBLIC_POSTHOG_HOST,
-      });
+        const client = new PostHog(env.NEXT_PUBLIC_POSTHOG_KEY, {
+          host: env.NEXT_PUBLIC_POSTHOG_HOST,
+        });
 
-      client.capture({
-        distinctId: session.userId,
-        event: "user logged out",
-      });
+        client.capture({
+          distinctId: session.userId,
+          event: "user logged out",
+        });
 
-      await client.shutdownAsync();
+        await client.shutdownAsync();
+      }
     },
   },
   pages: {

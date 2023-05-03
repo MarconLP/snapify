@@ -12,12 +12,12 @@ import { env } from "~/env.mjs";
 import { type ReactNode, useEffect } from "react";
 
 // Check that PostHog is client-side (used to handle Next.js SSR)
-if (typeof window !== "undefined") {
+if (typeof window !== "undefined" && !!env.NEXT_PUBLIC_POSTHOG_KEY) {
   posthog.init(env.NEXT_PUBLIC_POSTHOG_KEY, {
     api_host: env.NEXT_PUBLIC_POSTHOG_PROXY_HOST,
     // Enable debug mode in development
     loaded: (posthog) => {
-      if (process.env.NODE_ENV === "development") posthog.debug(false);
+      if (process.env.NODE_ENV === "development") posthog.debug();
     },
   });
 }
@@ -47,16 +47,16 @@ const PostHogIdentificationWrapper = ({
   const posthog = usePostHog();
 
   useEffect(() => {
-    if (!posthog) return;
+    if (!posthog?.__loaded) return;
     if (status === "authenticated") {
       const { id, name, email, stripeSubscriptionStatus } = session?.user;
-      posthog.identify(id, {
+      posthog?.identify(id, {
         name,
         email,
         stripeSubscriptionStatus,
       });
     } else if (status === "unauthenticated") {
-      posthog.reset();
+      posthog?.reset();
     }
   }, [posthog, session, status]);
 

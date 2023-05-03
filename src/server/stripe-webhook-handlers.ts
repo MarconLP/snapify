@@ -60,7 +60,7 @@ export const handleInvoicePaid = async ({
   event: Stripe.Event;
   stripe: Stripe;
   prisma: PrismaClient;
-  posthog: PostHog;
+  posthog: PostHog | null;
 }) => {
   const invoice = event.data.object as Stripe.Invoice;
   const subscriptionId = invoice.subscription;
@@ -81,14 +81,14 @@ export const handleInvoicePaid = async ({
   });
 
   if (userId && subscription.status) {
-    posthog.capture({
+    posthog?.capture({
       distinctId: userId,
       event: "stripe invoice.paid",
       properties: {
         stripeSubscriptionStatus: subscription.status,
       },
     });
-    void posthog.shutdownAsync();
+    void posthog?.shutdownAsync();
   }
 };
 
@@ -99,7 +99,7 @@ export const handleSubscriptionCreatedOrUpdated = async ({
 }: {
   event: Stripe.Event;
   prisma: PrismaClient;
-  posthog: PostHog;
+  posthog: PostHog | null;
 }) => {
   const subscription = event.data.object as Stripe.Subscription;
   const userId = subscription.metadata.userId;
@@ -116,11 +116,11 @@ export const handleSubscriptionCreatedOrUpdated = async ({
   });
 
   if (userId && subscription.status) {
-    posthog.capture({
+    posthog?.capture({
       distinctId: userId,
       event: "stripe subscription created or updated",
     });
-    void posthog.shutdownAsync();
+    void posthog?.shutdownAsync();
   }
 };
 
@@ -131,7 +131,7 @@ export const handleSubscriptionCanceled = async ({
 }: {
   event: Stripe.Event;
   prisma: PrismaClient;
-  posthog: PostHog;
+  posthog: PostHog | null;
 }) => {
   const subscription = event.data.object as Stripe.Subscription;
   const userId = subscription.metadata.userId;
@@ -148,10 +148,10 @@ export const handleSubscriptionCanceled = async ({
   });
 
   if (userId && subscription.status) {
-    posthog.capture({
+    posthog?.capture({
       distinctId: userId,
       event: "stripe subscription cancelled",
     });
-    void posthog.shutdownAsync();
+    void posthog?.shutdownAsync();
   }
 };

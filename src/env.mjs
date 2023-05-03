@@ -28,13 +28,13 @@ const server = z.object({
   AWS_KEY_ID: z.string(),
   AWS_SECRET_ACCESS_KEY: z.string(),
   AWS_BUCKET_NAME: z.string(),
-  STRIPE_SECRET_KEY: z.string(),
-  STRIPE_WEBHOOK_SECRET: z.string(),
-  STRIPE_MONTHLY_PRICE_ID: z.string(),
-  STRIPE_ANNUAL_PRICE_ID: z.string(),
+  STRIPE_SECRET_KEY: z.string().nullish(),
+  STRIPE_WEBHOOK_SECRET: z.string().nullish(),
+  STRIPE_MONTHLY_PRICE_ID: z.string().nullish(),
+  STRIPE_ANNUAL_PRICE_ID: z.string().nullish(),
   POSTHOG_PROXY_PATH: z.string(),
-  UPSTASH_REDIS_REST_URL: z.string(),
-  UPSTASH_REDIS_REST_TOKEN: z.string(),
+  UPSTASH_REDIS_REST_URL: z.string().nullish(),
+  UPSTASH_REDIS_REST_TOKEN: z.string().nullish(),
 });
 
 /**
@@ -43,9 +43,9 @@ const server = z.object({
  */
 const client = z.object({
   // NEXT_PUBLIC_CLIENTVAR: z.string().min(1),
-  NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: z.string(),
-  NEXT_PUBLIC_CRISP_WEBSITE_ID: z.string(),
-  NEXT_PUBLIC_POSTHOG_KEY: z.string(),
+  NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: z.string().nullish(),
+  NEXT_PUBLIC_CRISP_WEBSITE_ID: z.string().nullish(),
+  NEXT_PUBLIC_POSTHOG_KEY: z.string().nullish(),
   NEXT_PUBLIC_POSTHOG_HOST: z.string(),
   NEXT_PUBLIC_POSTHOG_PROXY_HOST: z.string(),
 });

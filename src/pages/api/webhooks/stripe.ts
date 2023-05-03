@@ -24,6 +24,10 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+  if (!webhookSecret || !stripe) {
+    return res.status(500).end("Stripe env variables not set");
+  }
+
   if (req.method === "POST") {
     const buf = await buffer(req);
     const sig = req.headers["stripe-signature"];
@@ -72,11 +76,11 @@ export default async function handler(
           const userId = subscription.metadata.userId;
 
           if (userId) {
-            posthog.capture({
+            posthog?.capture({
               distinctId: userId,
               event: "stripe invoice.payment_failed",
             });
-            void posthog.shutdownAsync();
+            void posthog?.shutdownAsync();
           }
           break;
         case "customer.subscription.deleted":
