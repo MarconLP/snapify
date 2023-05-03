@@ -16,6 +16,7 @@ import recordVideoModalOpen from "~/atoms/recordVideoModalOpen";
 import Paywall from "~/components/Paywall";
 import paywallAtom from "~/atoms/paywallAtom";
 import { usePostHog } from "posthog-js/react";
+import Image from "next/image";
 
 const VideoList: NextPage = () => {
   const [, setRecordOpen] = useAtom(recordVideoModalOpen);
@@ -182,11 +183,13 @@ const VideoCard = ({ title, id, createdAt, thumbnailUrl }: VideoCardProps) => {
     <Link href={`/share/${id}`}>
       <div className="h-[240px] w-[250px] cursor-pointer overflow-hidden rounded-lg border border-[#6c668533] text-sm font-normal">
         <figure>
-          <img
+          <Image
             src={thumbnailUrl}
+            className="max-h-[139.5px] max-w-[248px]"
             alt="video thumbnail"
             width={248}
             height={139.5}
+            unoptimized
           />
         </figure>
         <div className="m-4 flex flex-col">
