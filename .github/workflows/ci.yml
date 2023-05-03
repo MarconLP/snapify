@@ -1,0 +1,37 @@
+name: CI
+
+on: [push, pull_request]
+
+env:
+  DATABASE_URL: "https://fake.com"
+  AWS_ENDPOINT: "https://fake.com"
+  AWS_REGION: "us-east-005"
+  AWS_KEY_ID: "123"
+  AWS_SECRET_ACCESS_KEY: "123"
+  AWS_BUCKET_NAME: "123"
+  NEXTAUTH_URL: "http://localhost:3000/"
+  NEXTAUTH_SECRET: "5feaf48"
+  GOOGLE_CLIENT_ID: "abc"
+  GOOGLE_CLIENT_SECRET: "abc"
+  GITHUB_ID: "abc"
+  GITHUB_SECRET: "abc"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Print Environment Variable
+        run: echo $MY_ENV_VAR
