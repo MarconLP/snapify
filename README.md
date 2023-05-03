@@ -68,7 +68,7 @@
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FMarconLP%2Fsnapify)
 
 ## Contributing
-Please see our contributing guide at `CONTRIBUTION.md`
+Please see our contributing guide at `CONTRIBUTING.md`
 
 ## License
 Distributed under the Sustainable Use License. See `LICENSE.md` for more information.
