@@ -164,7 +164,7 @@ const Home: NextPage = () => {
                     ),
                     title: "1. Record a video message",
                     description:
-                      "Record a short video of your screen and camera with just a few clicks. No installations required.",
+                      "Record a short video of your screen with just a few clicks. No installations required.",
                   },
                   {
                     icon: <ShareIcon className="h-12 w-12" />,
@@ -176,12 +176,12 @@ const Home: NextPage = () => {
                     icon: <CheckCircleIcon className="h-12 w-12" />,
                     title: "3. Get work done",
                     description:
-                      "Get feedback, gather opinions, make decisions and more using interactive features such as on-video comments, on-video emoji reactions, video replies, polls, and more.",
+                      "Get feedback, gather opinions, make decisions and more.",
                   },
                 ].map(({ title, description, icon }) => (
                   <div
                     key={title}
-                    className="flex max-w-[600px] gap-x-4 lg:max-w-none"
+                    className="flex w-full max-w-[600px] gap-x-4 lg:max-w-none"
                   >
                     <div className="">{icon}</div>
                     <div className="flex flex-col">
