@@ -73,7 +73,7 @@ const Home: NextPage = () => {
             </div>
           </div>
 
-          <div className="mx-auto max-w-7xl py-6 sm:py-6 lg:py-6">
+          <div className="mx-auto hidden max-w-7xl py-6 sm:py-6 lg:py-6">
             <div className="text-center">
               <p className="mt-6 text-xl font-semibold leading-8 text-gray-600">
                 TRUSTED BY THE BEST BRANDS
