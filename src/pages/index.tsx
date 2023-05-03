@@ -12,6 +12,8 @@ import Footer from "~/components/Footer";
 import Header from "~/components/Header";
 import Image from "next/image";
 import CTA from "~/components/CTA";
+import engineeringUsecase from "~/assets/engineering usecase.png";
+import supportUsecase from "~/assets/support usecase.png";
 
 const Home: NextPage = () => {
   const [, setRecordOpen] = useAtom(recordVideoModalOpen);
@@ -214,8 +216,7 @@ const Home: NextPage = () => {
                     "To centralize team knowledge",
                     "To collaborate asynchronously",
                   ],
-                  image:
-                    "https://f003.backblazeb2.com/file/test-cloudflares/engineering+usecase.png",
+                  image: engineeringUsecase,
                 },
                 {
                   title: "Support",
@@ -226,8 +227,7 @@ const Home: NextPage = () => {
                     "To improve self-serve content",
                     "To accelerate team onboarding",
                   ],
-                  image:
-                    "https://f003.backblazeb2.com/file/test-cloudflares/support+usecase.webp",
+                  image: supportUsecase,
                 },
               ].map(({ title, description, features, image }) => (
                 <div
