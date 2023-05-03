@@ -7,6 +7,7 @@ import Head from "next/head";
 import { getProviders, signIn } from "next-auth/react";
 import { getServerSession } from "next-auth";
 import { authOptions } from "~/server/auth";
+import Link from "next/link";
 
 const SignIn = ({
   providers,
@@ -44,8 +45,8 @@ const SignIn = ({
             </div>
             <p className="prose prose-sm mx-auto mt-6 max-w-[18rem] text-xs text-gray-500">
               By signing in, you agree to our{" "}
-              <a href="/info/terms-of-service">Terms of Service</a> and{" "}
-              <a href="/info/privacy-policy">Privacy Policy</a>.
+              <Link href="/legal/terms">Terms of Service</Link> and{" "}
+              <Link href="/legal/privacy-policy">Privacy Policy</Link>.
             </p>
           </div>
         </div>
