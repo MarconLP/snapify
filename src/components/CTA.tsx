@@ -7,6 +7,12 @@ export default function CTA() {
   const posthog = usePostHog();
 
   const openRecordModal = () => {
+    if (
+      !navigator?.mediaDevices?.getDisplayMedia &&
+      !navigator?.mediaDevices?.getDisplayMedia
+    ) {
+      return alert("Your browser is currently NOT supported.");
+    }
     setRecordOpen(true);
 
     posthog?.capture("open record video modal", {

@@ -17,7 +17,7 @@ if (typeof window !== "undefined") {
     api_host: env.NEXT_PUBLIC_POSTHOG_PROXY_HOST,
     // Enable debug mode in development
     loaded: (posthog) => {
-      if (process.env.NODE_ENV === "development") posthog.debug();
+      if (process.env.NODE_ENV === "development") posthog.debug(false);
     },
   });
 }

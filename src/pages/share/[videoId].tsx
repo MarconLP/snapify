@@ -43,6 +43,12 @@ const VideoList: NextPage = () => {
   );
 
   const openRecordModal = () => {
+    if (
+      !navigator?.mediaDevices?.getDisplayMedia &&
+      !navigator?.mediaDevices?.getDisplayMedia
+    ) {
+      return alert("Your browser is currently NOT supported.");
+    }
     setRecordOpen(true);
 
     posthog?.capture("open record video modal", {
