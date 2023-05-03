@@ -15,6 +15,7 @@ import { usePostHog } from "posthog-js/react";
 import { useAtom } from "jotai";
 import recordVideoModalOpen from "~/atoms/recordVideoModalOpen";
 import VideoRecordModal from "~/components/VideoRecordModal";
+import defaultProfileIcon from "~/assets/default profile icon.jpg";
 
 const VideoList: NextPage = () => {
   const router = useRouter();
@@ -175,13 +176,12 @@ const VideoList: NextPage = () => {
               {!isLoading ? (
                 <>
                   <div className="h-10 w-10 overflow-hidden rounded-full">
-                    <img
-                      className="h-[40px] w-[40px]"
-                      src={
-                        video.user.image ??
-                        "https://i.stack.imgur.com/dr5qp.jpg"
-                      }
-                      alt="profile photo"
+                    <Image
+                      src={video.user.image ?? defaultProfileIcon}
+                      alt="profile icon"
+                      width={40}
+                      height={40}
+                      unoptimized
                     />
                   </div>
                   <span className="ml-3 font-medium">{video.user.name}</span>

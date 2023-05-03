@@ -4,6 +4,8 @@ import { signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { api } from "~/utils/api";
 import { usePostHog } from "posthog-js/react";
+import defaultProfileIcon from "~/assets/default profile icon.jpg";
+import Image from "next/image";
 
 export default function ProfileMenu() {
   const { mutateAsync: createBillingPortalSession } =
@@ -28,10 +30,13 @@ export default function ProfileMenu() {
     <Menu as="div" className="relative inline-block text-left">
       <Menu.Button className="flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
         <span className="sr-only">Open user menu</span>
-        <img
+        <Image
           className="h-8 w-8 rounded-full"
-          src={session?.user?.image ?? "https://i.stack.imgur.com/dr5qp.jpg"}
-          alt=""
+          src={session?.user?.image ?? defaultProfileIcon}
+          alt="profile icon"
+          width={32}
+          height={32}
+          unoptimized
         />
       </Menu.Button>
       <Transition
