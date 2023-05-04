@@ -37,19 +37,19 @@
    git clone https://github.com/MarconLP/snapify.git
    ```
 
-1. Go to the project folder
+2. Go to the project folder
 
    ```sh
    cd snapify
    ```
 
-1. Install packages with yarn
+3. Install packages with yarn
 
    ```sh
    npm i
    ```
 
-1. Set up your .env file
+4. Set up your .env file
     - Duplicate `.env.example` to `.env`
     - Use `openssl rand -base64 32` to generate a key and add it under `NEXTAUTH_SECRET` in the .env file.
     - Fill in the other variables
@@ -60,6 +60,15 @@
    ```sh
    npm run dev
    ```
+
+### E2E-Testing
+
+Be sure to set the environment variable `NEXTAUTH_URL` to the correct value. If you are running locally, as the documentation within `.env.example` mentions, the value should be `http://localhost:3000`.
+
+```sh
+# In a terminal just run:
+npm run test:e2e
+```
 
 ## Deployment
 
