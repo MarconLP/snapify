@@ -52,10 +52,37 @@
 4. Set up your .env file
     - Duplicate `.env.example` to `.env`
     - Use `openssl rand -base64 32` to generate a key and add it under `NEXTAUTH_SECRET` in the .env file.
-    - Fill in the other variables
+    - <details>
+      <summary>Fill in the other variables</summary>
+         <details>
+         <summary>Configure DATABASE_URL</summary>
+   
+         1. Open [Railway](https://railway.app/) and click "Start a New Project", and select Provision "PostgreSQL".
+         2. Select the Postgres App and copy the `DATABASE_URL` into the `.env`.
 
+         </details>
+         <details>
+         <summary>Obtaining the Github API Credentials</summary>
 
-1. Run (in development mode)
+         1. Open [Github Developer Settings](https://github.com/settings/apps).
+         2. Next, go to [OAuth Apps](https://github.com/settings/developers) from the side pane. Then click the "New OAuth App" button. Make sure to set `Authorization callback URL` to `<Snapify URL>/api/auth/callback/github` replacing Snapify URL with the URI at which your application runs.
+         3. Copy the `Client ID` as `GITHUB_ID` into the `.env`.
+         4. Next, click "Generate a new client secret" and copy the `Client secret` as `GITHUB_SECRET` into the `.env`.
+
+         </details>
+         <details>
+         <summary>Obtaining the AWS S3 API Credentials</summary>
+
+         1. Open [B2 Cloud Storage Buckets](https://secure.backblaze.com/b2_buckets.htm).
+         2. Create a new Bucket, make sure to set the bucket to private to make sure files are not being made publicly available.
+         3. Copy the `Endpoint` as `AWS_ENDPOINT` and the Bucket name as `AWS_BUCKET_NAME` into the `.env`. Additionally you need to add the `AWS_REGION`, which is part of the endpoint and should look like this: `us-east-005`.
+         4. Next, go to [Application Keys](https://secure.backblaze.com/app_keys.htm) from the side pane. Then create a new Application Key, with full read and write access to the bucket.
+         5. Copy the `keyID` as `AWS_KEY_ID` and the `applicationKey` as `AWS_SECRET_ACCESS_KEY` into the `.env`.
+
+         </details>
+      </details>
+   
+5. Run (in development mode)
 
    ```sh
    npm run dev
@@ -74,7 +101,7 @@ npm run test:e2e
 
 ### Vercel
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FMarconLP%2Fsnapify)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FMarconLP%2Fsnapify&env=DATABASE_URL,NEXTAUTH_URL,NEXTAUTH_SECRET,GITHUB_ID,GITHUB_SECRET,AWS_ENDPOINT,AWS_REGION,AWS_KEY_ID,AWS_SECRET_ACCESS_KEY,AWS_BUCKET_NAME&project-name=snapify&repository-name=snapify)
 
 ## Contributing
 Please see our contributing guide at `CONTRIBUTING.md`
