@@ -191,7 +191,7 @@ const VideoList: NextPage = () => {
                 </>
               ) : (
                 <>
-                  <div className="animate-pulse h-10 w-10 overflow-hidden rounded-full bg-red-400 bg-slate-200"></div>
+                  <div className="animate-pulse h-10 w-10 overflow-hidden rounded-full bg-slate-200"></div>
                   <div className="animate-pulse ml-3 h-4 w-[100px] rounded bg-slate-200 font-medium"></div>
                 </>
               )}
