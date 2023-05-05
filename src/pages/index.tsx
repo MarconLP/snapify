@@ -1,6 +1,6 @@
-import { type GetServerSideProps, type NextPage } from "next";
+import { type NextPage } from "next";
 import Head from "next/head";
-import { getSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import { usePostHog } from "posthog-js/react";
 import { useAtom } from "jotai";
 import recordVideoModalOpen from "~/atoms/recordVideoModalOpen";
@@ -15,10 +15,20 @@ import CTA from "~/components/CTA";
 import engineeringUsecase from "~/assets/engineering usecase.png";
 import supportUsecase from "~/assets/support usecase.png";
 import logo from "~/assets/logo.png";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
 
 const Home: NextPage = () => {
   const [, setRecordOpen] = useAtom(recordVideoModalOpen);
   const posthog = usePostHog();
+  const session = useSession();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (session.status === "authenticated") {
+      void router.push("/videos");
+    }
+  }, [session, router]);
 
   const openRecordModal = () => {
     if (
@@ -304,20 +314,3 @@ const Home: NextPage = () => {
 };
 
 export default Home;
-
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const session = await getSession(context);
-
-  if (session) {
-    return {
-      redirect: {
-        destination: "/videos",
-        permanent: false,
-      },
-    };
-  }
-
-  return {
-    props: { session },
-  };
-};
