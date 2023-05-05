@@ -20,7 +20,7 @@ const SignIn = ({
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="flex min-h-screen flex-col items-center justify-center bg-[#f9fafb]">
-        <div className="bg-white px-4 py-8 shadow shadow sm:rounded-lg sm:px-10">
+        <div className="bg-white px-4 py-8 shadow sm:rounded-lg sm:px-10">
           <div className="animate-fade-in flex flex-col justify-center text-center">
             <span className="text-sm font-medium text-gray-700">
               Sign in with
