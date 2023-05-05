@@ -21,20 +21,7 @@ const config = {
     defaultLocale: "en",
   },
   images: {
-    remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: '*.backblazeb2.com',
-        port: '',
-        pathname: '/**',
-      },
-      {
-        protocol: 'https',
-        hostname: 'tailwindui.com',
-        port: '',
-        pathname: '/**',
-      },
-    ],
+    remotePatterns: [],
   },
 
   async rewrites() {
