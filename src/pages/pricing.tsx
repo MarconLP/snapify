@@ -9,6 +9,7 @@ import { ChevronUpIcon } from "@heroicons/react/20/solid";
 import CTA from "~/components/CTA";
 import VideoRecordModal from "~/components/VideoRecordModal";
 import { usePostHog } from "posthog-js/react";
+import { signIn } from "next-auth/react";
 
 export default function Pricing() {
   const [billedAnnually, setBilledAnnually] = useState<boolean>(true);
@@ -160,6 +161,7 @@ export default function Pricing() {
               </div>
               <div className="mt-2 flex-grow" />
               <button
+                onClick={() => void signIn()}
                 type="submit"
                 className="btn mt-4 block w-full appearance-none rounded-lg bg-black px-4 py-2.5 text-center text-sm font-medium text-white shadow-lg shadow-black/50 duration-100 focus:outline-transparent disabled:opacity-80"
               >
