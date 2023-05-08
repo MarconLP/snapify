@@ -19,13 +19,13 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 
 const Home: NextPage = () => {
-  const [, setRecordOpen] = useAtom(recordVideoModalOpen);
+  const [recordModalOpen, setRecordOpen] = useAtom(recordVideoModalOpen);
   const posthog = usePostHog();
   const session = useSession();
   const router = useRouter();
 
   useEffect(() => {
-    if (session.status === "authenticated") {
+    if (session.status === "authenticated" && !recordModalOpen) {
       void router.push("/videos");
     }
   }, [session, router]);
@@ -92,7 +92,7 @@ const Home: NextPage = () => {
               <p className="mt-6 text-xl font-semibold leading-8 text-gray-600">
                 TRUSTED BY THE BEST BRANDS
               </p>
-              <div className="relative relative flex overflow-x-hidden before:absolute before:left-0 before:z-10 before:h-full before:w-[15vw] before:bg-gradient-to-r before:from-white before:to-transparent after:absolute after:right-0 after:h-full after:w-[15vw] after:bg-gradient-to-r after:from-transparent after:to-white">
+              <div className="relative flex overflow-x-hidden before:absolute before:left-0 before:z-10 before:h-full before:w-[15vw] before:bg-gradient-to-r before:from-white before:to-transparent after:absolute after:right-0 after:h-full after:w-[15vw] after:bg-gradient-to-r after:from-transparent after:to-white">
                 {[1, 2].map((x) => (
                   <div
                     key={x}
@@ -168,6 +168,7 @@ const Home: NextPage = () => {
                   width={600}
                   height={575}
                   alt="step description"
+                  unoptimized
                 />
               </div>
               <div className="flex flex-1 flex-col items-center justify-center gap-y-12">
@@ -225,7 +226,7 @@ const Home: NextPage = () => {
                 bug, or demoing an app.
               </span>
             </div>
-            <div className="mt-16 flex grid grid-cols-1 gap-8 md:grid-cols-2">
+            <div className="mt-16 grid grid-cols-1 gap-8 md:grid-cols-2">
               {[
                 {
                   title: "Engineering",
