@@ -8,7 +8,7 @@ import Image from "next/image";
 const navigation = [
   { name: "Overview", href: "/" },
   { name: "Pricing", href: "/pricing" },
-  { name: "Discord", href: "https://discord.com/invite/invalid" },
+  { name: "Github", href: "https://github.com/MarconLP/snapify" },
 ];
 
 export default function Header() {
