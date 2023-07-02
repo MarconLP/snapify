@@ -70,7 +70,7 @@ export default function Paywall() {
                 >
                   <CloseIcon />
                 </button>
-                <div className="mx-auto max-w-7xl px-8 pt-20">
+                <div className="mx-auto h-full max-w-7xl overflow-auto px-8 pb-8 pt-20">
                   <section className="relative mx-auto flex max-w-4xl flex-col justify-between gap-8 md:flex-row md:items-center ">
                     <div
                       id="heading-comp-1"
