@@ -108,7 +108,7 @@ const VideoList: NextPage = () => {
         </div>
         <div className="flex w-full grow items-start justify-center overflow-auto bg-[#fbfbfb] pt-14">
           {videos && videos?.length <= 0 ? (
-            <div className="flex items-center justify-center">
+            <div className="flex items-center justify-center px-8">
               <div className="flex flex-col">
                 <span className="text-lg font-semibold text-zinc-700">
                   No videos found
@@ -117,7 +117,7 @@ const VideoList: NextPage = () => {
                   Videos you record will show up here. Already got videos?
                   Upload them!
                 </span>
-                <div className="mt-4">
+                <div className="mt-4 flex flex-wrap gap-4">
                   <button
                     onClick={openRecordModal}
                     className="inline-flex items-center rounded-md border border-transparent bg-red-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
@@ -126,7 +126,7 @@ const VideoList: NextPage = () => {
                   </button>
                   <button
                     onClick={openUploadModal}
-                    className="ml-4 inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                    className="inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                   >
                     Upload a video
                   </button>
@@ -171,7 +171,7 @@ interface VideoCardProps {
 
 const VideoCardSkeleton = () => {
   return (
-    <div className="animate-pulse h-[240px] w-[250px] overflow-hidden rounded-lg border border-[#6c668533] text-sm font-normal">
+    <div className="h-[240px] w-[250px] animate-pulse overflow-hidden rounded-lg border border-[#6c668533] text-sm font-normal">
       <figure className="relative aspect-video w-full bg-slate-200"></figure>
       <div className="m-4 flex flex-col">
         <span className="h-4 rounded bg-slate-200"></span>
