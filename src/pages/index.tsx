@@ -161,17 +161,8 @@ const Home: NextPage = () => {
                 Get started easily. Share video instantly.
               </span>
             </div>
-            <div className="mt-6 flex flex-col gap-x-6 lg:mt-16 lg:flex-row lg:gap-x-20">
-              <div className="mb-24 flex flex-1 items-center justify-center lg:mb-0">
-                <Image
-                  src="https://f003.backblazeb2.com/file/test-cloudflares/how+it+works.webp"
-                  width={600}
-                  height={575}
-                  alt="step description"
-                  unoptimized
-                />
-              </div>
-              <div className="flex flex-1 flex-col items-center justify-center gap-y-12">
+            <div className="mt-6 flex flex-col gap-x-6 xl:mt-16 xl:flex-row xl:gap-x-20">
+              <div className="mt-24 flex flex-1 flex-col items-center justify-center gap-8 xl:flex-row xl:items-start xl:gap-12">
                 {[
                   {
                     icon: (
@@ -202,9 +193,9 @@ const Home: NextPage = () => {
                 ].map(({ title, description, icon }) => (
                   <div
                     key={title}
-                    className="flex w-full max-w-[600px] gap-x-4 lg:max-w-none"
+                    className="flex w-full max-w-[600px] gap-x-4 xl:max-w-none"
                   >
-                    <div className="">{icon}</div>
+                    <div className="shrink-0">{icon}</div>
                     <div className="flex flex-col">
                       <span className="mb-4 text-[32px]">{title}</span>
                       <span>{description}</span>
