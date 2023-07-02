@@ -120,7 +120,7 @@ export default function Paywall() {
                             Pro
                           </div>
                           <div className="mb-2 mt-4 flex items-end text-5xl font-extrabold tracking-tight">
-                            {billedAnnually ? "$4" : "$5"}
+                            {billedAnnually ? "$8" : "$10"}
                             <span className="mb-1 text-sm opacity-80">
                               / mo.
                             </span>
