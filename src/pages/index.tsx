@@ -267,7 +267,6 @@ const Home: NextPage = () => {
                     width={600}
                     height={575}
                     alt="usecase cover"
-                    unoptimized
                   />
                 </div>
               ))}
