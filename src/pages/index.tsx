@@ -47,7 +47,7 @@ const Home: NextPage = () => {
   return (
     <>
       <Head>
-        <title>Snapify | Async video messaging</title>
+        <title>Snapify | The Open Source Loom Alternative</title>
         <meta
           name="description"
           content="Share high-quality videos asynchronously and collaborate on your own schedule"
@@ -70,11 +70,11 @@ const Home: NextPage = () => {
             {/*</div>*/}
             <div className="text-center">
               <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
-                Async video messaging
+                The open source Loom alternative.
               </h1>
               <p className="mt-6 text-lg leading-8 text-gray-600">
-                Share high-quality videos asynchronously and collaborate on your
-                own schedule
+                Self-hosted or hosted by us. You are in control of your own
+                data.
               </p>
               <div className="mt-10 flex items-center justify-center gap-x-6">
                 <button

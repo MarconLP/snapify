@@ -84,7 +84,9 @@ const VideoList: NextPage = () => {
   return (
     <>
       <Head>
-        <title>{video?.title ?? "Snapify | Async video messaging"}</title>
+        <title>
+          {video?.title ?? "Snapify | The Open Source Loom Alternative"}
+        </title>
         <meta
           name="description"
           content="Share high-quality videos asynchronously and collaborate on your own schedule"
@@ -170,8 +172,8 @@ const VideoList: NextPage = () => {
                 </div>
               ) : (
                 <div className="mb-4 flex flex-col">
-                  <div className="animate-pulse h-5 w-[300px] rounded bg-slate-200"></div>
-                  <div className="animate-pulse mt-2 h-4 w-[50px] rounded bg-slate-200"></div>
+                  <div className="h-5 w-[300px] animate-pulse rounded bg-slate-200"></div>
+                  <div className="mt-2 h-4 w-[50px] animate-pulse rounded bg-slate-200"></div>
                 </div>
               )}
             </div>
@@ -191,8 +193,8 @@ const VideoList: NextPage = () => {
                 </>
               ) : (
                 <>
-                  <div className="animate-pulse h-10 w-10 overflow-hidden rounded-full bg-slate-200"></div>
-                  <div className="animate-pulse ml-3 h-4 w-[100px] rounded bg-slate-200 font-medium"></div>
+                  <div className="h-10 w-10 animate-pulse overflow-hidden rounded-full bg-slate-200"></div>
+                  <div className="ml-3 h-4 w-[100px] animate-pulse rounded bg-slate-200 font-medium"></div>
                 </>
               )}
             </div>
