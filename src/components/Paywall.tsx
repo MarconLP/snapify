@@ -8,8 +8,10 @@ import { useRouter } from "next/router";
 import { CheckIcon } from "@heroicons/react/20/solid";
 import Tooltip from "~/components/Tooltip";
 import { usePostHog } from "posthog-js/react";
+import recordVideoModalOpen from "~/atoms/recordVideoModalOpen";
 
 export default function Paywall() {
+  const [recordModalOpen] = useAtom(recordVideoModalOpen);
   const { mutateAsync: createCheckoutSession } =
     api.stripe.createCheckoutSession.useMutation();
   const router = useRouter();
@@ -26,7 +28,11 @@ export default function Paywall() {
   const handleCheckout = async () => {
     const { checkoutUrl } = await createCheckoutSession({ billedAnnually });
     if (checkoutUrl) {
-      void router.push(checkoutUrl);
+      if (recordModalOpen) {
+        window.open(checkoutUrl, "_blank", "noreferrer,width=500,height=500");
+      } else {
+        void router.push(checkoutUrl);
+      }
     }
   };
 
