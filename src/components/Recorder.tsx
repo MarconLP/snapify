@@ -410,13 +410,13 @@ export default function Recorder({ closeModal, step, setStep }: Props) {
             </button>
             <button
               type="button"
-              className="ml-auto inline-flex items-center rounded-md bg-indigo-500 px-4 py-2 text-sm font-semibold leading-6 text-white shadow transition duration-150 ease-in-out hover:bg-indigo-400 disabled:cursor-not-allowed"
+              className="ml-auto inline-flex items-center rounded-md bg-[#dc2625] px-4 py-2 text-sm font-semibold leading-6 text-white shadow transition duration-150 ease-in-out hover:bg-indigo-400 disabled:cursor-not-allowed"
               onClick={() => {
                 posthog?.capture("recorder: closed post-modal");
                 void closeModal();
               }}
             >
-              Close
+              Delete
             </button>
           </div>
         </div>
