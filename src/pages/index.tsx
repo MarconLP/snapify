@@ -100,7 +100,7 @@ const Home: NextPage = () => {
 
           <div
             className={`flex w-full items-center justify-center border-t pt-6 ${
-              socialProofEnabled ? "flex" : "flex"
+              socialProofEnabled ? "flex" : "hidden"
             }`}
           >
             <div className="flex max-w-7xl flex-1 flex-col items-center justify-between gap-y-10 py-4 lg:h-[140px] lg:flex-row">
