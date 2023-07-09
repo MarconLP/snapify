@@ -10,6 +10,7 @@ import CTA from "~/components/CTA";
 import VideoRecordModal from "~/components/VideoRecordModal";
 import { usePostHog } from "posthog-js/react";
 import { signIn } from "next-auth/react";
+import Link from "next/link";
 
 export default function Pricing() {
   const [billedAnnually, setBilledAnnually] = useState<boolean>(true);
@@ -65,44 +66,9 @@ export default function Pricing() {
         </div>
       </div>
 
-      <div className="relative mx-4 mb-20 flex flex-col items-center justify-center gap-12 md:flex-row md:gap-4 lg:mx-16 lg:gap-16">
+      <div className="relative mx-4 mb-20 flex flex-col items-start justify-center gap-12 md:flex-row md:gap-4 lg:mx-16 lg:gap-16">
         <div className="absolute left-[calc(50%_-_calc(min(75vw,500px)_/_2))] h-[min(75vw,500px)] w-[min(75vw,500px)] bg-[radial-gradient(circle_at_center,#666_0,#fff_100%)] opacity-80 blur-[calc(0.5_*_min(75vw,500px))]"></div>
         {[
-          {
-            name: "Free",
-            price: { monthly: "$0", annual: "$0" },
-            features: [
-              {
-                feature: "Unlimited recording",
-                description:
-                  "Make unlimited recordings of your tab, desktop, and any application.",
-                included: true,
-              },
-              {
-                feature: "Limited video library",
-                description:
-                  "Store up to 10 recorded videos in your Snapify library.",
-                included: true,
-              },
-              {
-                feature: "Video download",
-                description:
-                  "Download your recorded videos for offline viewing or sharing with others.",
-                included: true,
-              },
-              {
-                feature: "External video upload",
-                description:
-                  "Upload videos recorded using other tools or platforms to your Snapify library.",
-                included: false,
-              },
-              {
-                feature: "Custom branding",
-                description: "Remove Snapify branding from your videos.",
-                included: false,
-              },
-            ],
-          },
           {
             name: "Pro",
             price: { monthly: "$10", annual: "$8" },
@@ -188,6 +154,32 @@ export default function Pricing() {
             </div>
           </div>
         ))}
+        <div
+          key={"enterprise"}
+          className="relative w-full max-w-[400px] flex-1 rounded-3xl border bg-white shadow-sm"
+        >
+          <div className="hero relative flex flex-col items-start rounded-3xl px-6 py-6 shadow-sm">
+            <div className="rounded-lg bg-white/20 px-2 font-medium">
+              Enterprise
+            </div>
+            <div className="mb-2 mt-4 flex items-end text-5xl font-extrabold tracking-tight">
+              Custom
+            </div>
+            <div className="mt-2 text-sm">
+              Contact us for a custom quote and a custom onboarding process.
+            </div>
+            <div className="mt-2 flex-grow" />
+            <Link
+              href="mailto:sales@snapify.it"
+              onClick={() =>
+                posthog?.capture("clicked contact enterprise plan")
+              }
+              className="btn mt-4 block w-full appearance-none rounded-lg bg-black px-4 py-2.5 text-center text-sm font-medium text-white shadow-lg shadow-black/50 duration-100 focus:outline-transparent disabled:opacity-80"
+            >
+              Contact
+            </Link>
+          </div>
+        </div>
       </div>
 
       <div className="flex flex-col items-center justify-center border-y border-[#eaeaea] bg-[#fafafa] pb-8">
