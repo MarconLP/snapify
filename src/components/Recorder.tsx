@@ -257,6 +257,7 @@ export default function Recorder({ closeModal, step, setStep }: Props) {
                 />
                 <span className="block truncate">
                   {selectedDevice?.label ?? "No device selected"}
+                  {selectedDevice?.label === "" ? "Enabled" : null}
                 </span>
                 <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
                   <ChevronUpDownIcon
