@@ -1,7 +1,7 @@
 import { type NextPage } from "next";
 import Head from "next/head";
 import { useSession } from "next-auth/react";
-import { usePostHog } from "posthog-js/react";
+import { useFeatureFlagEnabled, usePostHog } from "posthog-js/react";
 import { useAtom } from "jotai";
 import recordVideoModalOpen from "~/atoms/recordVideoModalOpen";
 import VideoRecordModal from "~/components/VideoRecordModal";
@@ -17,12 +17,14 @@ import supportUsecase from "~/assets/support usecase.png";
 import logo from "~/assets/logo.png";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
+import StarIcon from "~/assets/StarIcon";
 
 const Home: NextPage = () => {
   const [recordModalOpen, setRecordOpen] = useAtom(recordVideoModalOpen);
   const posthog = usePostHog();
   const session = useSession();
   const router = useRouter();
+  const socialProofEnabled = useFeatureFlagEnabled("social-proof-section");
 
   useEffect(() => {
     if (session.status === "authenticated" && !recordModalOpen) {
@@ -91,6 +93,89 @@ const Home: NextPage = () => {
                   className="text-sm font-semibold leading-6"
                 >
                   Schedule Demo <span aria-hidden="true">→</span>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div
+            className={`flex w-full items-center justify-center border-t pt-6 ${
+              socialProofEnabled ? "flex" : "flex"
+            }`}
+          >
+            <div className="flex max-w-7xl flex-1 flex-col items-center justify-between gap-y-10 py-4 lg:h-[140px] lg:flex-row">
+              {[
+                {
+                  name: "Roman Hof",
+                  role: "Director of Enterprise",
+                  text: "Awesome Product",
+                  profilePicture:
+                    "https://media.licdn.com/dms/image/D4E03AQF1ZhbVE1qpFQ/profile-displayphoto-shrink_800_800/0/1674193281406?e=1694649600&v=beta&t=w0gLnv2rUhlWja_YH7g1MlhD6seUXrRxhHv4vE_GWI8",
+                },
+                {
+                  name: "Peer Richelsen",
+                  role: "CEO @ Cal.com",
+                  text: "Incredibly easy to use",
+                  profilePicture:
+                    "https://media.licdn.com/dms/image/C4D03AQFy5iED85Z9mQ/profile-displayphoto-shrink_800_800/0/1650904367921?e=2147483647&v=beta&t=xuXJqTlkv-rtrWY2-9B9yhHvyPMxfK9X9XgNdAkAobA",
+                },
+                {
+                  name: "Mish Ushakov",
+                  role: "CTO @ StepCI",
+                  text: "A godsend",
+                  profilePicture:
+                    "https://avatars.githubusercontent.com/u/10400064?v=4",
+                },
+              ].map(({ name, role, text, profilePicture }) => (
+                <div key={name} className="gap-2 text-center">
+                  <div className="mb-2 flex justify-center">
+                    <div className="flex flex-row gap-1 fill-[#fbbf24]">
+                      <StarIcon />
+                      <StarIcon />
+                      <StarIcon />
+                      <StarIcon />
+                      <StarIcon />
+                    </div>
+                  </div>
+                  <div className="quote mb-2 break-words text-center text-base leading-snug">
+                    <span className="font-bold opacity-50">“</span>
+                    <span className="quote-text">{text}</span>
+                    <span className="font-bold opacity-50">”</span>
+                  </div>
+                  <div className="mx-auto mt-4 flex items-center justify-center gap-2">
+                    <div className="flex-none">
+                      <div>
+                        <img
+                          src={profilePicture}
+                          alt="testimonial avatar"
+                          className="rounded-full"
+                          referrerPolicy="no-referrer"
+                          style={{ width: "32px", height: "32px" }}
+                        />
+                      </div>
+                    </div>
+                    <div className="flex max-w-[200px] flex-none flex-col overflow-hidden text-left">
+                      <div className="text-sm font-medium opacity-90">
+                        {name}
+                      </div>
+                      <div className="block text-xs font-medium opacity-50">
+                        {role}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+              <div className="h-[54px] min-w-[250px] overflow-hidden">
+                <a href={"https://producthunt.com/"} target="_blank">
+                  <Image
+                    src={
+                      "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMjUwIiBoZWlnaHQ9IjU0IiB2aWV3Qm94PSIwIDAgMjUwIDU0IiB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPgogIDxnIHN0cm9rZT0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIxIiBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPgogICAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTEzMC4wMDAwMDAsIC03My4wMDAwMDApIj4KICAgICAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTMwLjAwMDAwMCwgNzMuMDAwMDAwKSI+CiAgICAgICAgPHJlY3Qgc3Ryb2tlPSIjRkY2MTU0IiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9IiNGRkZGRkYiIHg9IjAuNSIgeT0iMC41IiB3aWR0aD0iMjQ5IiBoZWlnaHQ9IjUzIiByeD0iMTAiPjwvcmVjdD4KICAgICAgICA8dGV4dCBmb250LWZhbWlseT0iSGVsdmV0aWNhLUJvbGQsIEhlbHZldGljYSIgZm9udC1zaXplPSI5IiBmb250LXdlaWdodD0iYm9sZCIgZmlsbD0iI0ZGNjE1NCI+CiAgICAgICAgICA8dHNwYW4geD0iNTMiIHk9IjIwIj5QUk9EVUNUIEhVTlQ8L3RzcGFuPgogICAgICAgIDwvdGV4dD4KICAgICAgICA8dGV4dCBmb250LWZhbWlseT0iSGVsdmV0aWNhLUJvbGQsIEhlbHZldGljYSIgZm9udC1zaXplPSIxNiIgZm9udC13ZWlnaHQ9ImJvbGQiIGZpbGw9IiNGRjYxNTQiPgogICAgICAgICAgPHRzcGFuIHg9IjUyIiB5PSI0MCI+IzIgUHJvZHVjdCBvZiB0aGUgRGF5PC90c3Bhbj4KICAgICAgICA8L3RleHQ+CiAgICAgICAgCiAgICAgICAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTcuMDAwMDAwLCAxMy4wMDAwMDApIj48cGF0aCBkPSJNNC4zMywxNi4zNjQgTDAuMzI4LDI0LjkgQzAuMjAyLDI1LjE1OCAwLjMzNSwyNS4zMiAwLjc1NSwyNS4yNCBMNC4wMTMsMjQuNTMyIEM0LjA3NzU1MjM0LDI0LjUwOTQxNzMgNC4xNDg2MTg5NiwyNC41MTQ5NjE3IDQuMjA4ODg3ODksMjQuNTQ3MjgyNiBDNC4yNjkxNTY4MywyNC41Nzk2MDM1IDQuMzEzMDk1MzcsMjQuNjM1NzMzNyA0LjMzLDI0LjcwMiBMNS43OTcsMjcuNzA5IEM1LjkzNywyOC4wMzMgNi4wOTksMjguMDk5IDYuMjI1LDI3Ljg0MiBMMTAuNDg1LDE4LjkwOCBMNC4zMywxNi4zNjQgWiBNMTYuNjcsMTYuMzY0IEwyMC42NzIsMjQuOSBDMjAuODA1LDI1LjE1OCAyMC42NjUsMjUuMzIgMjAuMjQ1LDI1LjI0IEwxNi45ODcsMjQuNTMyIEMxNi45MjI0MzUzLDI0LjUxMDA1MDYgMTYuODUxNjU2MiwyNC41MTU4ODY5IDE2Ljc5MTU1ODksMjQuNTQ4MTE1NyBDMTYuNzMxNDYxNiwyNC41ODAzNDQ1IDE2LjY4NzQzOSwyNC42MzYwNzM4IDE2LjY3LDI0LjcwMiBMMTUuMjAzLDI3LjcwOSBDMTUuMDYzLDI4LjAzMyAxNC45MDgsMjguMDk5IDE0Ljc3NSwyNy44NDIgTDEwLjUxNSwxOC45MDggTDE2LjY3LDE2LjM2NCBaIiBmaWxsPSIjREU3ODE4IiBmaWxsLXJ1bGU9Im5vbnplcm8iPjwvcGF0aD48cGF0aCBkPSJNOS4yOTgsMjEuMzkyIEM5LjI5OCwyMS4zOTkgOS4yODQsMjEuMzkyIDkuMjY5LDIxLjM5MiBDNy4wMzU3ODA0OSwyMS4xNDQyNTI4IDQuOTQyMDgwMjYsMjAuMTgyNjIzNyAzLjI5OSwxOC42NSBDMy4yOTEsMTguNjQyIDMuMjY5LDE4LjYzNSAzLjI3NiwxOC42MjcgTDMuNDYsMTguMjM3IEMzLjQ2OCwxOC4yMjIgMy40ODIsMTguMjU5IDMuNDksMTguMjY3IEM1LjA2NywxOS43MzMgNy4yNTcsMjAuNjU1IDkuNDk3LDIwLjkyNyBDOS41MDUsMjAuOTI3IDkuNTIsMjAuOTI3IDkuNTIsMjAuOTM1IEw5LjI5OCwyMS4zOTIgWiIgZmlsbD0iI0IzNTQ1NCI+PC9wYXRoPjxjaXJjbGUgZmlsbD0iIzlCOUI5QiIgY3g9IjEwLjUiIGN5PSIxMC40ODkiIHI9IjEwLjQ4OSI+PC9jaXJjbGU+PGNpcmNsZSBmaWxsPSIjOTQ5NDk0IiBjeD0iMTAuNSIgY3k9IjEwLjQ4OSIgcj0iOS4wNDUiPjwvY2lyY2xlPjxjaXJjbGUgZmlsbD0iI0I2QjZCNiIgY3g9IjEwLjc1IiBjeT0iMTAuNzUiIHI9IjguNzUiPjwvY2lyY2xlPjxwYXRoIGQ9Ik03LjE5LDkuMDE4IEw3LjE5LDkuMDU0IEw5LjE1OSw5LjA1NCBMOS4xNTksOS4wMTMgQzkuMTU5LDguMzE1IDkuNjYzLDcuODIzIDEwLjM4OSw3LjgyMyBDMTEuMDg2LDcuODIzIDExLjU0NCw4LjIzOSAxMS41NDQsOC44NiBDMTEuNTQ0LDkuMzU4IDExLjIyNyw5Ljc4NiA5Ljk4NCwxMC45MzQgTDcuMzE0LDEzLjQ0OCBMNy4zMTQsMTQuODg0IEwxMy43NDEsMTQuODg0IEwxMy43NDEsMTMuMjA4IEwxMC4xNzgsMTMuMjA4IEwxMC4xNzgsMTMuMDk3IEwxMS41NzMsMTEuODEzIEMxMy4wNzMsMTAuNDc3IDEzLjYyMyw5LjY0NSAxMy42MjMsOC43MDggQzEzLjYyMyw3LjIxNCAxMi4zNTgsNi4yIDEwLjQ2NSw2LjIgQzguNTAzLDYuMiA3LjE5LDcuMzM3IDcuMTksOS4wMTggWiIgZmlsbD0iI0VGRUZFRiI+PC9wYXRoPjxwYXRoIGQ9Ik0xMi45NywzLjA4OSBDMTYuMzI2MDc0NSwzLjg5MTEzMzYzIDE4LjcyMTMxODYsNi44NTI1MTMyNyAxOC44MDQxNjczLDEwLjMwMjEyMDUgQzE4Ljg4NzAxNjEsMTMuNzUxNzI3OCAxNi42MzY2OTc4LDE2LjgyNDY3OTMgMTMuMzIzLDE3Ljc4NyBDMTUuMzU4LDE2LjIzMiAxNi43MDcsMTMuNTc4IDE2LjcwNywxMC41NjMgQzE2LjcwNyw3LjM3OSAxNS4yMDMsNC42IDEyLjk2OSwzLjA4OSBMMTIuOTcsMy4wODkgWiIgZmlsbC1vcGFjaXR5PSIwLjIiIGZpbGw9IiNGRkZGRkYiPjwvcGF0aD48cGF0aCBkPSJNMTEuNzAyLDIxLjM5MiBDMTEuNzA5LDIxLjM5OSAxMS43MjQsMjEuMzkyIDExLjczMSwyMS4zOTIgQzE0LjAyNCwyMS4xMDQgMTYuMTMxLDIwLjE4MiAxNy43MTcsMTguNjY0IEMxNy43MjQsMTguNjU3IDE3Ljc0NiwxOC42NSAxNy43MzksMTguNjQyIEwxNy41NTQsMTguMjUyIEMxNy41NDcsMTguMjM3IDE3LjUzMiwxOC4yNzQgMTcuNTI0LDE4LjI4MSBDMTUuOTQ3LDE5Ljc0OCAxMy43NTEsMjAuNjU1IDExLjUwMywyMC45MjcgQzExLjQ5NSwyMC45MjcgMTEuNDgsMjAuOTI3IDExLjQ4LDIwLjkzNSBMMTEuNzAyLDIxLjM5MiBaIiBmaWxsPSIjQjM1NDU0Ij48L3BhdGg+PC9nPgogICAgICA8L2c+CiAgICA8L2c+CiAgPC9nPgo8L3N2Zz4K"
+                    }
+                    alt={"producthunt"}
+                    className="h-[54px] w-[250px]"
+                    width="250"
+                    height="54"
+                  />
                 </a>
               </div>
             </div>
@@ -282,6 +367,7 @@ const Home: NextPage = () => {
             </div>
           </div>
         </div>
+
         <div className="flex w-full items-center justify-center border-y border-[#eaeaea] bg-[#fafafa]">
           <div className="flex max-w-7xl flex-1 flex-col items-center justify-center py-4 lg:h-[140px] lg:flex-row">
             {[
