@@ -76,7 +76,7 @@ const Home: NextPage = () => {
                 Self-hosted or hosted by us. You are in control of your own
                 data.
               </p>
-              <div className="mt-10 flex items-center justify-center gap-x-6">
+              <div className="mt-10 flex flex-col items-center justify-center gap-6">
                 <button
                   onClick={openRecordModal}
                   className="inline-flex h-[70px] flex-col items-center justify-between rounded-md border border-transparent bg-red-600 px-8 py-4 text-sm font-medium text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
