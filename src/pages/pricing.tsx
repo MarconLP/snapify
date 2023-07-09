@@ -74,15 +74,9 @@ export default function Pricing() {
             price: { monthly: "$10", annual: "$8" },
             features: [
               {
-                feature: "Unlimited recording",
+                feature: "Unlimited recordings",
                 description:
-                  "Make unlimited recordings of your tab, desktop, and any application.",
-                included: true,
-              },
-              {
-                feature: "Unlimited video library",
-                description:
-                  "Store as many recorded videos as you want in your Snapify library.",
+                  "Make and store unlimited recordings of your tab, desktop, and any application.",
                 included: true,
               },
               {
@@ -95,11 +89,6 @@ export default function Pricing() {
                 feature: "External video upload",
                 description:
                   "Upload videos recorded using other tools or platforms to your Snapify library.",
-                included: true,
-              },
-              {
-                feature: "Custom branding",
-                description: "Remove Snapify branding from your videos.",
                 included: true,
               },
             ],

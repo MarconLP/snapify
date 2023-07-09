@@ -142,14 +142,9 @@ export default function Paywall() {
                         <div className="mt-4 flex flex-col gap-2 pb-8">
                           {[
                             {
-                              feature: "Unlimited recording",
+                              feature: "Unlimited recordings",
                               description:
-                                "Make unlimited recordings of your tab, desktop, and any application.",
-                            },
-                            {
-                              feature: "Unlimited video library",
-                              description:
-                                "Store as many recorded videos as you want in your Snapify library.",
+                                "Make and store unlimited recordings of your tab, desktop, and any application.",
                             },
                             {
                               feature: "Video download",
@@ -160,11 +155,6 @@ export default function Paywall() {
                               feature: "External video upload",
                               description:
                                 "Upload videos recorded using other tools or platforms to your Snapify library.",
-                            },
-                            {
-                              feature: "Custom branding",
-                              description:
-                                "Remove Snapify branding from your videos.",
                             },
                           ].map(({ feature, description }) => (
                             <div
