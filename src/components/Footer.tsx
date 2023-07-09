@@ -18,7 +18,6 @@ export default function Footer() {
           {[
             { name: "Privacy Policy", link: "/legal/privacy-policy" },
             { name: "Terms and Conditions", link: "/legal/terms" },
-            { name: "Status", link: "https://status.snapify.it" },
             { name: "Impressum", link: "/legal/impressum" },
           ].map(({ name, link }) => (
             <Link
