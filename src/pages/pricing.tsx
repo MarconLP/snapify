@@ -183,16 +183,14 @@ export default function Pricing() {
                 "You can be billed monthly, but save 20% if you pay annually. We currently accept credit card payment. Contact us at hello@snapify.it if you need an alternative payment method.",
             },
             {
-              question:
-                "What happens when I hit my 10 video limit on the Free plan?",
-              answer:
-                "Our Free plan has a limit of 10 videos. To record more than 10 videos, you will need to delete videos or upgrade to the Pro plan.",
+              question: "Can I import videos I already recorded?",
+              answer: "Yes! Snapify allows you to import your existing videos.",
             },
           ].map(({ answer, question }) => (
             <Disclosure
               key={question}
               as="div"
-              className="max-w-[600px] max-w-[80vw] sm:w-[600px]"
+              className="max-w-[80vw] sm:w-[600px]"
             >
               {({ open }) => (
                 <>
