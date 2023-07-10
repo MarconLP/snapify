@@ -16,6 +16,7 @@ import { useAtom } from "jotai/index";
 import paywallAtom from "~/atoms/paywallAtom";
 import recordVideoModalOpen from "~/atoms/recordVideoModalOpen";
 import { usePostHog } from "posthog-js/react";
+import Tooltip from "~/components/Tooltip";
 
 interface Props {
   closeModal: () => void;
@@ -313,7 +314,7 @@ export default function Recorder({ closeModal, step, setStep }: Props) {
           </Listbox>
           <button
             type="button"
-            className="mt-4 flex inline-flex w-full items-center items-center justify-center rounded-md bg-indigo-500 px-4 py-2 text-sm font-semibold leading-6 text-white shadow transition duration-150 ease-in-out hover:bg-indigo-400 disabled:cursor-not-allowed"
+            className="mt-4 inline-flex w-full items-center justify-center rounded-md bg-indigo-500 px-4 py-2 text-sm font-semibold leading-6 text-white shadow transition duration-150 ease-in-out hover:bg-indigo-400 disabled:cursor-not-allowed"
             onClick={() => void handleRecording()}
           >
             <span>Start recording</span>
@@ -322,37 +323,46 @@ export default function Recorder({ closeModal, step, setStep }: Props) {
       ) : null}
       {step === "in" ? (
         <div className="flex flex-row items-center justify-center">
-          <div
-            onClick={handleStop}
-            className="flex cursor-pointer flex-row items-center justify-center rounded pr-2 text-lg hover:bg-gray-200"
-          >
-            <StopIcon className="h-8 w-8 text-[#ff623f]" aria-hidden="true" />
-            <StopTime
-              running={!pause}
-              duration={duration}
-              setDuration={setDuration}
-            />
-          </div>
-          <div className="mx-2 h-6 w-px bg-[#E7E9EB]"></div>
-          <div
-            onClick={handlePause}
-            className="cursor-pointer rounded p-1 hover:bg-gray-200"
-          >
-            {pause ? (
-              <ResumeIcon
-                className="h-6 w-6 text-gray-400"
-                aria-hidden="true"
+          <Tooltip title="Finish recording">
+            <div
+              onClick={handleStop}
+              className="flex cursor-pointer flex-row items-center justify-center rounded pr-2 text-lg hover:bg-gray-200"
+            >
+              <StopIcon className="h-8 w-8 text-[#ff623f]" aria-hidden="true" />
+              <StopTime
+                running={!pause}
+                duration={duration}
+                setDuration={setDuration}
               />
-            ) : (
-              <PauseIcon className="h-6 w-6 text-gray-400" aria-hidden="true" />
-            )}
-          </div>
-          <div
-            onClick={handleDelete}
-            className="ml-1 cursor-pointer rounded p-1 hover:bg-gray-200"
-          >
-            <TrashIcon className="h-6 w-6 text-gray-400" aria-hidden="true" />
-          </div>
+            </div>
+          </Tooltip>
+          <div className="mx-2 h-6 w-px bg-[#E7E9EB]"></div>
+          <Tooltip title={pause ? "Resume" : "Pause"}>
+            <div
+              onClick={handlePause}
+              className="cursor-pointer rounded p-1 hover:bg-gray-200"
+            >
+              {pause ? (
+                <ResumeIcon
+                  className="h-6 w-6 text-gray-400"
+                  aria-hidden="true"
+                />
+              ) : (
+                <PauseIcon
+                  className="h-6 w-6 text-gray-400"
+                  aria-hidden="true"
+                />
+              )}
+            </div>
+          </Tooltip>
+          <Tooltip title="Cancel recording">
+            <div
+              onClick={handleDelete}
+              className="ml-1 cursor-pointer rounded p-1 hover:bg-gray-200"
+            >
+              <TrashIcon className="h-6 w-6 text-gray-400" aria-hidden="true" />
+            </div>
+          </Tooltip>
         </div>
       ) : null}
       {step === "post" ? (
