@@ -18,6 +18,7 @@ import logo from "~/assets/logo.png";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import StarIcon from "~/assets/StarIcon";
+import Paywall from "~/components/Paywall";
 
 const Home: NextPage = () => {
   const [recordModalOpen, setRecordOpen] = useAtom(recordVideoModalOpen);
