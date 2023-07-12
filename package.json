@@ -53,7 +53,7 @@
     "react-player": "^2.12.0",
     "react-popper": "^2.3.0",
     "recordrtc": "^5.6.2",
-    "stripe": "^12.1.1",
+    "stripe": "^12.12.0",
     "superjson": "1.12.2",
     "tailwindcss-radix": "^2.8.0",
     "zod": "^3.21.4"
