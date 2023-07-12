@@ -395,6 +395,7 @@ const Home: NextPage = () => {
       </div>
 
       <VideoRecordModal />
+      <Paywall />
     </>
   );
 };
