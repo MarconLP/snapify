@@ -26,9 +26,13 @@ export default function Paywall() {
   }
 
   const handleCheckout = async () => {
-    const { checkoutUrl } = await createCheckoutSession({ billedAnnually });
+    const { checkoutUrl } = await createCheckoutSession({
+      billedAnnually,
+      recordModalOpen,
+    });
     if (checkoutUrl) {
       if (recordModalOpen) {
+        setOpen(false);
         window.open(checkoutUrl, "_blank", "noreferrer,width=500,height=500");
       } else {
         void router.push(checkoutUrl);

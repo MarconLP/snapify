@@ -5,7 +5,9 @@ import { z } from "zod";
 
 export const stripeRouter = createTRPCRouter({
   createCheckoutSession: protectedProcedure
-    .input(z.object({ billedAnnually: z.boolean() }))
+    .input(
+      z.object({ billedAnnually: z.boolean(), recordModalOpen: z.boolean() })
+    )
     .mutation(
       async ({ ctx: { prisma, stripe, session, req, posthog }, input }) => {
         if (
@@ -45,7 +47,9 @@ export const stripeRouter = createTRPCRouter({
               quantity: 1,
             },
           ],
-          success_url: `${baseUrl}/videos?checkoutSuccess=true`,
+          success_url: input.recordModalOpen
+            ? `${baseUrl}/videos?checkoutCanceled=false&close=true`
+            : `${baseUrl}/videos?checkoutCanceled=false&close=false`,
           cancel_url: `${baseUrl}/videos?checkoutCanceled=true`,
           subscription_data: {
             metadata: {

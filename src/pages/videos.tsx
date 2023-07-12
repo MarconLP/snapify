@@ -17,6 +17,8 @@ import Paywall from "~/components/Paywall";
 import paywallAtom from "~/atoms/paywallAtom";
 import { usePostHog } from "posthog-js/react";
 import Image from "next/image";
+import { useSearchParams } from "next/navigation";
+import { useEffect } from "react";
 
 const VideoList: NextPage = () => {
   const [, setRecordOpen] = useAtom(recordVideoModalOpen);
@@ -26,10 +28,14 @@ const VideoList: NextPage = () => {
   const { status, data: session } = useSession();
   const { data: videos, isLoading } = api.video.getAll.useQuery();
   const posthog = usePostHog();
+  const searchParams = useSearchParams();
 
   if (status === "unauthenticated") {
     void router.replace("/sign-in");
   }
+
+  const checkoutCanceledQueryParam = searchParams.get("checkoutCanceled");
+  const closeQueryParam = searchParams.get("close");
 
   const openRecordModal = () => {
     if (
@@ -63,6 +69,20 @@ const VideoList: NextPage = () => {
       });
     }
   };
+
+  const closeWindow =
+    (typeof window !== "undefined" &&
+      window.innerWidth === 500 &&
+      window.innerHeight === 499) ||
+    closeQueryParam === "true";
+
+  useEffect(() => {
+    if (checkoutCanceledQueryParam === "false" && closeQueryParam === "false") {
+      setTimeout(() => {
+        void router.push("/videos").then(() => router.reload());
+      }, 5000);
+    }
+  }, [checkoutCanceledQueryParam, closeQueryParam]);
 
   return (
     <>
@@ -107,54 +127,81 @@ const VideoList: NextPage = () => {
           </div>
         </div>
         <div className="flex w-full grow items-start justify-center overflow-auto bg-[#fbfbfb] pt-14">
-          {videos && videos?.length <= 0 ? (
-            <div className="flex items-center justify-center px-8">
-              <div className="flex flex-col">
-                <span className="text-lg font-semibold text-zinc-700">
-                  No videos found
-                </span>
-                <span className="mt-1 text-base text-zinc-500">
-                  Videos you record will show up here. Already got videos?
-                  Upload them!
-                </span>
-                <div className="mt-4 flex flex-wrap gap-4">
-                  <button
-                    onClick={openRecordModal}
-                    className="inline-flex items-center rounded-md border border-transparent bg-red-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
-                  >
-                    Record a video
-                  </button>
-                  <button
-                    onClick={openUploadModal}
-                    className="inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                  >
-                    Upload a video
-                  </button>
+          {closeWindow || checkoutCanceledQueryParam === "false" ? (
+            <>
+              {checkoutCanceledQueryParam === "false" ? (
+                <div className="flex flex-col">
+                  <span className="text-lg font-semibold text-zinc-700">
+                    Successfully upgraded
+                  </span>
+                  {closeQueryParam === "true" ? (
+                    <span className="mt-1 text-base text-zinc-500">
+                      You can now close this window
+                    </span>
+                  ) : (
+                    <span className="mt-1 text-base text-zinc-500">
+                      You will be redirected shortly
+                    </span>
+                  )}
                 </div>
-              </div>
-            </div>
+              ) : (
+                <span className="text-lg font-semibold text-zinc-700">
+                  You can now close this window
+                </span>
+              )}
+            </>
           ) : (
-            <div className="flex-start grid w-full max-w-[1300px] grid-cols-[repeat(auto-fill,250px)] flex-row flex-wrap items-center justify-center gap-14 px-4 pb-16">
-              {videos &&
-                videos.map(({ title, id, createdAt, thumbnailUrl }) => (
-                  <VideoCard
-                    title={title}
-                    id={id}
-                    createdAt={createdAt}
-                    thumbnailUrl={thumbnailUrl}
-                    key={id}
-                  />
-                ))}
+            <>
+              {videos && videos?.length <= 0 ? (
+                <div className="flex items-center justify-center px-8">
+                  <div className="flex flex-col">
+                    <span className="text-lg font-semibold text-zinc-700">
+                      No videos found
+                    </span>
+                    <span className="mt-1 text-base text-zinc-500">
+                      Videos you record will show up here. Already got videos?
+                      Upload them!
+                    </span>
+                    <div className="mt-4 flex flex-wrap gap-4">
+                      <button
+                        onClick={openRecordModal}
+                        className="inline-flex items-center rounded-md border border-transparent bg-red-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
+                      >
+                        Record a video
+                      </button>
+                      <button
+                        onClick={openUploadModal}
+                        className="inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                      >
+                        Upload a video
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <div className="flex-start grid w-full max-w-[1300px] grid-cols-[repeat(auto-fill,250px)] flex-row flex-wrap items-center justify-center gap-14 px-4 pb-16">
+                  {videos &&
+                    videos.map(({ title, id, createdAt, thumbnailUrl }) => (
+                      <VideoCard
+                        title={title}
+                        id={id}
+                        createdAt={createdAt}
+                        thumbnailUrl={thumbnailUrl}
+                        key={id}
+                      />
+                    ))}
 
-              {isLoading ? (
-                <>
-                  <VideoCardSkeleton />
-                  <VideoCardSkeleton />
-                  <VideoCardSkeleton />
-                  <VideoCardSkeleton />
-                </>
-              ) : null}
-            </div>
+                  {isLoading ? (
+                    <>
+                      <VideoCardSkeleton />
+                      <VideoCardSkeleton />
+                      <VideoCardSkeleton />
+                      <VideoCardSkeleton />
+                    </>
+                  ) : null}
+                </div>
+              )}
+            </>
           )}
         </div>
       </main>
