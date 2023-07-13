@@ -18,7 +18,7 @@ import paywallAtom from "~/atoms/paywallAtom";
 import { usePostHog } from "posthog-js/react";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const VideoList: NextPage = () => {
   const [, setRecordOpen] = useAtom(recordVideoModalOpen);
@@ -29,6 +29,7 @@ const VideoList: NextPage = () => {
   const { data: videos, isLoading } = api.video.getAll.useQuery();
   const posthog = usePostHog();
   const searchParams = useSearchParams();
+  const [closeWindow, setCloseWindow] = useState<boolean>(false);
 
   if (status === "unauthenticated") {
     void router.replace("/sign-in");
@@ -70,11 +71,13 @@ const VideoList: NextPage = () => {
     }
   };
 
-  const closeWindow =
-    (typeof window !== "undefined" &&
-      window.innerWidth === 500 &&
-      window.innerHeight === 499) ||
-    closeQueryParam === "true";
+  useEffect(() => {
+    const closeWindow =
+      (window.innerWidth === 500 &&
+        (window.innerHeight === 499 || window.innerHeight === 500)) ||
+      closeQueryParam === "true";
+    setCloseWindow(closeWindow);
+  }, [closeQueryParam]);
 
   useEffect(() => {
     if (checkoutCanceledQueryParam === "false" && closeQueryParam === "false") {
@@ -126,8 +129,11 @@ const VideoList: NextPage = () => {
             )}
           </div>
         </div>
-        <div className="flex w-full grow items-start justify-center overflow-auto bg-[#fbfbfb] pt-14">
-          {closeWindow || checkoutCanceledQueryParam === "false" ? (
+        <div
+          className="flex w-full grow items-start justify-center overflow-auto bg-[#fbfbfb] pt-14"
+          suppressHydrationWarning={true}
+        >
+          {closeWindow || checkoutCanceledQueryParam ? (
             <>
               {checkoutCanceledQueryParam === "false" ? (
                 <div className="flex flex-col">
