@@ -381,13 +381,6 @@ export default function Recorder({ closeModal, step, setStep }: Props) {
             <button
               type="button"
               className="inline-flex items-center rounded-md bg-indigo-500 px-4 py-2 text-sm font-semibold leading-6 text-white shadow transition duration-150 ease-in-out hover:bg-indigo-400 disabled:cursor-not-allowed"
-              onClick={() => void handleSave()}
-            >
-              Download
-            </button>
-            <button
-              type="button"
-              className="ml-2 inline-flex items-center rounded-md bg-indigo-500 px-4 py-2 text-sm font-semibold leading-6 text-white shadow transition duration-150 ease-in-out hover:bg-indigo-400 disabled:cursor-not-allowed"
               disabled={submitting}
               onClick={() => void handleUpload()}
             >
@@ -416,8 +409,15 @@ export default function Recorder({ closeModal, step, setStep }: Props) {
                   Uploading...
                 </>
               ) : (
-                <>Upload</>
+                <>Save to cloud</>
               )}
+            </button>
+            <button
+              type="button"
+              className="ml-2 inline-flex items-center rounded-md px-4 py-2 text-sm font-semibold leading-6 underline transition duration-150 ease-in-out disabled:cursor-not-allowed"
+              onClick={() => void handleSave()}
+            >
+              Download to device
             </button>
             <button
               type="button"
