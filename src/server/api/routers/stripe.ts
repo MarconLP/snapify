@@ -52,10 +52,16 @@ export const stripeRouter = createTRPCRouter({
             : `${baseUrl}/videos?checkoutCanceled=false&close=false`,
           cancel_url: `${baseUrl}/videos?checkoutCanceled=true`,
           subscription_data: {
+            trial_settings: {
+              end_behavior: {
+                missing_payment_method: "cancel",
+              },
+            },
             metadata: {
               userId: session.user?.id,
             },
           },
+          payment_method_collection: "if_required",
         });
 
         if (!checkoutSession) {
