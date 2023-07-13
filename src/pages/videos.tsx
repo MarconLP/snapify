@@ -136,7 +136,8 @@ const VideoList: NextPage = () => {
                   </span>
                   {closeQueryParam === "true" ? (
                     <span className="mt-1 text-base text-zinc-500">
-                      You can now close this window
+                      You can now close this window and try to upload the video
+                      again!
                     </span>
                   ) : (
                     <span className="mt-1 text-base text-zinc-500">
