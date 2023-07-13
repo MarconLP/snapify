@@ -80,7 +80,7 @@ const VideoList: NextPage = () => {
   }, [closeQueryParam]);
 
   useEffect(() => {
-    if (checkoutCanceledQueryParam === "false" && closeQueryParam === "false") {
+    if (checkoutCanceledQueryParam && closeQueryParam === "false") {
       setTimeout(() => {
         void router.push("/videos").then(() => router.reload());
       }, 5000);
@@ -152,9 +152,34 @@ const VideoList: NextPage = () => {
                   )}
                 </div>
               ) : (
-                <span className="text-lg font-semibold text-zinc-700">
-                  You can now close this window
-                </span>
+                <div className="flex flex-col">
+                  {checkoutCanceledQueryParam === "true" ? (
+                    <>
+                      <span className="text-lg font-semibold text-zinc-700">
+                        Purchase cancelled
+                      </span>
+                      {closeQueryParam === "true" ? (
+                        <span className="mt-1 text-base text-zinc-500">
+                          You can now close this window
+                        </span>
+                      ) : (
+                        <span className="mt-1 text-base text-zinc-500">
+                          You will be redirected shortly
+                        </span>
+                      )}
+                    </>
+                  ) : (
+                    <>
+                      <span className="text-lg font-semibold text-zinc-700">
+                        Successfully logged in
+                      </span>
+                      <span className="mt-1 text-base text-zinc-500">
+                        You can now close this window and try to upload the
+                        video again!
+                      </span>
+                    </>
+                  )}
+                </div>
               )}
             </>
           ) : (

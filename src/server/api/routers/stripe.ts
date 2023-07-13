@@ -50,7 +50,9 @@ export const stripeRouter = createTRPCRouter({
           success_url: input.recordModalOpen
             ? `${baseUrl}/videos?checkoutCanceled=false&close=true`
             : `${baseUrl}/videos?checkoutCanceled=false&close=false`,
-          cancel_url: `${baseUrl}/videos?checkoutCanceled=true`,
+          cancel_url: input.recordModalOpen
+            ? `${baseUrl}/videos?checkoutCanceled=true&close=true`
+            : `${baseUrl}/videos?checkoutCanceled=true&close=false`,
           subscription_data: {
             trial_settings: {
               end_behavior: {
