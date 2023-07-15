@@ -89,7 +89,10 @@ export default function Recorder({ closeModal, step, setStep }: Props) {
     }
 
     setStream(mediaStream);
-    recorderRef.current = new RecordRTC(mediaStream, { type: "video" });
+    recorderRef.current = new RecordRTC(mediaStream, {
+      type: "video",
+      mimeType: "video/webm;codecs=vp8",
+    });
     recorderRef.current.startRecording();
 
     setStep("in");
