@@ -2,7 +2,6 @@ import { type NextPage } from "next";
 import Head from "next/head";
 
 import { api } from "~/utils/api";
-import ReactPlayer from "react-player";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import Image from "next/image";
@@ -127,36 +126,39 @@ const VideoList: NextPage = () => {
         <div className="flex h-full w-full grow flex-col items-center justify-start overflow-auto bg-[#fbfbfb]">
           <div className="flex aspect-video max-h-[calc(100vh_-_169px)] w-full justify-center bg-black 2xl:max-h-[1160px]">
             {video?.video_url && (
-              <ReactPlayer
-                width="100%"
-                height="100%"
-                controls={true}
-                onPlay={() =>
-                  posthog?.capture("play video", {
-                    videoId: video.id,
-                    videoCreatedAt: video.createdAt,
-                    videoUpdatedAt: video.updatedAt,
-                    videoUser: video.user.id,
-                    videoSharing: video.sharing,
-                    videoDeleteAfterLinkExpires:
-                      video.delete_after_link_expires,
-                    videoShareLinkExpiresAt: video.shareLinkExpiresAt,
-                  })
-                }
-                onPause={() =>
-                  posthog?.capture("pause video", {
-                    videoId: video.id,
-                    videoCreatedAt: video.createdAt,
-                    videoUpdatedAt: video.updatedAt,
-                    videoUser: video.user.id,
-                    videoSharing: video.sharing,
-                    videoDeleteAfterLinkExpires:
-                      video.delete_after_link_expires,
-                    videoShareLinkExpiresAt: video.shareLinkExpiresAt,
-                  })
-                }
-                url={video.video_url}
-              />
+              <>
+                <video
+                  controls
+                  onPlay={() =>
+                    posthog?.capture("play video", {
+                      videoId: video.id,
+                      videoCreatedAt: video.createdAt,
+                      videoUpdatedAt: video.updatedAt,
+                      videoUser: video.user.id,
+                      videoSharing: video.sharing,
+                      videoDeleteAfterLinkExpires:
+                        video.delete_after_link_expires,
+                      videoShareLinkExpiresAt: video.shareLinkExpiresAt,
+                    })
+                  }
+                  onPause={() =>
+                    posthog?.capture("pause video", {
+                      videoId: video.id,
+                      videoCreatedAt: video.createdAt,
+                      videoUpdatedAt: video.updatedAt,
+                      videoUser: video.user.id,
+                      videoSharing: video.sharing,
+                      videoDeleteAfterLinkExpires:
+                        video.delete_after_link_expires,
+                      videoShareLinkExpiresAt: video.shareLinkExpiresAt,
+                    })
+                  }
+                  className="h-full w-full"
+                >
+                  <source src={video.video_url} />
+                  Your browser does not support the video tag.
+                </video>
+              </>
             )}
           </div>
           <div className="mb-10 mt-4 w-full max-w-[1800px] pl-[24px]">
