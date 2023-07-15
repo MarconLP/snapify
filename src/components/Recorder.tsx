@@ -91,7 +91,9 @@ export default function Recorder({ closeModal, step, setStep }: Props) {
     setStream(mediaStream);
     recorderRef.current = new RecordRTC(mediaStream, {
       type: "video",
-      mimeType: "video/webm;codecs=vp8",
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      mimeType: 'video/webm;codecs="vp9,opus"',
     });
     recorderRef.current.startRecording();
 
