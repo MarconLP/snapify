@@ -106,7 +106,10 @@ export const videoRouter = createTRPCRouter({
         },
       });
 
-      if (session.user.stripeSubscriptionStatus !== "active") {
+      if (
+        session.user.stripeSubscriptionStatus !== "active" &&
+        !!env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
+      ) {
         posthog?.capture({
           distinctId: session.user.id,
           event: "hit video upload limit",

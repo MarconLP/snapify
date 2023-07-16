@@ -6,6 +6,7 @@ import recordVideoModalOpen from "~/atoms/recordVideoModalOpen";
 import paywallAtom from "~/atoms/paywallAtom";
 import { useSession } from "next-auth/react";
 import { usePostHog } from "posthog-js/react";
+import { env } from "~/env.mjs";
 
 export default function NewVideoMenu() {
   const [, setRecordOpen] = useAtom(recordVideoModalOpen);
@@ -29,7 +30,10 @@ export default function NewVideoMenu() {
   };
 
   const openUploadModal = () => {
-    if (session?.user.stripeSubscriptionStatus === "active") {
+    if (
+      session?.user.stripeSubscriptionStatus === "active" ||
+      !env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
+    ) {
       setUploadOpen(true);
 
       posthog?.capture("open upload video modal", {

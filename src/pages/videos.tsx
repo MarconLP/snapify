@@ -19,6 +19,7 @@ import { usePostHog } from "posthog-js/react";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import { env } from "~/env.mjs";
 
 const VideoList: NextPage = () => {
   const [, setRecordOpen] = useAtom(recordVideoModalOpen);
@@ -54,7 +55,10 @@ const VideoList: NextPage = () => {
   };
 
   const openUploadModal = () => {
-    if (session?.user.stripeSubscriptionStatus === "active") {
+    if (
+      session?.user.stripeSubscriptionStatus === "active" ||
+      !env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
+    ) {
       setUploadOpen(true);
 
       posthog?.capture("open upload video modal", {
@@ -106,7 +110,8 @@ const VideoList: NextPage = () => {
             <Paywall />
 
             {videos?.length &&
-            session?.user?.stripeSubscriptionStatus !== "active" ? (
+            session?.user?.stripeSubscriptionStatus !== "active" &&
+            1 + 1 === 3 ? (
               <div className="mr-4 flex max-h-[35px] flex-col items-center justify-center rounded px-2 py-2 text-sm text-[#6c6685]">
                 <span>{videos.length}/10 videos</span>
                 <div className="mt-1 h-[3px] w-full rounded-full bg-gray-200">
