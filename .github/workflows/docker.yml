@@ -27,3 +27,10 @@ jobs:
           context: .
           push: ${{ github.event_name != 'pull_request' }}
           tags: ghcr.io/marconlp/snapify:latest
+          labels: |
+            org.opencontainers.image.url=https://github.com/marconlp/snapify
+            org.opencontainers.image.source=https://github.com/marconlp/snapify
+            org.opencontainers.image.title=snapify
+            org.opencontainers.image.revision=${{ github.sha }}
+            org.opencontainers.image.created=${{ github.event.repository.updated_at }}
+            org.opencontainers.image.description=Screen recording sharing for absolutely everyone.
