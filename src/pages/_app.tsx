@@ -12,7 +12,11 @@ import { env } from "~/env.mjs";
 import { type ReactNode, useEffect } from "react";
 
 // Check that PostHog is client-side (used to handle Next.js SSR)
-if (typeof window !== "undefined" && !!env.NEXT_PUBLIC_POSTHOG_KEY) {
+if (
+  typeof window !== "undefined" &&
+  !!env.NEXT_PUBLIC_POSTHOG_KEY &&
+  !!env.NEXT_PUBLIC_POSTHOG_PROXY_HOST
+) {
   posthog.init(env.NEXT_PUBLIC_POSTHOG_KEY, {
     api_host: env.NEXT_PUBLIC_POSTHOG_PROXY_HOST,
     // Enable debug mode in development

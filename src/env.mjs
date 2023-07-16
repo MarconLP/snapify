@@ -32,7 +32,7 @@ const server = z.object({
   STRIPE_WEBHOOK_SECRET: z.string().nullish(),
   STRIPE_MONTHLY_PRICE_ID: z.string().nullish(),
   STRIPE_ANNUAL_PRICE_ID: z.string().nullish(),
-  POSTHOG_PROXY_PATH: z.string(),
+  POSTHOG_PROXY_PATH: z.string().nullish(),
   UPSTASH_REDIS_REST_URL: z.string().nullish(),
   UPSTASH_REDIS_REST_TOKEN: z.string().nullish(),
 });
@@ -46,8 +46,8 @@ const client = z.object({
   NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: z.string().nullish(),
   NEXT_PUBLIC_CRISP_WEBSITE_ID: z.string().nullish(),
   NEXT_PUBLIC_POSTHOG_KEY: z.string().nullish(),
-  NEXT_PUBLIC_POSTHOG_HOST: z.string(),
-  NEXT_PUBLIC_POSTHOG_PROXY_HOST: z.string(),
+  NEXT_PUBLIC_POSTHOG_HOST: z.string().nullish(),
+  NEXT_PUBLIC_POSTHOG_PROXY_HOST: z.string().nullish(),
 });
 
 /**

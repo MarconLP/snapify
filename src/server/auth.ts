@@ -74,7 +74,7 @@ export const authOptions: NextAuthOptions = {
   ],
   events: {
     async signIn(message) {
-      if (!!env.NEXT_PUBLIC_POSTHOG_KEY) {
+      if (!!env.NEXT_PUBLIC_POSTHOG_KEY && !!env.NEXT_PUBLIC_POSTHOG_HOST) {
         const client = new PostHog(env.NEXT_PUBLIC_POSTHOG_KEY, {
           host: env.NEXT_PUBLIC_POSTHOG_HOST,
         });
@@ -92,7 +92,7 @@ export const authOptions: NextAuthOptions = {
       }
     },
     async signOut(message) {
-      if (!!env.NEXT_PUBLIC_POSTHOG_KEY) {
+      if (!!env.NEXT_PUBLIC_POSTHOG_KEY && !!env.NEXT_PUBLIC_POSTHOG_HOST) {
         const session = message.session as unknown as {
           id: string;
           sessionToken: string;
