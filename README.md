@@ -25,7 +25,7 @@
 - Make unlimited recordings of your tab, desktop, and any application
 - Share recordings with anyone using a public link
 - Delete or un-list recordings after a specific timeframe
-- Upload and share existing to videos
+- Upload and share existing videos
 
 ## Development
 
