@@ -107,4 +107,4 @@ npm run test:e2e
 Please see our contributing guide at `CONTRIBUTING.md`
 
 ## License
-Distributed under the Sustainable Use License. See `LICENSE.md` for more information.
+Distributed under the AGPLv3 License. See `LICENSE.md` for more information.
