@@ -460,57 +460,9 @@ const Terms: NextPage = () => {
           if you have questions or issues relating to your personal data:
         </p>
         <p className="mb-5">
-          VeraSafe Ireland Ltd.
+          <span>tbd</span>
           <br />
-          Unit 3D North Point House
-          <br />
-          North Point Business Park
-          <br />
-          New Mallow Road
-          <br />
-          Cork T23AT2P
-          <br />
-          Ireland
-          <br />
-          Phone: +420 228 881 031
-          <br />
-          <a
-            className="text-blurple hover:text-purple-hover thd-focus-thin cursor-pointer pb-1 underline"
-            href="https://verasafe.com/public-resources/contact-data-protection-representative"
-            rel="noopener"
-            target="_blank"
-          >
-            Verasafe Contact Form
-          </a>
-          <a
-            className="text-blurple hover:text-purple-hover thd-focus-thin cursor-pointer pb-1 underline"
-            href="https://verasafe.com/public-resources/contact-data-protection-representative"
-            rel="noopener"
-            target="_blank"
-          >
-            {" "}
-            (Ireland)
-          </a>
-        </p>
-        <p className="mb-5">
-          VeraSafe United Kingdom Ltd.
-          <br />
-          37 Albert Embankment
-          <br />
-          London SE1 7TL
-          <br />
-          United Kingdom
-          <br />
-          Phone: +44 (20) 4532 2003
-          <br />
-          <a
-            className="text-blurple hover:text-purple-hover thd-focus-thin cursor-pointer pb-1 underline"
-            href="https://verasafe.com/public-resources/contact-data-protection-representative"
-            rel="noopener"
-            target="_blank"
-          >
-            Verasafe Contact Form (UK)
-          </a>
+          <span>Phone: +49 15679 222108</span>
         </p>
         <p className="mb-5">
           If you feel we have not adequately addressed an issue, you have the
