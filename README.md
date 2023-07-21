@@ -43,7 +43,7 @@
    cd snapify
    ```
 
-3. Install packages with yarn
+3. Install packages with npm
 
    ```sh
    npm i
