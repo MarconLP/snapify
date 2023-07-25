@@ -87,7 +87,7 @@ const Home: NextPage = () => {
                   <span>Record a video</span>
                   <span className="text-xs">(no account required)</span>
                 </button>
-                <div className="flex flex-row gap-6">
+                <div className="flex flex-col gap-6 sm:flex-row">
                   <a
                     onClick={() =>
                       posthog?.capture("clicked watch recorded demo demo")
