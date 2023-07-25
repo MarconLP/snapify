@@ -87,14 +87,26 @@ const Home: NextPage = () => {
                   <span>Record a video</span>
                   <span className="text-xs">(no account required)</span>
                 </button>
-                <a
-                  onClick={() => posthog?.capture("clicked schedule demo")}
-                  target="_blank"
-                  href="https://cal.com/marcon/snapify-demo"
-                  className="text-sm font-semibold leading-6"
-                >
-                  Schedule Demo <span aria-hidden="true">→</span>
-                </a>
+                <div className="flex flex-row gap-6">
+                  <a
+                    onClick={() =>
+                      posthog?.capture("clicked watch recorded demo demo")
+                    }
+                    target="_blank"
+                    href="https://snapify.it/share/clk3mpgnu0003mj0f042964wg"
+                    className="text-sm font-semibold leading-6"
+                  >
+                    Watch recorded demo <span aria-hidden="true">→</span>
+                  </a>
+                  <a
+                    onClick={() => posthog?.capture("clicked schedule demo")}
+                    target="_blank"
+                    href="https://cal.com/marcon/snapify-demo"
+                    className="text-sm font-semibold leading-6"
+                  >
+                    Schedule personalized demo <span aria-hidden="true">→</span>
+                  </a>
+                </div>
               </div>
             </div>
           </div>
