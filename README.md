@@ -57,8 +57,8 @@
          <details>
          <summary>Configure DATABASE_URL</summary>
    
-         1. Open [Railway](https://railway.app/) and click "Start a New Project", and select Provision "PostgreSQL".
-         2. Select the Postgres App and copy the `DATABASE_URL` into the `.env`.
+         1. Open [Railway](https://railway.app/) and click "Start a New Project", and select Provision "MySQL".
+         2. Select the MySQL App and copy the `DATABASE_URL` into the `.env`.
 
          </details>
          <details>
