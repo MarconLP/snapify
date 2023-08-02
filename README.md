@@ -82,7 +82,13 @@
          </details>
       </details>
    
-5. Run (in development mode)
+5. Set up the database using the Prisma schema
+
+   ```sh
+   npx prisma db push
+   ```
+   
+6. Run (in development mode)
 
    ```sh
    npm run dev
