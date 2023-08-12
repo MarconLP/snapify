@@ -17,6 +17,7 @@ import paywallAtom from "~/atoms/paywallAtom";
 import recordVideoModalOpen from "~/atoms/recordVideoModalOpen";
 import { usePostHog } from "posthog-js/react";
 import Tooltip from "~/components/Tooltip";
+import generateThumbnail from "~/utils/generateThumbnail";
 
 interface Props {
   closeModal: () => void;
@@ -178,16 +179,6 @@ export default function Recorder({ closeModal, step, setStep }: Props) {
     }
 
     posthog?.capture("recorder: video downloaded");
-  };
-
-  const generateThumbnail = async (video: HTMLVideoElement) => {
-    const canvas = document.createElement("canvas");
-    canvas.width = video.videoWidth;
-    canvas.height = video.videoHeight;
-    canvas
-      .getContext("2d")
-      ?.drawImage(video, 0, 0, canvas.width, canvas.height);
-    return await new Promise((resolve) => canvas.toBlob(resolve));
   };
 
   const handleUpload = async () => {

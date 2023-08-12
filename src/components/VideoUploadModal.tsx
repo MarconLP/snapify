@@ -7,6 +7,7 @@ import { useAtom } from "jotai";
 import uploadVideoModalOpen from "~/atoms/uploadVideoModalOpen";
 import { usePostHog } from "posthog-js/react";
 import { useSession } from "next-auth/react";
+import generateThumbnail from "~/utils/generateThumbnail";
 
 export default function VideoUploadModal() {
   const [open, setOpen] = useAtom(uploadVideoModalOpen);
@@ -23,16 +24,6 @@ export default function VideoUploadModal() {
     if (e.target.files) {
       setFile(e.target.files[0]);
     }
-  };
-
-  const generateThumbnail = async (video: HTMLVideoElement) => {
-    const canvas = document.createElement("canvas");
-    canvas.width = video.videoWidth;
-    canvas.height = video.videoHeight;
-    canvas
-      .getContext("2d")
-      ?.drawImage(video, 0, 0, canvas.width, canvas.height);
-    return await new Promise((resolve) => canvas.toBlob(resolve));
   };
 
   function closeModal() {
