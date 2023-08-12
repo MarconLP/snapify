@@ -38,8 +38,8 @@
     "axios": "^1.3.5",
     "crisp-sdk-web": "^1.0.18",
     "dayjs": "^1.11.7",
+    "ebml": "^3.0.0",
     "file-saver": "^2.0.5",
-    "fix-webm-duration": "^1.0.5",
     "jotai": "^2.0.4",
     "micro": "^10.0.1",
     "micro-cors": "^0.1.1",
@@ -56,6 +56,7 @@
     "stripe": "^12.12.0",
     "superjson": "1.12.2",
     "tailwindcss-radix": "^2.8.0",
+    "ts-ebml": "^2.0.2",
     "zod": "^3.21.4"
   },
   "devDependencies": {
