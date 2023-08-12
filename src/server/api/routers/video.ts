@@ -93,7 +93,15 @@ export const videoRouter = createTRPCRouter({
 
       const signedUrl = await getSignedUrl(s3, getObjectCommand);
 
-      return { ...video, video_url: signedUrl };
+      const thumbnailUrl = await getSignedUrl(
+        s3,
+        new GetObjectCommand({
+          Bucket: env.AWS_BUCKET_NAME,
+          Key: video.userId + "/" + video.id + "-thumbnail",
+        })
+      );
+
+      return { ...video, video_url: signedUrl, thumbnailUrl };
     }),
   getUploadUrl: protectedProcedure
     .input(z.object({ key: z.string() }))

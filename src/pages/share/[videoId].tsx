@@ -86,6 +86,10 @@ const VideoList: NextPage = () => {
         <title>
           {video?.title ?? "Snapify | The Open Source Loom Alternative"}
         </title>
+        <meta property="og:image" content={video?.thumbnailUrl} />
+        <meta property="og:image:type" content="image/png" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="600" />
         <meta
           name="description"
           content="Share high-quality videos asynchronously and collaborate on your own schedule"
