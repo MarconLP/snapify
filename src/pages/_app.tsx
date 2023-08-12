@@ -59,8 +59,6 @@ const PostHogIdentificationWrapper = ({
         email,
         stripeSubscriptionStatus,
       });
-    } else if (status === "unauthenticated") {
-      posthog?.reset();
     }
   }, [posthog, session, status]);
 

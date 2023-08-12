@@ -26,6 +26,11 @@ export default function ProfileMenu() {
     });
   };
 
+  const handleSignOut = () => {
+    if (posthog?.__loaded) posthog?.reset();
+    void signOut();
+  };
+
   return (
     <Menu as="div" className="relative inline-block text-left">
       <Menu.Button className="flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
@@ -67,7 +72,7 @@ export default function ProfileMenu() {
             <Menu.Item>
               {({ active }) => (
                 <div
-                  onClick={() => void signOut()}
+                  onClick={handleSignOut}
                   className={`mx-2 flex h-8 w-40 cursor-pointer flex-row content-center rounded-md p-2 ${
                     active ? "bg-gray-100" : ""
                   }`}
