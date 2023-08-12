@@ -186,6 +186,11 @@ export default function Pricing() {
               question: "Can I import videos I already recorded?",
               answer: "Yes! Snapify allows you to import your existing videos.",
             },
+            {
+              question: "How do I contact Support?",
+              answer:
+                "If you need to contact our Support, click the menu on the bottom right to start a chat.",
+            },
           ].map(({ answer, question }) => (
             <Disclosure
               key={question}
