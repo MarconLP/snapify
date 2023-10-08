@@ -9,6 +9,8 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "~/server/auth";
 import Link from "next/link";
 import getIcon from "~/utils/getIcon";
+import Image from "next/image";
+
 
 const SignIn = ({
   providers,
@@ -33,7 +35,7 @@ const SignIn = ({
               {Object.values(providers).map((provider) => (
                 <button
                   key={provider.id}
-                  className="relative inline-flex items-center justify-center gap-3 rounded-md border border-gray-400 bg-white px-6 py-3 text-sm font-medium text-gray-600 shadow-sm hover:bg-gray-50"
+                  className="relative inline-flex items-center justify-center gap-3 rounded-md border border-gray-400 bg-white px-6 py-3 text-sm font-medium text-gray-600 shadow-sm hover:bg-gray-100"
                   type="button"
                   onClick={() =>
                     void signIn(provider.id, {
@@ -42,10 +44,11 @@ const SignIn = ({
                   }
                 >
                   <div>
-                    <img
-                      className="h-6 w-6"
+                    <Image
                       src={getIcon(provider.name)}
                       alt="button_icon"
+                      width={22}
+                      height={22}
                     />
                   </div>
                   <span className="flex flex-row">
