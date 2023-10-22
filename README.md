@@ -65,7 +65,7 @@
          <summary>Obtaining the Github API Credentials</summary>
 
          1. Open [Github Developer Settings](https://github.com/settings/apps).
-         2. Next, go to [OAuth Apps](https://github.com/settings/developers) from the side pane. Then click the "New OAuth App" button. Make sure to set `Authorization callback URL` to `<Snapify URL>/api/auth/callback/github` replacing Snapify URL with the URI at which your application runs.
+         2. Next, go to [OAuth Apps](https://github.com/settings/developers) from the side panel. Then click the "New OAuth App" button. Make sure to set `Authorization callback URL` to `<Snapify URL>/api/auth/callback/github` replacing Snapify URL with the URI at which your application runs.
          3. Copy the `Client ID` as `GITHUB_ID` into the `.env`.
          4. Next, click "Generate a new client secret" and copy the `Client secret` as `GITHUB_SECRET` into the `.env`.
 
