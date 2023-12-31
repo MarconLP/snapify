@@ -16,9 +16,22 @@ import engineeringUsecase from "~/assets/engineering usecase.png";
 import supportUsecase from "~/assets/support usecase.png";
 import logo from "~/assets/logo.png";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
+import Webcam from "react-webcam";
+import { PIPPortal } from 'react-pip';
 import StarIcon from "~/assets/StarIcon";
 import Paywall from "~/components/Paywall";
+
+function WebCam() {
+  const [isOpen, setIsOpen] = useState(false);
+  const webcamRef = useRef(null);
+  return (<>
+    <button onClick={()=> setIsOpen(!isOpen)}>Toggle Web Camera</button>
+    {isOpen && (<PIPPortal width={400} height={200}>
+      <Webcam ref={webcamRef}></Webcam>
+    </PIPPortal>)}
+  </>);
+}
 
 const Home: NextPage = () => {
   const [recordModalOpen, setRecordOpen] = useAtom(recordVideoModalOpen);
@@ -79,6 +92,7 @@ const Home: NextPage = () => {
                 Self-hosted or hosted by us. You are in control of your own
                 data.
               </p>
+              <WebCam />
               <div className="mt-10 flex flex-col items-center justify-center gap-6">
                 <button
                   onClick={openRecordModal}
