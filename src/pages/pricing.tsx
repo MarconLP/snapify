@@ -40,7 +40,7 @@ export default function Pricing() {
       </div>
 
       <div className="-mt-10 mb-10 flex flex-col items-center justify-center sm:mx-10 lg:mx-20">
-        <div className="z-20 mt-4 flex items-center gap-2 lg:mt-8">
+        <div className="z-10 mt-4 flex items-center gap-2 lg:mt-8">
           <div
             className="relative flex w-full rounded-full border border-[#b0b0b0] bg-gray-200/70"
             onClick={toggleBillingCycle}
