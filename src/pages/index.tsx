@@ -25,7 +25,6 @@ const Home: NextPage = () => {
   const posthog = usePostHog();
   const session = useSession();
   const router = useRouter();
-  const socialProofEnabled = useFeatureFlagEnabled("social-proof-section");
 
   useEffect(() => {
     if (session.status === "authenticated" && !recordModalOpen) {
@@ -112,9 +111,7 @@ const Home: NextPage = () => {
           </div>
 
           <div
-            className={`flex w-full items-center justify-center border-t pt-6 ${
-              socialProofEnabled ? "flex" : "flex"
-            }`}
+            className={`flex w-full items-center justify-center border-t pt-6 flex`}
           >
             <div className="flex max-w-2xl flex-1 flex-col items-center justify-between gap-y-10 py-4 lg:h-[140px] lg:flex-row">
               {[
