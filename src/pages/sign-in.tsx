@@ -8,6 +8,9 @@ import { getProviders, signIn } from "next-auth/react";
 import { getServerSession } from "next-auth";
 import { authOptions } from "~/server/auth";
 import Link from "next/link";
+import getIcon from "~/utils/getIcon";
+import Image from "next/image";
+
 
 const SignIn = ({
   providers,
@@ -25,14 +28,14 @@ const SignIn = ({
       <main className="flex min-h-screen flex-col items-center justify-center bg-[#f9fafb]">
         <div className="bg-white px-4 py-8 shadow sm:rounded-lg sm:px-10">
           <div className="animate-fade-in flex flex-col justify-center text-center">
-            <span className="text-sm font-medium text-gray-700">
+            {/* <span className="text-sm font-medium text-gray-700">
               Sign in with
-            </span>
-            <div className="mt-6 grid grid-cols-2 gap-3">
+            </span> */}
+            <div className="mt-3 flex flex-col gap-3">
               {Object.values(providers).map((provider) => (
                 <button
                   key={provider.id}
-                  className="relative inline-flex items-center justify-center rounded-md border border-gray-300 bg-white px-6 py-3 text-lg text-sm font-medium text-gray-500 shadow-sm hover:bg-gray-50"
+                  className="relative inline-flex items-center justify-center gap-3 rounded-md border border-gray-400 bg-white px-6 py-3 text-sm font-medium text-gray-600 shadow-sm hover:bg-gray-100"
                   type="button"
                   onClick={() =>
                     void signIn(provider.id, {
@@ -40,8 +43,16 @@ const SignIn = ({
                     })
                   }
                 >
+                  <div>
+                    <Image
+                      src={getIcon(provider.name)}
+                      alt="button_icon"
+                      width={22}
+                      height={22}
+                    />
+                  </div>
                   <span className="flex flex-row">
-                    <span>{provider.name}</span>
+                    <span>Sign in with {provider.name}</span>
                   </span>
                 </button>
               ))}
