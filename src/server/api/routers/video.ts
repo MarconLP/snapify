@@ -88,7 +88,7 @@ export const videoRouter = createTRPCRouter({
 
       const getObjectCommand = new GetObjectCommand({
         Bucket: env.AWS_BUCKET_NAME,
-        Key: video.userId + "/" + video.id,
+        Key: video.userId + "/" + video.id + ".webm",
       });
 
       const signedUrl = await getSignedUrl(s3, getObjectCommand);
@@ -156,7 +156,7 @@ export const videoRouter = createTRPCRouter({
         s3,
         new PutObjectCommand({
           Bucket: env.AWS_BUCKET_NAME,
-          Key: session.user.id + "/" + video.id,
+          Key: session.user.id + "/" + video.id + ".webm",
         })
       );
 
@@ -345,7 +345,7 @@ export const videoRouter = createTRPCRouter({
       const deleteVideoObject = await s3.send(
         new DeleteObjectCommand({
           Bucket: env.AWS_BUCKET_NAME,
-          Key: session.user.id + "/" + input.videoId,
+          Key: session.user.id + "/" + input.videoId + ".webm",
         })
       );
 
