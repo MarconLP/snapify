@@ -45,7 +45,7 @@
     "micro-cors": "^0.1.1",
     "next": "^13.4.10",
     "next-auth": "^4.22.1",
-    "posthog-js": "^1.53.4",
+    "posthog-js": "^1.180.1",
     "posthog-node": "^3.1.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
