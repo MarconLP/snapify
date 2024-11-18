@@ -65,7 +65,7 @@
          <summary>Obtaining the Github API Credentials</summary>
 
          1. Open [Github Developer Settings](https://github.com/settings/apps).
-         2. Next, go to [OAuth Apps](https://github.com/settings/developers) from the side pane. Then click the "New OAuth App" button. Make sure to set `Authorization callback URL` to `<Snapify URL>/api/auth/callback/github` replacing Snapify URL with the URI at which your application runs.
+         2. Next, go to [OAuth Apps](https://github.com/settings/developers) from the side panel. Then click the "New OAuth App" button. Make sure to set `Authorization callback URL` to `<Snapify URL>/api/auth/callback/github` replacing Snapify URL with the URI at which your application runs.
          3. Copy the `Client ID` as `GITHUB_ID` into the `.env`.
          4. Next, click "Generate a new client secret" and copy the `Client secret` as `GITHUB_SECRET` into the `.env`.
 
@@ -76,7 +76,7 @@
          1. Open [B2 Cloud Storage Buckets](https://secure.backblaze.com/b2_buckets.htm).
          2. Create a new Bucket, make sure to set the bucket to private to make sure files are not being made publicly available.
          3. Copy the `Endpoint` as `AWS_ENDPOINT` and the Bucket name as `AWS_BUCKET_NAME` into the `.env`. Additionally you need to add the `AWS_REGION`, which is part of the endpoint and should look like this: `us-east-005`.
-         4. Next, go to [Application Keys](https://secure.backblaze.com/app_keys.htm) from the side pane. Then create a new Application Key, with full read and write access to the bucket.
+         4. Next, go to [Application Keys](https://secure.backblaze.com/app_keys.htm) from the side panel. Then create a new Application Key, with full read and write access to the bucket.
          5. Copy the `keyID` as `AWS_KEY_ID` and the `applicationKey` as `AWS_SECRET_ACCESS_KEY` into the `.env`.
 
          </details>
