@@ -25,6 +25,7 @@ const Home: NextPage = () => {
   const posthog = usePostHog();
   const session = useSession();
   const router = useRouter();
+  const showDemoButton = useFeatureFlagEnabled('show-demo-button')
 
   useEffect(() => {
     if (session.status === "authenticated" && !recordModalOpen) {
@@ -87,16 +88,18 @@ const Home: NextPage = () => {
                   <span className="text-xs">(no account required)</span>
                 </button>
                 <div className="flex flex-col gap-6 sm:flex-row">
-                  <a
-                    onClick={() =>
-                      posthog?.capture("clicked watch recorded demo demo")
-                    }
-                    target="_blank"
-                    href="https://snapify.it/share/clk3mpgnu0003mj0f042964wg"
-                    className="text-sm font-semibold leading-6"
-                  >
-                    Watch recorded demo <span aria-hidden="true">→</span>
-                  </a>
+                  {showDemoButton ? (
+                      <a
+                          onClick={() =>
+                              posthog?.capture("clicked watch recorded demo demo")
+                          }
+                          target="_blank"
+                          href="https://snapify.it/share/clk3mpgnu0003mj0f042964wg"
+                          className="text-sm font-semibold leading-6"
+                      >
+                        Watch recorded demo <span aria-hidden="true">→</span>
+                      </a>
+                  ) : null}
                   <a
                     onClick={() => posthog?.capture("clicked schedule demo")}
                     target="_blank"
