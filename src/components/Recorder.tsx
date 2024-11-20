@@ -397,6 +397,7 @@ export default function Recorder({ closeModal, step, setStep }: Props) {
               onPause={() => posthog?.capture("recorder: paused preview video")}
               ref={videoRef}
               className="mb-4 max-h-[75vh] w-[75vw]"
+              controlsList="nodownload"
             />
           ) : null}
           <div className="flex items-center justify-center">

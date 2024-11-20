@@ -160,6 +160,7 @@ const VideoList: NextPage = () => {
                     })
                   }
                   className="h-full w-full"
+                  controlsList="nodownload"
                 >
                   <source src={video.video_url} />
                   Your browser does not support the video tag.

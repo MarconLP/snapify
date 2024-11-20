@@ -94,6 +94,7 @@ export default function VideoUploadModal() {
                           controls
                           ref={videoRef}
                           className="max-h-[0px] max-w-[15px]"
+                          controlsList="nodownload"
                         />
                       ) : null}
                       {file ? (
