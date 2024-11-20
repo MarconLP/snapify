@@ -18,7 +18,7 @@ import { VideoLayout } from "./VideoLayout";
 
 interface Props {
   video_url: string;
-  thumbnailUrl: string;
+  thumbnailUrl?: string;
 }
 
 export default function VideoPlayer({ video_url, thumbnailUrl }: Props) {
@@ -68,11 +68,13 @@ export default function VideoPlayer({ video_url, thumbnailUrl }: Props) {
       keyTarget="document"
     >
       <MediaProvider>
-        <Poster
-          className="absolute inset-0 block h-full w-full rounded-md object-cover opacity-0 transition-opacity data-[visible]:opacity-100"
-          src={thumbnailUrl}
-          alt="Girl walks into campfire with gnomes surrounding her friend ready for their next meal!"
-        />
+        {thumbnailUrl ? (
+          <Poster
+            className="absolute inset-0 block h-full w-full rounded-md object-cover opacity-0 transition-opacity data-[visible]:opacity-100"
+            src={thumbnailUrl}
+            alt="video thumbnail"
+          />
+        ) : null}
       </MediaProvider>
 
       <VideoLayout />

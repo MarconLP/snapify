@@ -18,6 +18,7 @@ import { usePostHog } from "posthog-js/react";
 import Tooltip from "~/components/Tooltip";
 import generateThumbnail from "~/utils/generateThumbnail";
 import * as EBML from "ts-ebml";
+import VideoPlayer from "~/components/VideoPlayer";
 
 interface Props {
   closeModal: () => void;
@@ -200,7 +201,7 @@ export default function Recorder({ closeModal, step, setStep }: Props) {
   const handleSave = () => {
     if (blob) {
       const dateString =
-        "Recording - " + dayjs().format("D MMM YYYY") + ".webm";
+        "Snapify Recording - " + dayjs().format("D MMM YYYY") + ".webm";
       invokeSaveAsDialog(blob, dateString);
     }
 
@@ -210,7 +211,8 @@ export default function Recorder({ closeModal, step, setStep }: Props) {
   const handleUpload = async () => {
     if (!blob || !videoRef.current) return;
 
-    const dateString = "Recording - " + dayjs().format("D MMM YYYY") + ".webm";
+    const dateString =
+      "Snapify Recording - " + dayjs().format("D MMM YYYY") + ".webm";
     setSubmitting(true);
 
     try {
@@ -390,15 +392,14 @@ export default function Recorder({ closeModal, step, setStep }: Props) {
       {step === "post" ? (
         <div>
           {blob ? (
-            <video
-              src={URL.createObjectURL(blob)}
-              controls
-              onPlay={() => posthog?.capture("recorder: played preview video")}
-              onPause={() => posthog?.capture("recorder: paused preview video")}
-              ref={videoRef}
-              className="mb-4 max-h-[75vh] w-[75vw]"
-              controlsList="nodownload"
-            />
+            <div className="mb-3 aspect-video max-h-[75vh] max-w-[75vw]">
+              <VideoPlayer video_url={URL.createObjectURL(blob)} />
+              <video
+                src={URL.createObjectURL(blob)}
+                ref={videoRef}
+                className="absolute hidden"
+              />
+            </div>
           ) : null}
           <div className="flex items-center justify-center">
             <button

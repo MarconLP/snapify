@@ -138,38 +138,6 @@ const VideoList: NextPage = () => {
                   thumbnailUrl={video.thumbnailUrl}
                   video_url={video.video_url}
                 />
-                {/*<video*/}
-                {/*  controls*/}
-                {/*  onPlay={() =>*/}
-                {/*    posthog?.capture("play video", {*/}
-                {/*      videoId: video.id,*/}
-                {/*      videoCreatedAt: video.createdAt,*/}
-                {/*      videoUpdatedAt: video.updatedAt,*/}
-                {/*      videoUser: video.user.id,*/}
-                {/*      videoSharing: video.sharing,*/}
-                {/*      videoDeleteAfterLinkExpires:*/}
-                {/*        video.delete_after_link_expires,*/}
-                {/*      videoShareLinkExpiresAt: video.shareLinkExpiresAt,*/}
-                {/*    })*/}
-                {/*  }*/}
-                {/*  onPause={() =>*/}
-                {/*    posthog?.capture("pause video", {*/}
-                {/*      videoId: video.id,*/}
-                {/*      videoCreatedAt: video.createdAt,*/}
-                {/*      videoUpdatedAt: video.updatedAt,*/}
-                {/*      videoUser: video.user.id,*/}
-                {/*      videoSharing: video.sharing,*/}
-                {/*      videoDeleteAfterLinkExpires:*/}
-                {/*        video.delete_after_link_expires,*/}
-                {/*      videoShareLinkExpiresAt: video.shareLinkExpiresAt,*/}
-                {/*    })*/}
-                {/*  }*/}
-                {/*  className="h-full w-full"*/}
-                {/*  controlsList="nodownload"*/}
-                {/*>*/}
-                {/*  <source src={video.video_url} />*/}
-                {/*  Your browser does not support the video tag.*/}
-                {/*</video>*/}
               </>
             )}
           </div>
