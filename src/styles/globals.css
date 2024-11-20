@@ -1,3 +1,12 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@layer base {
+  :root {
+    --radius: 0.5rem
+  }
+}
+
+.controlsShadow {
+  box-shadow: inset 0 calc(-9 * clamp(8px, 14px, 11px)) calc(3 * clamp(8px, 14px, 11px)) calc(-6 * clamp(8px, 14px, 11px)) hsl(0 0% 0% / 0.35), inset 0 calc(-18 * clamp(8px, 14px, 11px)) calc(6 * clamp(8px, 14px, 11px)) calc(-12 * clamp(8px, 14px, 11px)) hsl(0 0% 0% / 0.35), inset 0 calc(-27 * clamp(8px, 14px, 11px)) calc(9 * clamp(8px, 14px, 11px)) calc(-18 * clamp(8px, 14px, 11px)) hsl(0 0% 0% / 0.35)
+}

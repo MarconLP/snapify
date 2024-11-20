@@ -15,6 +15,7 @@ import { useAtom } from "jotai";
 import recordVideoModalOpen from "~/atoms/recordVideoModalOpen";
 import VideoRecordModal from "~/components/VideoRecordModal";
 import defaultProfileIcon from "~/assets/default profile icon.jpg";
+import VideoPlayer from "~/components/VideoPlayer";
 
 const VideoList: NextPage = () => {
   const router = useRouter();
@@ -133,38 +134,42 @@ const VideoList: NextPage = () => {
           <div className="flex aspect-video max-h-[calc(100vh_-_169px)] w-full justify-center bg-black 2xl:max-h-[1160px]">
             {video?.video_url && (
               <>
-                <video
-                  controls
-                  onPlay={() =>
-                    posthog?.capture("play video", {
-                      videoId: video.id,
-                      videoCreatedAt: video.createdAt,
-                      videoUpdatedAt: video.updatedAt,
-                      videoUser: video.user.id,
-                      videoSharing: video.sharing,
-                      videoDeleteAfterLinkExpires:
-                        video.delete_after_link_expires,
-                      videoShareLinkExpiresAt: video.shareLinkExpiresAt,
-                    })
-                  }
-                  onPause={() =>
-                    posthog?.capture("pause video", {
-                      videoId: video.id,
-                      videoCreatedAt: video.createdAt,
-                      videoUpdatedAt: video.updatedAt,
-                      videoUser: video.user.id,
-                      videoSharing: video.sharing,
-                      videoDeleteAfterLinkExpires:
-                        video.delete_after_link_expires,
-                      videoShareLinkExpiresAt: video.shareLinkExpiresAt,
-                    })
-                  }
-                  className="h-full w-full"
-                  controlsList="nodownload"
-                >
-                  <source src={video.video_url} />
-                  Your browser does not support the video tag.
-                </video>
+                <VideoPlayer
+                  thumbnailUrl={video.thumbnailUrl}
+                  video_url={video.video_url}
+                />
+                {/*<video*/}
+                {/*  controls*/}
+                {/*  onPlay={() =>*/}
+                {/*    posthog?.capture("play video", {*/}
+                {/*      videoId: video.id,*/}
+                {/*      videoCreatedAt: video.createdAt,*/}
+                {/*      videoUpdatedAt: video.updatedAt,*/}
+                {/*      videoUser: video.user.id,*/}
+                {/*      videoSharing: video.sharing,*/}
+                {/*      videoDeleteAfterLinkExpires:*/}
+                {/*        video.delete_after_link_expires,*/}
+                {/*      videoShareLinkExpiresAt: video.shareLinkExpiresAt,*/}
+                {/*    })*/}
+                {/*  }*/}
+                {/*  onPause={() =>*/}
+                {/*    posthog?.capture("pause video", {*/}
+                {/*      videoId: video.id,*/}
+                {/*      videoCreatedAt: video.createdAt,*/}
+                {/*      videoUpdatedAt: video.updatedAt,*/}
+                {/*      videoUser: video.user.id,*/}
+                {/*      videoSharing: video.sharing,*/}
+                {/*      videoDeleteAfterLinkExpires:*/}
+                {/*        video.delete_after_link_expires,*/}
+                {/*      videoShareLinkExpiresAt: video.shareLinkExpiresAt,*/}
+                {/*    })*/}
+                {/*  }*/}
+                {/*  className="h-full w-full"*/}
+                {/*  controlsList="nodownload"*/}
+                {/*>*/}
+                {/*  <source src={video.video_url} />*/}
+                {/*  Your browser does not support the video tag.*/}
+                {/*</video>*/}
               </>
             )}
           </div>
