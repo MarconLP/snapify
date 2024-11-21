@@ -110,7 +110,7 @@ export default function Recorder({ closeModal, step, setStep }: Props) {
     const tools = EBML.tools;
 
     const fileReader = new FileReader();
-    fileReader.onload = function (e) {
+    fileReader.onload = function () {
       if (!this.result || typeof this.result === "string") return;
       const ebmlElms = decoder.decode(this.result);
       ebmlElms.forEach(function (element) {

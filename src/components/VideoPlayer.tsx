@@ -22,7 +22,7 @@ interface Props {
 }
 
 export default function VideoPlayer({ video_url, thumbnailUrl }: Props) {
-  let player = useRef<MediaPlayerInstance>(null);
+  const player = useRef<MediaPlayerInstance>(null);
 
   useEffect(() => {
     // Subscribe to state updates.
