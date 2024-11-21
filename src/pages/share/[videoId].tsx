@@ -131,14 +131,14 @@ const VideoList: NextPage = () => {
           </div>
         </div>
         <div className="flex h-full w-full grow flex-col items-center justify-start overflow-auto bg-[#fbfbfb]">
-          <div className="flex aspect-video max-h-[calc(100vh_-_169px)] w-full justify-center bg-black 2xl:max-h-[1160px]">
+          <div className="flex max-h-[calc(100vh_-_169px)] w-full justify-center bg-black 2xl:max-h-[1160px]">
             {video?.video_url && (
-              <>
+              <div className="aspect-video h-full">
                 <VideoPlayer
                   thumbnailUrl={video.thumbnailUrl}
                   video_url={video.video_url}
                 />
-              </>
+              </div>
             )}
           </div>
           <div className="mb-10 mt-4 w-full max-w-[1800px] pl-[24px]">

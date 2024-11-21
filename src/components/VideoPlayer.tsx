@@ -52,7 +52,7 @@ export default function VideoPlayer({ video_url, thumbnailUrl }: Props) {
 
   return (
     <MediaPlayer
-      className="ring-media-focus aspect-video w-full overflow-hidden rounded-md bg-slate-900 font-sans text-white data-[focus]:ring-4"
+      className="ring-media-focus aspect-video w-full overflow-hidden rounded-md bg-black font-sans text-white data-[focus]:ring-4"
       title="Sprite Fight"
       src={[
         {
