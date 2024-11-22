@@ -119,13 +119,6 @@ const Home: NextPage = () => {
             <div className="flex max-w-2xl flex-1 flex-col items-center justify-between gap-y-10 py-4 lg:h-[140px] lg:flex-row">
               {[
                 {
-                  name: "Peer Richelsen",
-                  role: "CEO @ Cal.com",
-                  text: "snapify.it is mega",
-                  profilePicture:
-                    "/peer-profile.jpeg",
-                },
-                {
                   name: "Mish Ushakov",
                   role: "CTO @ StepCI",
                   text: "A godsend",
