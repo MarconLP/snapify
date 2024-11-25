@@ -115,7 +115,7 @@ const Home: NextPage = () => {
           </div>
 
           <div
-            className={`flex flex w-full items-center justify-center border-t pt-6`}
+            className={`flex w-full items-center justify-center border-t pt-6`}
           >
             <div className="flex max-w-2xl flex-1 flex-col items-center justify-between gap-y-10 py-4 lg:h-[140px] lg:flex-row">
               {[
@@ -376,10 +376,9 @@ const Home: NextPage = () => {
         <div className="flex w-full items-center justify-center border-y border-[#eaeaea] bg-[#fafafa]">
           <div className="flex max-w-7xl flex-1 flex-col items-center justify-center py-4 lg:h-[140px] lg:flex-row">
             {[
-              { stat: "data served", value: "16GB" },
-              { stat: "videos viewed", value: "650" },
-              { stat: "videos created", value: "260" },
-              { stat: "uptime", value: "99.9%" },
+              { stat: "videos viewed", value: "20.000+" },
+              { stat: "videos created", value: "10.000+" },
+              { stat: "uptime", value: "99.99%" },
             ].map(({ stat, value }) => (
               <div
                 key={stat}
