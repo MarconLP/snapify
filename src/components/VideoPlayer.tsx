@@ -53,11 +53,10 @@ export default function VideoPlayer({ video_url, thumbnailUrl }: Props) {
   return (
     <MediaPlayer
       className="ring-media-focus aspect-video w-full overflow-hidden rounded-md bg-black font-sans text-white data-[focus]:ring-4"
-      title="Sprite Fight"
       src={[
         {
           src: video_url,
-          type: "video/mp4",
+          type: "video/webm",
         },
       ]}
       crossOrigin
