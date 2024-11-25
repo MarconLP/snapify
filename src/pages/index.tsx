@@ -25,7 +25,7 @@ const Home: NextPage = () => {
   const posthog = usePostHog();
   const session = useSession();
   const router = useRouter();
-  const showDemoButton = useFeatureFlagEnabled('show-demo-button')
+  const showDemoButton = useFeatureFlagEnabled("show-demo-button");
 
   useEffect(() => {
     if (session.status === "authenticated" && !recordModalOpen) {
@@ -88,33 +88,34 @@ const Home: NextPage = () => {
                   <span className="text-xs">(no account required)</span>
                 </button>
                 <div className="flex flex-col gap-6 sm:flex-row">
-                  {showDemoButton ? (
-                      <a
-                          onClick={() =>
-                              posthog?.capture("clicked watch recorded demo demo")
-                          }
-                          target="_blank"
-                          href="https://snapify.it/share/clk3mpgnu0003mj0f042964wg"
-                          className="text-sm font-semibold leading-6"
-                      >
-                        Watch recorded demo <span aria-hidden="true">→</span>
-                      </a>
-                  ) : null}
                   <a
-                    onClick={() => posthog?.capture("clicked schedule demo")}
+                    onClick={() =>
+                      posthog?.capture("clicked watch recorded demo demo")
+                    }
                     target="_blank"
-                    href="https://cal.com/marcon/snapify-demo"
+                    href="https://snapify.it/share/clk3mpgnu0003mj0f042964wg"
                     className="text-sm font-semibold leading-6"
                   >
-                    Schedule personalized demo <span aria-hidden="true">→</span>
+                    Watch recorded demo <span aria-hidden="true">→</span>
                   </a>
+                  {showDemoButton ? (
+                    <a
+                      onClick={() => posthog?.capture("clicked schedule demo")}
+                      target="_blank"
+                      href="https://cal.com/marcon/snapify-demo"
+                      className="text-sm font-semibold leading-6"
+                    >
+                      Schedule personalized demo{" "}
+                      <span aria-hidden="true">→</span>
+                    </a>
+                  ) : null}
                 </div>
               </div>
             </div>
           </div>
 
           <div
-            className={`flex w-full items-center justify-center border-t pt-6 flex`}
+            className={`flex flex w-full items-center justify-center border-t pt-6`}
           >
             <div className="flex max-w-2xl flex-1 flex-col items-center justify-between gap-y-10 py-4 lg:h-[140px] lg:flex-row">
               {[
@@ -122,15 +123,13 @@ const Home: NextPage = () => {
                   name: "Peer Richelsen",
                   role: "CEO @ Cal.com",
                   text: "snapify.it is mega",
-                  profilePicture:
-                    "/peer-profile.jpeg",
+                  profilePicture: "/peer-profile.jpeg",
                 },
                 {
                   name: "Mish Ushakov",
                   role: "CTO @ StepCI",
                   text: "A godsend",
-                  profilePicture:
-                    "/mish-profile.jpeg",
+                  profilePicture: "/mish-profile.jpeg",
                 },
               ].map(({ name, role, text, profilePicture }) => (
                 <div key={name} className="gap-2 text-center">
