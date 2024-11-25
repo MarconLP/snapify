@@ -6,6 +6,7 @@ import {
 } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import GitHubProvider from "next-auth/providers/github";
+import KeycloakProvider from "next-auth/providers/keycloak";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { env } from "~/env.mjs";
 import { prisma } from "~/server/db";
@@ -32,6 +33,18 @@ declare module "next-auth" {
   }
 }
 
+const adapter = PrismaAdapter(prisma);
+
+const _linkAccount = adapter.linkAccount;
+
+// Required when using keycloak.
+// keycloak always sends the refresh_expires_in attribute.
+// prisma is extended to handle refresh_expires_in.
+adapter.linkAccount = (account) => {
+  const { 'not-before-policy': _, refresh_expires_in, ...data } = account;
+  return _linkAccount(data);
+};
+
 /**
  * Options for NextAuth.js used to configure adapters, providers, callbacks, etc.
  *
@@ -48,7 +61,7 @@ export const authOptions: NextAuthOptions = {
       },
     }),
   },
-  adapter: PrismaAdapter(prisma),
+  adapter: adapter,
   providers: [
     ...(!!env.GOOGLE_CLIENT_ID && !!env.GOOGLE_CLIENT_SECRET
       ? [
@@ -58,10 +71,23 @@ export const authOptions: NextAuthOptions = {
           }),
         ]
       : []),
-    GitHubProvider({
-      clientId: env.GITHUB_ID,
-      clientSecret: env.GITHUB_SECRET,
-    }),
+    ...(!!env.GITHUB_ID && !!env.GITHUB_SECRET
+      ? [
+          GitHubProvider({
+            clientId: env.GITHUB_ID,
+            clientSecret: env.GITHUB_SECRET,
+          }),
+        ]
+      : []),
+    ...(!!env.KEYCLOAK_ID && !!env.KEYCLOAK_SECRET && !!env.KEYCLOAK_ISSUER
+      ? [
+          KeycloakProvider({
+            clientId: env.KEYCLOAK_ID,
+            clientSecret: env.KEYCLOAK_SECRET,
+            issuer: env.KEYCLOAK_ISSUER,
+          }),
+        ]
+      : []),
     /**
      * ...add more providers here.
      *
